@@ -46,26 +46,6 @@ Farmers can register their information, including personal details and farm spec
  Now run app.py by writing command --> python app.py
 ```
 
-
-## Screenshots
-
-![App Screenshot](https://drive.google.com/file/d/1Dny-VpWMH_ueahpu0H6LxYQEfyJg8Jy-/view?usp=sharing)
-
-![App Screenshot](https://drive.google.com/file/d/1bFC7JPPBwa4swmQkmR5slsF7ETsyy-ry/view?usp=sharing)
-
-![App Screenshot](https://drive.google.com/file/d/1F7vJdGWRgRznCHc5e6dzjdslzSdbCvBx/view?usp=sharing)
-
-![App Screenshot](https://drive.google.com/file/d/1CCodauo9MYCajDyYzwdUw2x9cQmEnKDv/view?usp=sharing)
-
-![App Screenshot](https://drive.google.com/file/d/1wRje68QQKv9zI9Ieb3Ui2gXTPG82O9_E/view?usp=sharing)
-
-![App Screenshot](https://drive.google.com/file/d/1NjGfMuN1xZ-ijHeaZ_WS9T-5mDAf0HXV/view?usp=sharing)
-
-![App Screenshot](https://drive.google.com/file/d/1wnRz0SyVL_L23e-9YYEPjxSyFApPzfQ-/view?usp=sharing)
-
-
-
-
 ## Tech Stack
 
 **Machine Learning:** Anaconda, Python, Keras, Pandas
