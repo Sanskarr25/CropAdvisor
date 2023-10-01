@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block nav %}
+<li><a href="{{ url_for('farmerIndex') }}" class="active">Home</a></li>
+<li><a href="CropRecommendation.html">Crop</a></li>
+<li><a href="FertilizerRecommendation.html">Fertilizer</a></li>
+<li><a href="PesticideRecommendation.html">Pesticide</a></li>
+<li><a href="http://localhost/Project/home.php">Loan</a></li>
+<li><a href="{{ url_for('logout_alt') }}">Logout</a></li>
+
+{% endblock %}
+
+{% block body %}
+<!--Header Section-->
+<header>
+  <div class="header-content">
+    <h2>Get Recommended Your Crops, Fertilizers And Pesticides</h2>
+    <div class="line"></div>
+    <h1>CropAdvisors</h1>
+    <a href="#" class="ctn">Explore</a>
+</header>
+
+
+<!--Footer Section-->
+<footer>
+  <div class="footer-content">
+
+    <h3 class="top-content">
+      Crop<span>Advisors</span>
+    </h3>
+    <p class="paragraph">
+      CropAdvisors is a platform which recommends the best Crop to grow, Fertilizers to use, as well as Pesticides based on you provided data.
+    </p>
+
+    <div>
+      <h2 class="below-p">Any Queries ?</h2>
+
+     <button class="contact-us">Contact Us</button>
+    </div>
+    <br>
+
+    <div class="footer-bottom">
+      <p>Copyright &copy; 2023 CropAdvisors</p>
+    </div>
+  </div>
+</footer>
+
+
+<!--Javascript-->
+<script>
+  const menuBtn = document.querySelector('.menu-button')
+  const navLinks = document.querySelector('.nav-links')
+
+  menuBtn.addEventListener('click',()=>{
+    navLinks.classList.toggle('mobile-menu')
+  });
+</script>
+
+{% endblock %}

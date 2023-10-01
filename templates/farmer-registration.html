@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="/static/css/farmer-registration.css">
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+   <title>Farmer Registration</title>
+</head>
+<body>
+    <div class="container">
+        <header>Farmer Registration</header>
+
+        <form method=POST action="{{ url_for('farmerRegistration') }}">
+            <div class="form first">
+                <br>
+                <div class="details personal">
+                    <span class="title">Personal Details</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <label>Full Name*</label>
+                            <input type="text" placeholder="Enter your name" required name="fullName">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Gender*</label>
+                            <select required name="gender">
+                                <option disabled selected>Select gender</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Others</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Mobile Number*</label>
+                            <input type="number" placeholder="Enter mobile number" required name="mobileNumber">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Aadhar Number*</label>
+                            <input type="number" placeholder="Enter your Aadhar Number" required name="aadhar">
+                        </div>
+
+                        <div class="input-field">
+                            <label>State*</label>
+                            <select required name="state">
+                                <option disabled selected>Select State</option>
+                                <option>Andhra Pradesh</option>
+                                <option>Arunachal Pradesh</option>
+                                <option>Assam</option>
+                                <option>Bihar</option>
+                                <option>Chhattisgarh</option>
+                                <option>Goa</option>
+                                <option>Gujarat</option>
+                                <option>Haryana</option>
+                                <option>Himachal Pradesh</option>
+                                <option>Jharkhand</option>
+                                <option>Karnataka</option>
+                                <option>Kerala</option>
+                                <option>Madhya Pradesh</option>
+                                <option>Maharashtra</option>
+                                <option>Manipur</option>
+                                <option>Meghalaya</option>
+                                <option>Mizoram</option>
+                                <option>Nagaland</option>
+                                <option>Odisha</option>
+                                <option>Punjab</option>
+                                <option>Rajasthan</option>
+                                <option>Sikkim</option>
+                                <option>Tamil Nadu</option>
+                                <option>Telangana</option>
+                                <option>Tripura</option>
+                                <option>Uttar Pradesh</option>
+                                <option>Uttarakhand</option>
+                                <option>West Bengal</option>
+                            </select>
+                        </div>
+    
+                        <div class="input-field">
+                            <label>City*</label>
+                            <input type="text" placeholder="Enter your City" required name="city">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Taluka*</label>
+                            <input type="text" placeholder="Enter your Taluka" required name="taluka">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Village*</label>
+                            <input type="text" placeholder="Enter your Village" required name="village">
+                        </div>
+
+                    </div>
+                </div>
+
+                <br>
+                <div class="details ID">
+                    <span class="title">Farm Details</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <label>Address*</label>
+                            <input type="text" placeholder="Enter Farm Address" required name="address">
+                        </div>
+
+                        <div class="input-field">
+                            <label>State*</label>
+                            <select required name="farm-state">
+                                <option disabled selected>Select State</option>
+                                <option>Andhra Pradesh</option>
+                                <option>Arunachal Pradesh</option>
+                                <option>Assam</option>
+                                <option>Bihar</option>
+                                <option>Chhattisgarh</option>
+                                <option>Goa</option>
+                                <option>Gujarat</option>
+                                <option>Haryana</option>
+                                <option>Himachal Pradesh</option>
+                                <option>Jharkhand</option>
+                                <option>Karnataka</option>
+                                <option>Kerala</option>
+                                <option>Madhya Pradesh</option>
+                                <option>Maharashtra</option>
+                                <option>Manipur</option>
+                                <option>Meghalaya</option>
+                                <option>Mizoram</option>
+                                <option>Nagaland</option>
+                                <option>Odisha</option>
+                                <option>Punjab</option>
+                                <option>Rajasthan</option>
+                                <option>Sikkim</option>
+                                <option>Tamil Nadu</option>
+                                <option>Telangana</option>
+                                <option>Tripura</option>
+                                <option>Uttar Pradesh</option>
+                                <option>Uttarakhand</option>
+                                <option>West Bengal</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field">
+                            <label>District*</label>
+                            <input type="text" placeholder="Enter District" required name="farm-district">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Taluka*</label>
+                            <input type="text" placeholder="Enter Taluka" required name="farm-taluka">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Village*</label>
+                            <input type="text" placeholder="Enter Village" required name="farm-village">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Pincode*</label>
+                            <input type="number" placeholder="Enter Pincode" required name="pincode">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Farm Survey Number*</label>
+                            <input type="text" placeholder="Enter Survey Number" required name="surveyNumber">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Area In Acres*</label>
+                            <input type="text" placeholder="Enter Area of Farm" required name="area">
+                        </div>
+                    </div>
+
+                    <button class="nextBtn">
+                        <span class="btnText">Submit</span>
+                    </button>
+                </div> 
+            </div>
+        </form>
+    </div>
+
+    {% if error %}
+    <script>
+        alert("{{ error }}");
+    </script>
+{% endif %}
+
+</body>
+</html>
