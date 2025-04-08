@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request, session, redirect, M
 from flask_pymongo import pymongo, MongoClient
 import pandas as pd
 from utils.fertilizer import fertilizer_dict
+from markupsafe import Markup
 import os
 import numpy as np
 from keras.preprocessing import image
@@ -11,7 +12,7 @@ import pdfkit
 import bcrypt
 
 classifier = load_model('Trained_model.h5')
-classifier._make_predict_function()
+
 
 crop_recommendation_model_path = 'Crop_Recommendation.pkl'
 crop_recommendation_model = pickle.load(open(crop_recommendation_model_path, 'rb'))
@@ -20,7 +21,7 @@ app = Flask(__name__)
 app.secret_key = "testing"
 
 #Connection With MongoDB Database
-client = MongoClient("")
+client = MongoClient("mongodb+srv://avsanskar025:Cg5OTT1UofjJftPD@cluster0.h2go2xx.mongodb.net/")
 db = client["CropAdvisorAdmin"]
 collection = db["AdminData"]
 farmercollection = db["FarmerData"]
