@@ -1,15 +1,10 @@
-{% extends "layout.html" %}
-
-{% block nav %}
+{% extends "layout.html" %} {% block nav %}
 <li><a href="{{ url_for('farmerIndex') }}">Home</a></li>
 <li><a href="CropRecommendation.html">Crop</a></li>
 <li><a href="FertilizerRecommendation.html" class="active">Fertilizer</a></li>
 <li><a href="PesticideRecommendation.html">Pesticide</a></li>
-<li><a href="http://localhost/Project/home.php">Loan</a></li>
-<li><a href="{{ url_for('adminIndex') }}">Logout</a></li>
-{% endblock %}
-
-{% block body %}
+<li><a href="{{ url_for('logout_alt') }}">Logout</a></li>
+{% endblock %} {% block body %}
 <br /><br />
 <h2 style="text-align: center; margin: 0px; color: black">
   <b>Get informed advice on fertilizer based on soil</b>
@@ -28,7 +23,9 @@
 >
   <form method="POST" action="{{url_for('fertilizer_recommend')}}">
     <div class="form-group">
-      <label for="Nitrogen" style="font-size: 17px"><b>Nitrogen (ratio)</b></label>
+      <label for="Nitrogen" style="font-size: 17px"
+        ><b>Nitrogen (ratio)</b></label
+      >
       <input
         type="number"
         class="form-control"
@@ -59,7 +56,9 @@
     </div>
 
     <div class="form-group">
-      <label for="Potassium" style="font-size: 17px"><b>Potassium (ratio)</b></label>
+      <label for="Potassium" style="font-size: 17px"
+        ><b>Potassium (ratio)</b></label
+      >
       <input
         type="number"
         class="form-control"
@@ -75,7 +74,8 @@
 
     <div class="form-group">
       <label for="crop" style="font-size: 17px"
-        ><b>Crop you want to grow</b></label>
+        ><b>Crop you want to grow</b></label
+      >
       <select
         name="cropname"
         class="form-control"
@@ -117,13 +117,20 @@
       </select>
     </div>
 
-
     <div class="d-flex justify-content-center">
       &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-      <button type="submit"
-        style="color: #82c760; font-weight: bold;
-         background-color: black;
-         width: 130px; height:50px; border-radius:12px; font-size: 21px;">
+      <button
+        type="submit"
+        style="
+          color: #82c760;
+          font-weight: bold;
+          background-color: black;
+          width: 130px;
+          height: 50px;
+          border-radius: 12px;
+          font-size: 21px;
+        "
+      >
         Predict
       </button>
     </div>
@@ -133,26 +140,23 @@
 <!--Footer Section-->
 <footer>
   <div class="footer-content">
-
-    <h3 class="top-content">
-      Crop<span>Advisors</span>
-    </h3>
+    <h3 class="top-content">Crop<span>Advisors</span></h3>
     <p class="paragraph">
-      CropAdvisors is a platform which recommends the best Crop to grow, Fertilizers to use, as well as Pesticides based on you provided data.
+      CropAdvisors is a platform which recommends the best Crop to grow,
+      Fertilizers to use, as well as Pesticides based on you provided data.
     </p>
 
     <div>
       <h2 class="below-p">Any Queries ?</h2>
 
-     <button class="contact-us">Contact Us</button>
+      <button class="contact-us">Contact Us</button>
     </div>
-    <br>
+    <br />
 
     <div class="footer-bottom">
       <p>Copyright &copy; 2023 CropAdvisors</p>
     </div>
   </div>
 </footer>
-
 
 {% endblock %}

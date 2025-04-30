@@ -13,7 +13,6 @@ import bcrypt
 
 classifier = load_model('Trained_model.h5')
 
-
 crop_recommendation_model_path = 'Crop_Recommendation.pkl'
 crop_recommendation_model = pickle.load(open(crop_recommendation_model_path, 'rb'))
 
@@ -29,7 +28,7 @@ farmercollection = db["FarmerData"]
 @app.route("/")
 def index():
     if 'email' in session:
-        return render_template("index.html")
+        return redirect(url_for('farmerIndex'))  # Redirect to farmerIndex if logged in
 
     return render_template("login.html")
 
@@ -46,97 +45,26 @@ def login():
 
     if login_user:
         session['email'] = email
-        return redirect(url_for('index'))
+        return redirect(url_for('farmerIndex'))  # Changed from index to farmerIndex
     
     return render_template("login.html", error_message="Invalid Email/Password")
-
 
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for('index'))
 
-
-@app.route('/farmer-registration', methods=['GET', 'POST'])
-def farmerRegistration():
-    if request.method == 'POST':
-        
-        full_name = request.form['fullName']
-        gender = request.form['gender']
-        mobile_number = request.form['mobileNumber']
-        aadhar_number = request.form['aadhar']
-        state = request.form['state']
-        city = request.form['city']
-        taluka = request.form['taluka']
-        village = request.form['village']
-        farm_address = request.form['address']
-        farm_state = request.form['farm-state']
-        farm_disrict = request.form['farm-district']
-        farm_taluka = request.form['farm-taluka']
-        farm_village = request.form['farm-village']
-        pincode = request.form['pincode']
-        survey_number= request.form['surveyNumber']
-        land_in_acres = request.form['area']
-
-
-        personal_details = {
-            'full_name': full_name,
-            'gender': gender,
-            'mobile_number': mobile_number,
-            'aadhar_number': aadhar_number,
-            'state': state,
-            'city': city,
-            'taluka': taluka,
-            'village': village
-        }
-
-        farm_details = {
-            'farm_address': farm_address,
-            'farm_state': farm_state,
-            'farm_district': farm_disrict,
-            'farm_taluka': farm_taluka,
-            'farm_village': farm_village,
-            'pincode': pincode,
-            'survey_number': survey_number,
-            'land_in_acres': land_in_acres
-        }
-        
-#Check if farmer is already registered
-
-        existing_farmer = farmercollection.find_one({
-            '$or': [
-                {'personal_details.full_name': full_name},
-                {'personal_details.mobile_number': mobile_number},
-                {'personal_details.aadhar_number': aadhar_number},
-                {'farm_details.survey_number': survey_number},
-            ]
-        })
-
-        if existing_farmer:
-            # A farmer with the same field value already exists
-            return render_template("farmer-registration.html", error="Farmer Already Exist!")
-
-        farmercollection.insert_one({
-    'personal_details': personal_details,
-    'farm_details': farm_details
-})
-        
-        # Stored some relevant information about farmer in the session
-        session['full_name'] = full_name
-        session['registered'] = True
-
-        return redirect(url_for('farmerIndex'))  
-    else:
-        return render_template("farmer-registration.html")
-
 @app.route('/farmer-index')
 def farmerIndex():
+    # Check if user is logged in
+    if 'email' not in session:
+        return redirect(url_for('index'))  # Redirect to login page if not logged in
     return render_template("farmerIndex.html")
 
 @app.route("/logout_alt")
 def logout_alt():
     session.clear()
-    return redirect(url_for('adminIndex'))
+    return redirect(url_for('index'))  # Changed to redirect to index, which will show login page
 
 @ app.route('/fertilizer-predict', methods=['POST'])
 def fertilizer_recommend():
@@ -199,9 +127,11 @@ def pred_pest(pest):
     except:
         return 'x'
 
+
 @app.route("/CropRecommendation.html")
 def crop():
     return render_template("CropRecommendation.html")
+
 
 @app.route("/FertilizerRecommendation.html")
 def fertilizer():
@@ -210,6 +140,7 @@ def fertilizer():
 @app.route("/PesticideRecommendation.html")
 def pesticide():
     return render_template("PesticideRecommendation.html")
+
 
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
@@ -246,6 +177,7 @@ def predict():
 
         return render_template(pest_identified + ".html",pred=pest_identified)
 
+
 @ app.route('/crop_prediction', methods=['POST'])
 def crop_prediction():
     if request.method == 'POST':
@@ -260,6 +192,7 @@ def crop_prediction():
         my_prediction = crop_recommendation_model.predict(data)
         final_prediction = my_prediction[0]
         return render_template('crop-result.html', prediction=final_prediction, pred='img/crop/'+final_prediction+'.jpg')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
