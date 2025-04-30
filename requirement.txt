@@ -1,4 +1,5 @@
 absl-py @ file:///C:/b/abs_5babsu7y5x/croot/absl-py_1666362945682/work
+absl-py==1.4.0
 aiohttp @ file:///C:/b/abs_c4zmy2l696/croot/aiohttp_1670009573673/work
 aiosignal @ file:///tmp/build/80754af9/aiosignal_1637843061372/work
 astunparse==1.6.3
