@@ -28,7 +28,7 @@ farmercollection = db["FarmerData"]
 @app.route("/")
 def index():
     if 'email' in session:
-        return redirect(url_for('farmerIndex'))  # Redirect to farmerIndex if logged in
+        return redirect(url_for('farmerIndex')) 
 
     return render_template("login.html")
 
