@@ -8,7 +8,6 @@ import numpy as np
 from keras.preprocessing import image
 from keras.models import load_model
 import pickle
-import pdfkit
 import bcrypt
 
 classifier = load_model('Trained_model.h5')
