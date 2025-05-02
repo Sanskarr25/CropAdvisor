@@ -1,4 +1,5 @@
-from flask import Flask, render_template, url_for, request, session, redirect, Markup
+from flask import Flask, render_template, url_for, request, session, redirect
+from markupsafe import Markup
 from flask_pymongo import pymongo, MongoClient
 import pandas as pd
 from utils.fertilizer import fertilizer_dict
