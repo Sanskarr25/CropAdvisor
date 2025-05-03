@@ -16,6 +16,7 @@ charset-normalizer==2.0.4
 click==8.0.4
 colorama==0.4.6
 cryptography==39.0.1
+cython==0.29.34
 dnspython==2.3.0
 Flask==2.2.2
 Flask-PyMongo==2.3.0
@@ -28,7 +29,7 @@ google-auth-oauthlib==0.4.4
 google-pasta==0.2.0
 grpcio==1.48.2
 gunicorn==23.0.0
-h5py==3.7.0
+h5py==3.8.0
 idna==3.4
 importlib-metadata==4.11.3
 itsdangerous==2.0.1
