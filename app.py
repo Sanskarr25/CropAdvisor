@@ -3,12 +3,10 @@ from markupsafe import Markup
 from flask_pymongo import pymongo, MongoClient
 import pandas as pd
 from utils.fertilizer import fertilizer_dict
-from markupsafe import Markup
 import os
 import numpy as np
 from keras.preprocessing import image
 from keras.models import load_model
-import pdfkit
 import pickle
 import bcrypt
 
@@ -20,7 +18,7 @@ crop_recommendation_model = pickle.load(open(crop_recommendation_model_path, 'rb
 app = Flask(__name__)
 app.secret_key = "testing"
 
-#Connection With MongoDB Database
+# MongoDB connection
 client = MongoClient("mongodb+srv://avsanskar025:Cg5OTT1UofjJftPD@cluster0.h2go2xx.mongodb.net/")
 db = client["CropAdvisorAdmin"]
 collection = db["AdminData"]
@@ -29,8 +27,7 @@ farmercollection = db["FarmerData"]
 @app.route("/")
 def index():
     if 'email' in session:
-        return redirect(url_for('farmerIndex')) 
-
+        return redirect(url_for('farmerIndex'))
     return render_template("login.html")
 
 @app.route('/index')
@@ -41,82 +38,53 @@ def adminIndex():
 def login():
     email = request.form['email']
     password = request.form['password']
-
     login_user = collection.find_one({'email': email, 'password': password})
 
     if login_user:
         session['email'] = email
-        return redirect(url_for('farmerIndex'))  # Changed from index to farmerIndex
-    
+        return redirect(url_for('farmerIndex'))
+
     return render_template("login.html", error_message="Invalid Email/Password")
 
 @app.route("/logout")
+@app.route("/logout_alt")
 def logout():
     session.clear()
     return redirect(url_for('index'))
 
 @app.route('/farmer-index')
 def farmerIndex():
-    # Check if user is logged in
     if 'email' not in session:
-        return redirect(url_for('index'))  # Redirect to login page if not logged in
+        return redirect(url_for('index'))
     return render_template("farmerIndex.html")
 
-@app.route("/logout_alt")
-def logout_alt():
-    session.clear()
-    return redirect(url_for('index'))  # Changed to redirect to index, which will show login page
-
-@ app.route('/fertilizer-predict', methods=['POST'])
+@app.route('/fertilizer-predict', methods=['POST'])
 def fertilizer_recommend():
-
     crop_name = str(request.form['cropname'])
     N_filled = int(request.form['nitrogen'])
     P_filled = int(request.form['phosphorous'])
     K_filled = int(request.form['potassium'])
 
     df = pd.read_csv('Data/Crop_NPK.csv')
-
     N_desired = df[df['Crop'] == crop_name]['N'].iloc[0]
     P_desired = df[df['Crop'] == crop_name]['P'].iloc[0]
     K_desired = df[df['Crop'] == crop_name]['K'].iloc[0]
 
-    n = N_desired- N_filled
-    p = P_desired - P_filled
-    k = K_desired - K_filled
+    n, p, k = N_desired - N_filled, P_desired - P_filled, K_desired - K_filled
 
-    if n < 0:
-        key1 = "NHigh"
-    elif n > 0:
-        key1 = "Nlow"
-    else:
-        key1 = "NNo"
+    key1 = "NHigh" if n < 0 else "Nlow" if n > 0 else "NNo"
+    key2 = "PHigh" if p < 0 else "Plow" if p > 0 else "PNo"
+    key3 = "KHigh" if k < 0 else "Klow" if k > 0 else "KNo"
 
-    if p < 0:
-        key2 = "PHigh"
-    elif p > 0:
-        key2 = "Plow"
-    else:
-        key2 = "PNo"
-
-    if k < 0:
-        key3 = "KHigh"
-    elif k > 0:
-        key3 = "Klow"
-    else:
-        key3 = "KNo"
-
-    abs_n = abs(n)
-    abs_p = abs(p)
-    abs_k = abs(k)
-
-    response1 = Markup(str(fertilizer_dict[key1]))
-    response2 = Markup(str(fertilizer_dict[key2]))
-    response3 = Markup(str(fertilizer_dict[key3]))
-    return render_template('Fertilizer-Result.html', recommendation1=response1,
-                           recommendation2=response2, recommendation3=response3,
-                           diff_n = abs_n, diff_p = abs_p, diff_k = abs_k)
-
+    return render_template(
+        'Fertilizer-Result.html',
+        recommendation1=Markup(fertilizer_dict[key1]),
+        recommendation2=Markup(fertilizer_dict[key2]),
+        recommendation3=Markup(fertilizer_dict[key3]),
+        diff_n=abs(n),
+        diff_p=abs(p),
+        diff_k=abs(k)
+    )
 
 def pred_pest(pest):
     try:
@@ -128,11 +96,9 @@ def pred_pest(pest):
     except:
         return 'x'
 
-
 @app.route("/CropRecommendation.html")
 def crop():
     return render_template("CropRecommendation.html")
-
 
 @app.route("/FertilizerRecommendation.html")
 def fertilizer():
@@ -142,59 +108,37 @@ def fertilizer():
 def pesticide():
     return render_template("PesticideRecommendation.html")
 
-
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
-        file = request.files['image']  
+        file = request.files['image']
         filename = file.filename
-
         file_path = os.path.join('static/user uploaded', filename)
         file.save(file_path)
 
         pred = pred_pest(pest=file_path)
         if pred == 'x':
             return render_template('unaptfile.html')
-        if pred[0] == 0:
-            pest_identified = 'aphids'
-        elif pred[0] == 1:
-            pest_identified = 'armyworm'
-        elif pred[0] == 2:
-            pest_identified = 'beetle'
-        elif pred[0] == 3:
-            pest_identified = 'bollworm'
-        elif pred[0] == 4:
-            pest_identified = 'earthworm'
-        elif pred[0] == 5:
-            pest_identified = 'grasshopper'
-        elif pred[0] == 6:
-            pest_identified = 'mites'
-        elif pred[0] == 7:
-            pest_identified = 'mosquito'
-        elif pred[0] == 8:
-            pest_identified = 'sawfly'
-        elif pred[0] == 9:
-            pest_identified = 'stem borer'
 
-        return render_template(pest_identified + ".html",pred=pest_identified)
+        pest_labels = [
+            'aphids', 'armyworm', 'beetle', 'bollworm', 'earthworm',
+            'grasshopper', 'mites', 'mosquito', 'sawfly', 'stem borer'
+        ]
+        pest_identified = pest_labels[pred[0]]
 
+        return render_template(f"{pest_identified}.html", pred=pest_identified)
 
-@ app.route('/crop_prediction', methods=['POST'])
+@app.route('/crop_prediction', methods=['POST'])
 def crop_prediction():
-    if request.method == 'POST':
-        N = int(request.form['nitrogen'])
-        P = int(request.form['phosphorous'])
-        K = int(request.form['potassium'])
-        ph = float(request.form['ph'])
-        rainfall = float(request.form['rainfall'])
-        temperature = float(request.form['temperature'])
-        humidity = float(request.form['humidity'])
-        data = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
-        my_prediction = crop_recommendation_model.predict(data)
-        final_prediction = my_prediction[0]
-        return render_template('crop-result.html', prediction=final_prediction, pred='img/crop/'+final_prediction+'.jpg')
+    N = int(request.form['nitrogen'])
+    P = int(request.form['phosphorous'])
+    K = int(request.form['potassium'])
+    ph = float(request.form['ph'])
+    rainfall = float(request.form['rainfall'])
+    temperature = float(request.form['temperature'])
+    humidity = float(request.form['humidity'])
 
+    data = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
+    prediction = crop_recommendation_model.predict(data)[0]
 
-# if __name__ == '__main__':
-#     port = int(os.environ.get("PORT", 5000)) 
-#     app.run(host="0.0.0.0", port=port, debug=True)
+    return render_template('crop-result.html', prediction=prediction, pred='img/crop/' + prediction + '.jpg')
