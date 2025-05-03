@@ -58,8 +58,8 @@ Farmers can register their information, including personal details and farm spec
 
 **Database:** MongoDB
 
-## For Login, use:
-Username : xyz@gmail.com
+## For login, use this credwntials:
+Username : xyz@gmail.com                                                                                                                                                                                              
 password : crop@123
 
 ## More Updates coming soon........
