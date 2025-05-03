@@ -40,7 +40,7 @@ Markdown==3.4.1
 MarkupSafe==2.1.1
 multidict==6.0.2
 numexpr==2.8.4
-numpy==1.21.5
+numpy==1.21.6
 oauthlib==3.2.1
 opt-einsum==3.3.0
 packaging==22.0
