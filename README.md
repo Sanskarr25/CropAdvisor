@@ -60,7 +60,7 @@ Farmers can register their information, including personal details and farm spec
 
 ## For login, use this credwntials:
 Username : xyz@gmail.com                                                                                                                                                                                              
-password : crop@123
+password : Test@123
 
 ## More Updates coming soon........
 
