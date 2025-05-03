@@ -195,6 +195,6 @@ def crop_prediction():
         return render_template('crop-result.html', prediction=final_prediction, pred='img/crop/'+final_prediction+'.jpg')
 
 
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000)) 
-    app.run(host="0.0.0.0", port=port, debug=True)
+# if __name__ == '__main__':
+#     port = int(os.environ.get("PORT", 5000)) 
+#     app.run(host="0.0.0.0", port=port, debug=True)
