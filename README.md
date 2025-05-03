@@ -1,4 +1,6 @@
 
+
+
 # CropAdvisor - A Recommenation System 
 
 Crop Advisor is an intelligent agricultural management system designed to assist farmers and agricultural enthusiasts in making informed decisions regarding crop selection, fertilization, pest identification, and more. The system leverages machine learning and data analysis techniques to provide valuable recommendations and insights for optimizing crop yields and farming practices.
@@ -55,4 +57,10 @@ Farmers can register their information, including personal details and farm spec
 **Server:** Python, Flask
 
 **Database:** MongoDB
+
+## For login, use this credwntials:
+Username : xyz@gmail.com                                                                                                                                                                                              
+password : Test@123
+
+## More Updates coming soon........
 
