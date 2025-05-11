@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CropAdvisor - Pesticide Recommendation</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet">
+    <style>
+      :root {
+        --primary: #2E7D32;       /* Forest Green - primary brand color */
+        --secondary: #558B2F;     /* Olive Green - complementary color */
+        --accent: #FFC107;        /* Amber - for calls to action */
+        --light: #F1F8E9;         /* Light Green tint - background color */
+        --dark: #1B5E20;          /* Dark Green - for contrasting elements */
+        --text: #263238;          /* Dark Blue Grey - for text */
+        --neutral: #ECEFF1;       /* Light Grey - for neutral backgrounds */
+        --overlay: rgba(27, 94, 32, 0.2);
+        --overlay-darker: rgba(27, 94, 32, 0.7);
+      }
+
+      html, body {
+        height: 100%;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text);
+        background-color: #FFFFFF;
+        min-height: 100vh;
+      }
+
+      .main-content {
+        flex: 1 0 auto;
+      }
+
+      /* Enhanced Navbar */
+      .navbar {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        padding: 12px 0;
+        transition: all 0.3s ease;
+      }
+      
+      .navbar.scrolled {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .navbar-brand {
+        font-weight: 700;
+        color: var(--primary);
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .navbar-brand i {
+        color: var(--secondary);
+        font-size: 1.4rem;
+        margin-right: 8px;
+      }
+      
+      .navbar-toggler {
+        border: none;
+        padding: 5px;
+      }
+      
+      .navbar-toggler:focus {
+        box-shadow: none;
+        outline: none;
+      }
+      
+      .navbar-toggler-icon {
+        width: 1.3em;
+        height: 1.3em;
+      }
+      
+      .navbar-nav {
+        align-items: center;
+      }
+      
+      .nav-item {
+        margin: 0 5px;
+      }
+      
+      .nav-link {
+        color: var(--text);
+        font-weight: 500;
+        padding: 8px 15px !important;
+        transition: all 0.3s ease;
+        border-radius: 4px;
+      }
+      
+      .nav-link:hover {
+        color: var(--primary);
+        background-color: rgba(46, 125, 50, 0.05);
+      }
+      
+      .nav-link.active {
+        color: var(--primary);
+        font-weight: 600;
+        position: relative;
+      }
+      
+      .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        left: 15px;
+        right: 15px;
+        height: 2px;
+        background-color: var(--primary);
+        border-radius: 1px;
+      }
+
+      /* Page Header */
+      .page-header {
+        background: linear-gradient(rgba(27, 94, 32, 0.85), rgba(27, 94, 32, 0.9)), url('/api/placeholder/1200/600') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 60px 0;
+        text-align: center;
+        position: relative;
+        margin-bottom: 60px;
+      }
+
+      .page-header h1 {
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      }
+
+      .page-header p {
+        font-size: 1.15rem;
+        max-width: 700px;
+        margin: 0 auto;
+        text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+      }
+
+      /* Form Styling */
+      .form-section {
+        background-color: var(--light);
+        padding: 50px 0 70px;
+        position: relative;
+      }
+
+      .form-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(var(--overlay) 10%, transparent 11%);
+        background-size: 20px 20px;
+        opacity: 0.3;
+      }
+
+      .form-card {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(27, 94, 32, 0.08);
+        padding: 40px;
+        margin-bottom: 30px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .form-card h3 {
+        color: var(--dark);
+        font-weight: 600;
+        margin-bottom: 25px;
+        text-align: center;
+        position: relative;
+        padding-bottom: 12px;
+      }
+
+      .form-card h3:after {
+        content: '';
+        position: absolute;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      /* Custom File Input */
+      .custom-file-upload {
+        display: inline-block;
+        background-color: #3a3a3a;
+        color: #9eeea1;
+        border: 1px solid #9eeea1;
+        border-radius: 25px;
+        padding: 10px 25px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin-right: 10px;
+      }
+
+      .custom-file-upload:hover {
+        background-color: #2a2a2a;
+      }
+
+      .custom-file-upload i {
+        margin-right: 8px;
+      }
+
+      .file-status {
+        display: inline-block;
+        margin-left: 10px;
+        color: #666;
+      }
+
+      /* Upload Area */
+      .upload-area {
+        border: 2px dashed #c1e4c3;
+        border-radius: 16px;
+        padding: 40px 20px;
+        text-align: center;
+        background-color: rgba(241, 248, 233, 0.5);
+        transition: all 0.3s ease;
+        margin-bottom: 30px;
+      }
+
+      .upload-area.active {
+        border-color: var(--primary);
+        background-color: rgba(46, 125, 50, 0.05);
+      }
+
+      .upload-icon {
+        font-size: 48px;
+        color: var(--secondary);
+        margin-bottom: 20px;
+      }
+
+      .upload-text {
+        color: #546E7A;
+        margin-bottom: 20px;
+      }
+
+      .upload-hint {
+        color: #90A4AE;
+        font-size: 0.9rem;
+      }
+
+      /* Image Preview */
+      .image-preview {
+        max-width: 100%;
+        border-radius: 8px;
+        margin: 20px 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        display: none;
+      }
+
+      /* Button Styling */
+      .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--dark);
+        border-color: var(--dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(46, 125, 50, 0.2);
+      }
+
+      .btn-predict {
+        background-color: #3a3a3a;
+        color: #f1c40f;
+        border-color: #f1c40f;
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .btn-predict:hover {
+        background-color: #2a2a2a;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-secondary {
+        background-color: #90A4AE;
+        border-color: #90A4AE;
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(144, 164, 174, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .btn-secondary:hover {
+        background-color: #78909C;
+        border-color: #78909C;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(144, 164, 174, 0.2);
+      }
+
+      /* Results Section */
+      .result-section {
+        padding: 20px 0 50px;
+      }
+
+      .info-card {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(27, 94, 32, 0.08);
+        padding: 30px;
+        margin-bottom: 30px;
+        position: relative;
+        z-index: 2;
+        border-left: 5px solid var(--secondary);
+      }
+
+      .info-card h4 {
+        color: var(--dark);
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .info-card p {
+        color: #546E7A;
+        margin-bottom: 1rem;
+        line-height: 1.7;
+      }
+
+      /* Pest Information */
+      .pest-info {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #E0E0E0;
+      }
+
+      .pest-info:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .pest-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-right: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .pest-details h5 {
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .pest-details p {
+        margin-bottom: 8px;
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--dark);
+        color: white;
+        padding: 30px 0;
+        flex-shrink: 0;
+        position: relative;
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(to right, var(--primary), var(--accent), var(--secondary));
+      }
+
+      .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 60px;
+      }
+
+      .logo-area {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .logo-area i {
+        color: var(--secondary);
+        font-size: 1.8rem;
+      }
+
+      footer p {
+        margin: 0;
+        opacity: 0.9;
+        text-align: center;
+      }
+
+      /* Loading Spinner */
+      .spinner-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .spinner-content {
+        text-align: center;
+      }
+
+      .spinner-content .spinner-border {
+        width: 3rem;
+        height: 3rem;
+        color: var(--primary);
+      }
+
+      .spinner-text {
+        margin-top: 15px;
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 991px) {
+        .navbar-collapse {
+          background-color: white;
+          padding: 15px;
+          border-radius: 8px;
+          margin-top: 10px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-item {
+          margin: 3px 0;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .page-header {
+          padding: 50px 0;
+        }
+        
+        .page-header h1 {
+          font-size: 2rem;
+        }
+        
+        .form-card {
+          padding: 30px 20px;
+        }
+        
+        .pest-info {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+        
+        .pest-image {
+          margin-right: 0;
+          margin-bottom: 15px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .navbar-brand {
+          font-size: 1.3rem;
+        }
+        
+        .navbar-brand i {
+          font-size: 1.5rem;
+        }
+        
+        .upload-area {
+          padding: 20px 15px;
+        }
+        
+        .upload-icon {
+          font-size: 36px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html">
+          <i class="fas fa-seedling"></i> CropAdvisor
+        </a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNav" aria-controls="navbarNav"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="crop_recommendation.html">Crop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"
+                href="fertilizer_recommendation.html">Fertilizer</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active"
+                href="pesticide_recommendation.html">Pesticide</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <!-- Page Header -->
+
+      <!-- Upload Section -->
+      <section class="form-section">
+        <div class="form-pattern"></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="form-card">
+                <h3>Upload Pest Image</h3>
+
+                <div class="upload-area" id="uploadArea">
+                  <i class="fas fa-bug upload-icon"></i>
+                  <p class="upload-text">Please upload a clear image of the pest
+                    for accurate identification</p>
+
+                  <label class="custom-file-upload">
+                    <i class="fas fa-upload"></i> Choose file
+                    <input type="file" id="pestImage" accept="image/*"
+                      style="display: none;">
+                  </label>
+                  <span id="fileStatus">No file chosen</span>
+
+                  <p class="upload-hint mt-3">For best results, upload a
+                    well-lit image showing the pest clearly</p>
+                </div>
+
+                <!-- Image Preview -->
+                <div class="text-center">
+                  <img id="imagePreview" class="image-preview"
+                    alt="Pest Image Preview">
+                </div>
+
+                <div class="text-center mt-4">
+                  <button type="button" class="btn btn-secondary me-2"
+                    onclick="resetForm()">Reset</button>
+                  <button type="button" class="btn btn-predict"
+                    onclick="getPesticideRecommendation()">Predict</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Results Section (initially hidden) -->
+          <div class="row justify-content-center mt-4" id="resultSection"
+            style="display: none;">
+            <div class="col-lg-8">
+              <div class="info-card">
+                <h4>Pest Identification & Recommended Pesticides</h4>
+                <div id="pestResults">
+                  <!-- Results will be populated here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="spinner-overlay" id="loadingSpinner">
+      <div class="spinner-content">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-text">Analyzing pest image...</div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="logo-area mb-2">
+            <i class="fas fa-seedling"></i> CropAdvisor
+          </div>
+          <p>&copy; 2024 CropAdvisor. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Navbar scroll effect
+      window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('mainNav');
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+
+      // File input handling
+      document.getElementById('pestImage').addEventListener('change', function(e) {
+        const fileInput = e.target;
+        const fileStatus = document.getElementById('fileStatus');
+        const imagePreview = document.getElementById('imagePreview');
+        const uploadArea = document.getElementById('uploadArea');
+        
+        if (fileInput.files && fileInput.files[0]) {
+          const fileName = fileInput.files[0].name;
+          fileStatus.textContent = fileName;
+          
+          // Show image preview
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
+            uploadArea.classList.add('active');
+          }
+          reader.readAsDataURL(fileInput.files[0]);
+        } else {
+          resetForm();
+        }
+      });
+
+      // Reset form function
+      function resetForm() {
+        const fileInput = document.getElementById('pestImage');
+        const fileStatus = document.getElementById('fileStatus');
+        const imagePreview = document.getElementById('imagePreview');
+        const uploadArea = document.getElementById('uploadArea');
+        const resultSection = document.getElementById('resultSection');
+        
+        fileInput.value = '';
+        fileStatus.textContent = 'No file chosen';
+        imagePreview.style.display = 'none';
+        uploadArea.classList.remove('active');
+        resultSection.style.display = 'none';
+      }
+
+      // Get pesticide recommendation
+      function getPesticideRecommendation() {
+        const fileInput = document.getElementById('pestImage');
+        
+        if (!fileInput.files || !fileInput.files[0]) {
+          alert('Please upload an image of the pest first.');
+          return;
+        }
+        
+        // Show loading spinner
+        document.getElementById('loadingSpinner').style.display = 'flex';
+        
+        // Simulate API call with a timeout
+        setTimeout(() => {
+          // Hide loading spinner
+          document.getElementById('loadingSpinner').style.display = 'none';
+          
+          // Display results
+          displayResults();
+        }, 2000);
+      }
+
+      // Display results function
+      function displayResults() {
+        // In a real application, this would come from the backend
+        // This is just a simulation
+        const resultSection = document.getElementById('resultSection');
+        const pestResults = document.getElementById('pestResults');
+        
+        // Sample results HTML
+        pestResults.innerHTML = `
+          <div class="alert alert-success" role="alert">
+            <i class="fas fa-check-circle me-2"></i> Pest successfully identified!
+          </div>
+          
+          <div class="pest-info">
+            <img src="/api/placeholder/200/200" alt="Aphid" class="pest-image">
+            <div class="pest-details">
+              <h5>Aphid (Aphidoidea)</h5>
+              <p><strong>Description:</strong> Small sap-sucking insects that can cause significant damage to crops by stunting growth and transmitting plant viruses.</p>
+              <p><strong>Crops Affected:</strong> Vegetables, fruits, flowers, and ornamentals</p>
+              <p><strong>Damage Level:</strong> Moderate to Severe</p>
+            </div>
+          </div>
+          
+          <h5 class="mt-4 mb-3">Recommended Pesticides:</h5>
+          
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="card h-100 border-0" style="box-shadow: 0 4px 12px rgba(27, 94, 32, 0.08);">
+                <div class="card-body">
+                  <h6 class="card-title" style="color: var(--primary); font-weight: 600;">Neem Oil</h6>
+                  <p class="card-text">Organic option that disrupts aphid feeding and reproduction. Apply as a foliar spray every 7-14 days.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="card h-100 border-0" style="box-shadow: 0 4px 12px rgba(27, 94, 32, 0.08);">
+                <div class="card-body">
+                  <h6 class="card-title" style="color: var(--primary); font-weight: 600;">Insecticidal Soap</h6>
+                  <p class="card-text">Contact insecticide that's effective against soft-bodied insects. Safe for beneficial insects when dry.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="card h-100 border-0" style="box-shadow: 0 4px 12px rgba(27, 94, 32, 0.08);">
+                <div class="card-body">
+                  <h6 class="card-title" style="color: var(--primary); font-weight: 600;">Pyrethrins</h6>
+                  <p class="card-text">Natural insecticide derived from chrysanthemum flowers. Fast-acting but requires repeat applications.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="card h-100 border-0" style="box-shadow: 0 4px 12px rgba(27, 94, 32, 0.08);">
+                <div class="card-body">
+                  <h6 class="card-title" style="color: var(--primary); font-weight: 600;">Ladybugs (Biological Control)</h6>
+                  <p class="card-text">Natural predators that can help control aphid populations without chemicals. Best released in evening hours.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-4">
+            <h5>Application Tips:</h5>
+            <ul>
+              <li>Apply pesticides in early morning or late evening when beneficial insects are less active</li>
+              <li>Ensure complete coverage of plant surfaces, especially undersides of leaves</li>
+              <li>Follow recommended dilution rates on product labels</li>
+              <li>Alternate between different pesticides to prevent resistance</li>
+            </ul>
+          </div>
+        `;
+        
+        resultSection.style.display = 'block';
+        resultSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    </script>
+  </body>
+</html>
