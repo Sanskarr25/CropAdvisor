@@ -1,0 +1,19 @@
+login
+layout Page--
+Crop Form--
+Fertilizer Form
+Pesticide Form
+Crop-Results--
+Fertilizer-Results
+Pesticide-Results
+
+
+login|
+     |      
+     |--farmerIndex.html
+     |       |
+     |     Crop<------------------------------------------------------------------------------------------------------>cropForm.html
+     |     Fertilizer<----------------------------------------------------------->fertilizerForm.html                        |
+     |     Pesticide<-------------------------------> pesticideForm.html                   |                          crop-result.html
+     |     Logout---------------->login.html                  |                  fertilizer-result.html
+                                                     Pesticide-result.html
