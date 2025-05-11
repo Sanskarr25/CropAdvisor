@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet">
+    <style>
+      :root {
+        --primary: #2E7D32;       /* Forest Green - primary brand color */
+        --secondary: #558B2F;     /* Olive Green - complementary color */
+        --accent: #FFC107;        /* Amber - for calls to action */
+        --light: #F1F8E9;         /* Light Green tint - background color */
+        --dark: #1B5E20;          /* Dark Green - for contrasting elements */
+        --text: #263238;          /* Dark Blue Grey - for text */
+        --neutral: #ECEFF1;       /* Light Grey - for neutral backgrounds */
+        --overlay: rgba(27, 94, 32, 0.2);
+        --overlay-darker: rgba(27, 94, 32, 0.7);
+      }
+
+      html, body {
+        height: 100%;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text);
+        background-color: #FFFFFF;
+        min-height: 100vh;
+      }
+
+      .main-content {
+        flex: 1 0 auto;
+      }
+
+      /* Enhanced Navbar */
+      .navbar {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        padding: 12px 0;
+        transition: all 0.3s ease;
+      }
+      
+      .navbar.scrolled {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .navbar-brand {
+        font-weight: 700;
+        color: var(--primary);
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .navbar-brand i {
+        color: var(--secondary);
+        font-size: 1.4rem;
+        margin-right: 8px;
+      }
+      
+      .navbar-toggler {
+        border: none;
+        padding: 5px;
+      }
+      
+      .navbar-toggler:focus {
+        box-shadow: none;
+        outline: none;
+      }
+      
+      .navbar-toggler-icon {
+        width: 1.3em;
+        height: 1.3em;
+      }
+      
+      .navbar-nav {
+        align-items: center;
+      }
+      
+      .nav-item {
+        margin: 0 5px;
+      }
+      
+      .nav-link {
+        color: var(--text);
+        font-weight: 500;
+        padding: 8px 15px !important;
+        transition: all 0.3s ease;
+        border-radius: 4px;
+      }
+      
+      .nav-link:hover {
+        color: var(--primary);
+        background-color: rgba(46, 125, 50, 0.05);
+      }
+      
+      .nav-link.active {
+        color: var(--primary);
+        font-weight: 600;
+        position: relative;
+      }
+      
+      .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        left: 15px;
+        right: 15px;
+        height: 2px;
+        background-color: var(--primary);
+        border-radius: 1px;
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 991px) {
+        .navbar-collapse {
+          background-color: white;
+          padding: 15px;
+          border-radius: 8px;
+          margin-top: 10px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-item {
+          margin: 3px 0;
+        }
+      }
+      
+      @media (max-width: 576px) {
+        .navbar-brand {
+          font-size: 1.5rem;
+        }
+        
+        .navbar-brand i {
+          font-size: 1.7rem;
+        }
+      }
+                   
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(rgba(27, 94, 32, 0.85), rgba(27, 94, 32, 0.9)), url('/api/placeholder/1200/600') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 160px 0 140px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* .hero-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          linear-gradient(30deg, var(--overlay) 12%, transparent 12.5%, transparent 87%, var(--overlay) 87.5%, var(--overlay)),
+          linear-gradient(150deg, var(--overlay) 12%, transparent 12.5%, transparent 87%, var(--overlay) 87.5%, var(--overlay)),
+          linear-gradient(30deg, var(--overlay) 12%, transparent 12.5%, transparent 87%, var(--overlay) 87.5%, var(--overlay)),
+          linear-gradient(150deg, var(--overlay) 12%, transparent 12.5%, transparent 87%, var(--overlay) 87.5%, var(--overlay));
+        background-size: 40px 70px;
+        opacity: 0.2;
+      } */
+
+      .hero h1 {
+        animation: fadeInUp 1s ease;
+        font-weight: 800;
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      }
+
+      .hero p {
+        animation: fadeInUp 1s ease 0.3s forwards;
+        opacity: 0;
+        font-size: 1.25rem;
+        max-width: 700px;
+        margin: 0 auto 2.5rem;
+        text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+      }
+
+      .hero .btn {
+        animation: fadeInUp 1s ease 0.6s forwards;
+        opacity: 0;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        padding: 12px 30px;
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .hero .btn-light {
+        background-color: var(--accent);
+        color: var(--dark);
+        border: 2px solid var(--accent);
+      }
+
+      .hero .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        background-color: #FFD54F;
+        border-color: #FFD54F;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Services Section */
+      .services-section {
+        padding: 100px 0 80px;
+        background-color: var(--light);
+        position: relative;
+      }
+
+      .services-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(var(--overlay) 10%, transparent 11%);
+        background-size: 20px 20px;
+        opacity: 0.3;
+      }
+
+      .section-title {
+        position: relative;
+        padding-bottom: 15px;
+        margin-bottom: 50px;
+        text-align: center;
+        font-weight: 700;
+        color: var(--dark);
+      }
+
+      .section-title:after {
+        content: '';
+        position: absolute;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(27, 94, 32, 0.08);
+        transition: all 0.4s ease;
+        overflow: hidden;
+        height: 100%;
+        background-color: white;
+      }
+
+      .card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 15px 35px rgba(27, 94, 32, 0.15);
+      }
+
+      .card .card-body {
+        padding: 30px;
+      }
+
+      .feature-icon {
+        width: 85px;
+        height: 85px;
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        margin-bottom: 25px;
+        margin-left: auto;
+        margin-right: auto;
+        transition: all 0.5s ease;
+        box-shadow: 0 4px 15px rgba(46, 125, 50, 0.1);
+      }
+
+      .card:hover .feature-icon {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: white;
+        transform: rotateY(180deg);
+      }
+
+      .card h4 {
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: var(--dark);
+      }
+
+      .card p {
+        color: #546E7A;
+        margin-bottom: 25px;
+        line-height: 1.7;
+      }
+
+      .btn-outline-primary {
+        color: var(--primary);
+        border: 2px solid var(--primary);
+        transition: all 0.3s ease;
+        font-weight: 600;
+        padding: 9px 24px;
+        border-radius: 50px;
+      }
+
+      .btn-outline-primary:hover {
+        background-color: var(--primary);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(46, 125, 50, 0.2);
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--dark);
+        color: white;
+        padding: 6px 0;
+        flex-shrink: 0;
+        position: relative;
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(to right, var(--primary), var(--accent), var(--secondary));
+      }
+
+      .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 60px;
+      }
+
+      .logo-area {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .logo-area i {
+        color: var(--secondary);
+        font-size: 1.8rem;
+      }
+
+      footer p {
+        margin: 0;
+        opacity: 0.9;
+        text-align: center;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 991px) {
+        .hero {
+          padding: 130px 0 110px;
+        }
+        
+        .hero h1 {
+          font-size: 2.8rem;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .hero {
+          padding: 100px 0 90px;
+        }
+        
+        .hero h1 {
+          font-size: 2.3rem;
+        }
+        
+        .services-section {
+          padding: 70px 0 50px;
+        }
+        
+        .navbar-collapse {
+          background-color: white;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 10px 30px rgba(27, 94, 32, 0.1);
+          margin-top: 15px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+        
+        .hero p {
+          font-size: 1.1rem;
+        }
+        
+        .footer-content {
+          text-align: center;
+        }
+        
+        .section-title {
+          font-size: 1.75rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html">
+          <i class="fas fa-seedling"></i> AgriSmart
+        </a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNav" aria-controls="navbarNav"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="crop_recommendation.html">Crop
+                Recommendation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"
+                href="fertilizer_recommendation.html">Fertilizer
+                Recommendation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pesticide_recommendation.html">Pesticide
+                Recommendation</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <section class="hero" id="home">
+        <div class="hero-pattern"></div>
+        <div class="container text-center">
+          <h1>Smart Farming Solutions for Better Yields</h1>
+          <p>Get personalized crop, fertilizer, and pesticide recommendations
+            based on your soil conditions and local climate</p>
+          <a href="crop_recommendation.html"
+            class="btn btn-light btn-lg rounded-pill">Get Started <i
+              class="fas fa-arrow-right ms-2"></i></a>
+        </div>
+      </section>
+
+      <section class="services-section" id="services">
+        <div class="services-pattern"></div>
+        <div class="container">
+          <h2 class="section-title">Our Smart Agricultural Services</h2>
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="card h-100">
+                <div class="card-body text-center">
+                  <div class="feature-icon">
+                    <i class="fas fa-seedling"></i>
+                  </div>
+                  <h4>Crop Recommendations</h4>
+                  <p>Get data-driven crop suggestions based on your soil
+                    composition, climate conditions, and historical yield data
+                    for maximum productivity.</p>
+                  <a href="crop_recommendation.html"
+                    class="btn btn-outline-primary">Learn More</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card h-100">
+                <div class="card-body text-center">
+                  <div class="feature-icon">
+                    <i class="fas fa-flask"></i>
+                  </div>
+                  <h4>Fertilizer Analysis</h4>
+                  <p>Receive precise fertilizer recommendations tailored to your
+                    specific crop needs and soil nutrient levels for optimal
+                    growth.</p>
+                  <a href="fertilizer_recommendation.html"
+                    class="btn btn-outline-primary">Learn More</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card h-100">
+                <div class="card-body text-center">
+                  <div class="feature-icon">
+                    <i class="fas fa-bug"></i>
+                  </div>
+                  <h4>Pesticide Guidance</h4>
+                  <p>Find eco-friendly and effective pesticide options to
+                    protect your crops from pests and diseases while maintaining
+                    environmental balance.</p>
+                  <a href="pesticide_recommendation.html"
+                    class="btn btn-outline-primary">Learn More</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <!-- <div class="logo-area mb-2">
+            <i class="fas fa-seedling"></i> AgriSmart
+          </div> -->
+          <p>&copy; 2024 AgriSmart. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Navbar scroll effect
+      window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('mainNav');
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriSmart - Fertilizer Recommendation</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet">
+    <link href="styles.css" rel="stylesheet"> </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="index.html"><i
+            class="fas fa-leaf me-2"></i>AgriSmart</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"><span
+            class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link"
+                href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link"
+                href="crop_recommendation.html">Crop Recommendation</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page"
+                href="fertilizer_recommendation.html">Fertilizer
+                Recommendation</a></li>
+            <li class="nav-item"><a class="nav-link"
+                href="pesticide_recommendation.html">Pesticide
+                Recommendation</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section class="py-5 bg-light" id="recommendations">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <h2 class="text-center mb-5">Fertilizer Recommendation</h2>
+            <div class="form-card p-4 p-md-5">
+              <form>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Soil Type</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i
+                          class="fas fa-mountain"></i></span>
+                      <select class="form-select" required>
+                        <option selected disabled value>Select soil
+                          type</option>
+                        <option>Sandy</option>
+                        <option>Loamy</option>
+                        <option>Clayey</option>
+                        <option>Black</option>
+                        <option>Red</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12 mt-4">
+                    <button type="submit"
+                      class="btn btn-primary btn-lg w-100">Get Fertilizer
+                      Recommendations</button>
+                  </div>
+                </div>
+              </form>
+              <div class="mt-5" id="fertilizerResultsSection"
+                style="display:none;"> </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container"> <p>&copy; 2024 AgriSmart. All Rights Reserved.</p>
+        <p>
+          <a href="#" class="text-white">Privacy Policy</a> |
+          <a href="#" class="text-white">Terms of Use</a>
+        </p>
+      </div>
+    </footer>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,335 @@
+ :root {
+        --primary: #2E7D32;
+        --secondary: #81C784;
+        --accent: #FFC107;
+        --light: #F1F8E9;
+        --dark: #1B5E20;
+        --text: #263238;
+      }
+
+      html, body {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text);
+        background-color: #FAFAFA;
+        min-height: 100vh;
+      }
+
+      .main-content {
+        flex: 1 0 auto;
+      }
+
+      .navbar {
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        color: var(--primary);
+        transition: all 0.3s ease;
+      }
+
+      .navbar-brand:hover {
+        transform: scale(1.05);
+      }
+
+      .nav-link {
+        color: var(--text);
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--primary);
+      }
+
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: var(--primary);
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        width: 100%;
+        left: 0;
+      }
+
+      .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--dark);
+        border-color: var(--dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+
+      .hero {
+        background: linear-gradient(rgba(46, 125, 50, 0.8), rgba(46, 125, 50, 0.9)), url('https://via.placeholder.com/1200x600.png?text=Farm+Landscape') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 120px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><path d="M25 0 L50 25 L25 50 L0 25 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+        background-size: 30px 30px;
+      }
+
+      .hero h1 {
+        animation: fadeInUp 1s ease;
+      }
+
+      .hero p {
+        animation: fadeInUp 1s ease 0.3s forwards;
+        opacity: 0;
+      }
+
+      .hero .btn {
+        animation: fadeInUp 1s ease 0.6s forwards;
+        opacity: 0;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+      }
+
+      .hero .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        overflow: hidden;
+      }
+
+      .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+      }
+
+      .feature-icon {
+        width: 70px;
+        height: 70px;
+        background-color: var(--light);
+        color: var(--primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        margin-bottom: 25px;
+        margin-left: auto;
+        margin-right: auto;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+
+      .card:hover .feature-icon {
+        background-color: var(--primary);
+        color: white;
+        transform: rotateY(180deg);
+      }
+
+      .section-title {
+        position: relative;
+        padding-bottom: 15px;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+
+      .section-title:after {
+        content: '';
+        position: absolute;
+        width: 70px;
+        height: 3px;
+        background-color: var(--primary);
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .how-it-works {
+        background-color: var(--light);
+        padding: 80px 0;
+      }
+
+      .how-it-works .container {
+        position: relative;
+      }
+
+      .how-it-works .container::before {
+        content: '';
+        position: absolute;
+        height: 80%;
+        width: 2px;
+        background-color: var(--secondary);
+        left: 50%;
+        top: 10%;
+        transform: translateX(-50%);
+        z-index: 0;
+      }
+
+      .step-timeline {
+        position: relative;
+        padding: 30px;
+        z-index: 1;
+      }
+
+      .step-number {
+        width: 70px;
+        height: 70px;
+        background-color: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: bold;
+        margin: 0 auto 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      }
+
+      .step-content {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+
+      footer {
+        background-color: var(--dark);
+        color: white;
+        padding: 30px 0;
+        flex-shrink: 0;
+        position: relative;
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(to right, var(--primary), var(--accent), var(--secondary));
+      }
+
+      .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      footer p {
+        margin: 8px 0;
+      }
+
+      footer a {
+        color: var(--light);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        padding: 0 10px;
+      }
+
+      footer a:hover {
+        color: var(--accent);
+      }
+
+      .social-links {
+        margin: 15px 0;
+      }
+
+      .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: rgba(255,255,255,0.1);
+        color: white;
+        margin: 0 5px;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        background-color: var(--accent);
+        transform: translateY(-3px);
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 991px) {
+        .how-it-works .container::before {
+          left: 40px;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .hero {
+          padding: 80px 0;
+        }
+        
+        .how-it-works .container::before {
+          display: none;
+        }
+        
+        .step-number {
+          margin: 0 0 20px;
+        }
+        
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+        
+        .footer-content {
+          text-align: center;
+        }
+      }

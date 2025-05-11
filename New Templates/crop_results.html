@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CropAdvisor - Results</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet">
+    <style>
+      :root {
+        --primary: #2E7D32;       /* Forest Green - primary brand color */
+        --secondary: #558B2F;     /* Olive Green - complementary color */
+        --accent: #FFC107;        /* Amber - for calls to action */
+        --light: #F1F8E9;         /* Light Green tint - background color */
+        --dark: #1B5E20;          /* Dark Green - for contrasting elements */
+        --text: #263238;          /* Dark Blue Grey - for text */
+        --neutral: #ECEFF1;       /* Light Grey - for neutral backgrounds */
+        --overlay: rgba(27, 94, 32, 0.2);
+        --overlay-darker: rgba(27, 94, 32, 0.7);
+      }
+
+      html, body {
+        height: 100%;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text);
+        background-color: #FFFFFF;
+        min-height: 100vh;
+      }
+
+      .main-content {
+        flex: 1 0 auto;
+      }
+
+      /* Enhanced Navbar */
+      .navbar {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        padding: 12px 0;
+        transition: all 0.3s ease;
+      }
+      
+      .navbar.scrolled {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .navbar-brand {
+        font-weight: 700;
+        color: var(--primary);
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .navbar-brand i {
+        color: var(--secondary);
+        font-size: 1.4rem;
+        margin-right: 8px;
+      }
+      
+      .navbar-toggler {
+        border: none;
+        padding: 5px;
+      }
+      
+      .navbar-toggler:focus {
+        box-shadow: none;
+        outline: none;
+      }
+      
+      .navbar-toggler-icon {
+        width: 1.3em;
+        height: 1.3em;
+      }
+      
+      .navbar-nav {
+        align-items: center;
+      }
+      
+      .nav-item {
+        margin: 0 5px;
+      }
+      
+      .nav-link {
+        color: var(--text);
+        font-weight: 500;
+        padding: 8px 15px !important;
+        transition: all 0.3s ease;
+        border-radius: 4px;
+      }
+      
+      .nav-link:hover {
+        color: var(--primary);
+        background-color: rgba(46, 125, 50, 0.05);
+      }
+      
+      .nav-link.active {
+        color: var(--primary);
+        font-weight: 600;
+        position: relative;
+      }
+      
+      .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        left: 15px;
+        right: 15px;
+        height: 2px;
+        background-color: var(--primary);
+        border-radius: 1px;
+      }
+
+      /* Page Header */
+      .page-header {
+        background: linear-gradient(rgba(27, 94, 32, 0.85), rgba(27, 94, 32, 0.9)), url('/api/placeholder/1200/600') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+        position: relative;
+        margin-bottom: 60px;
+      }
+
+      .page-header h1 {
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      }
+
+      .page-header p {
+        font-size: 1.15rem;
+        max-width: 700px;
+        margin: 0 auto;
+        text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+      }
+
+      /* Results Styling */
+      .result-section {
+        background-color: var(--light);
+        padding: 70px 0;
+        position: relative;
+      }
+
+      .result-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(var(--overlay) 10%, transparent 11%);
+        background-size: 20px 20px;
+        opacity: 0.3;
+      }
+
+      .result-card {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(27, 94, 32, 0.08);
+        padding: 40px;
+        margin-bottom: 30px;
+        position: relative;
+        z-index: 2;
+        border-left: 5px solid var(--secondary);
+      }
+
+      .result-card h3 {
+        display: flex;
+        justify-content: center;
+        color: var(--dark);
+        font-weight: 600;
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 12px;
+      }
+
+      .result-card h3:after {
+        content: '';
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        bottom: 0;
+        left: 0;
+        border-radius: 2px;
+      }
+
+      /* Recommendation Results Section */
+      #recommendationResults {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .crop-card {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(27, 94, 32, 0.08);
+        transition: all 0.3s ease;
+        height: 100%;
+        border: 1px solid rgba(0,0,0,0.05);
+      }
+
+      .crop-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(27, 94, 32, 0.12);
+      }
+
+      .crop-card .card-header {
+        background-color: var(--primary);
+        color: white;
+        font-weight: 600;
+        border-radius: 12px 12px 0 0;
+        padding: 15px 20px;
+      }
+
+      .crop-card .card-body {
+        padding: 20px;
+      }
+
+      .crop-card .card-title {
+        color: var(--dark);
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 1.25rem;
+      }
+
+      .crop-info {
+        margin-bottom: 3rem;
+      }
+
+      .parameter-title {
+        font-weight: 600;
+        color: var(--dark);
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+      }
+
+      .parameter-list {
+        background-color: var(--neutral);
+        border-radius: 12px;
+        padding: 20px;
+      }
+
+      .parameter-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed #CFD8DC;
+      }
+
+      .parameter-item:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
+      .parameter-name {
+        font-weight: 500;
+        color: var(--text);
+      }
+
+      .parameter-value {
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--dark);
+        border-color: var(--dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(46, 125, 50, 0.2);
+      }
+
+      .btn-outline-primary {
+        color: var(--primary);
+        border-color: var(--primary);
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-outline-primary:hover {
+        background-color: var(--primary);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(46, 125, 50, 0.15);
+      }
+
+      .btn-pdf {
+        background-color: #D32F2F;
+        border-color: #D32F2F;
+        color: white;
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(211, 47, 47, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .btn-pdf:hover {
+        background-color: #B71C1C;
+        border-color: #B71C1C;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(211, 47, 47, 0.2);
+      }
+
+      .btn-pdf i, .btn-primary i, .btn-outline-primary i {
+        margin-right: 8px;
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--dark);
+        color: white;
+        padding: 30px 0;
+        flex-shrink: 0;
+        position: relative;
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(to right, var(--primary), var(--accent), var(--secondary));
+      }
+
+      .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 60px;
+      }
+
+      .logo-area {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .logo-area i {
+        color: var(--secondary);
+        font-size: 1.8rem;
+      }
+
+      footer p {
+        margin: 0;
+        opacity: 0.9;
+        text-align: center;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 991px) {
+        .navbar-collapse {
+          background-color: white;
+          padding: 15px;
+          border-radius: 8px;
+          margin-top: 10px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-item {
+          margin: 3px 0;
+        }
+        
+        .action-buttons {
+          flex-direction: column;
+        }
+        
+        .action-buttons .btn {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .page-header {
+          padding: 60px 0;
+        }
+        
+        .page-header h1 {
+          font-size: 2rem;
+        }
+        
+        .result-card {
+          padding: 30px 20px;
+        }
+        
+        /* Fix for mobile parameter items */
+        .parameter-item {
+          border-bottom: 1px dashed #CFD8DC;
+          padding-bottom: 10px;
+          margin-bottom: 10px;
+        }
+        
+        /* Make sure all items have bottom border in mobile */
+        .col-md-6 .parameter-item:last-child {
+          border-bottom: 1px dashed #CFD8DC;
+          padding-bottom: 10px;
+          margin-bottom: 10px;
+        }
+        
+        /* Only truly last item should have no border */
+        .parameter-list .row .col-md-6:last-child .parameter-item:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+          margin-bottom: 0;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .navbar-brand {
+          font-size: 1.5rem;
+        }
+        
+        .navbar-brand i {
+          font-size: 1.7rem;
+        }
+        
+        .footer-content {
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html">
+          <i class="fas fa-seedling"></i> CropAdvisor
+        </a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNav" aria-controls="navbarNav"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active"
+                href="crop_recommendation.html">Crop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"
+                href="fertilizer_recommendation.html">Fertilizer</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"
+                href="pesticide_recommendation.html">Pesticide</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link"
+                href="login.html">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-content">
+
+      <!-- Results Section -->
+      <section class="result-section">
+        <div class="result-pattern"></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-10">
+              <div class="result-card">
+                <h3>Recommended Crops</h3>
+
+                <div class="crop-info">
+                  <div class="parameter-title">Your Soil & Environmental
+                    Parameters:</div>
+                  <div class="parameter-list">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="parameter-item">
+                          <span class="parameter-name">Nitrogen (N):</span>
+                          <span class="parameter-value"><span
+                              id="nitrogen-value">50</span> kg/ha</span>
+                        </div>
+                        <div class="parameter-item">
+                          <span class="parameter-name">Phosphorus (P):</span>
+                          <span class="parameter-value"><span
+                              id="phosphorus-value">50</span> kg/ha</span>
+                        </div>
+                        <div class="parameter-item">
+                          <span class="parameter-name">Potassium (K):</span>
+                          <span class="parameter-value"><span
+                              id="potassium-value">50</span> kg/ha</span>
+                        </div>
+                        <div class="parameter-item">
+                          <span class="parameter-name">pH Level:</span>
+                          <span class="parameter-value"><span
+                              id="ph-value">6.5</span></span>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="parameter-item">
+                          <span class="parameter-name">Temperature:</span>
+                          <span class="parameter-value"><span
+                              id="temperature-value">25</span> °C</span>
+                        </div>
+                        <div class="parameter-item">
+                          <span class="parameter-name">Rainfall:</span>
+                          <span class="parameter-value"><span
+                              id="rainfall-value">100</span> mm</span>
+                        </div>
+                        <div class="parameter-item">
+                          <span class="parameter-name">Humidity:</span>
+                          <span class="parameter-value"><span
+                              id="humidity-value">70</span>%</span>
+                        </div>
+                        <div class="parameter-item">
+                          <span class="parameter-name">Analysis Date:</span>
+                          <span class="parameter-value"
+                            id="analysis-date"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row justify-content-center w-100"
+                  id="recommendationResults">
+                  <!-- Results will be populated here by JavaScript -->
+                </div>
+
+                <div class="action-buttons mt-5">
+                  <a href="crop_recommendation.html"
+                    class="btn btn-outline-primary">
+                    <i class="fas fa-sync-alt"></i> Predict Another Crop
+                  </a>
+                  <button class="btn btn-outline-primary" id="generatePdfBtn">
+                    <i class="fas fa-file-pdf"></i> Generate PDF Report
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="logo-area mb-2">
+            <i class="fas fa-seedling"></i> CropAdvisor
+          </div>
+          <p>&copy; 2024 CropAdvisor. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Navbar scroll effect
+      window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('mainNav');
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+
+      // Function to get URL parameters
+      function getUrlParams() {
+        const params = {};
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        
+        for (const [key, value] of urlParams.entries()) {
+          params[key] = decodeURIComponent(value);
+        }
+        
+        return params;
+      }
+
+      // Function to populate the results page
+      function populateResults() {
+        const params = getUrlParams();
+        
+        // Update parameter values
+        document.getElementById('nitrogen-value').textContent = params.nitrogen || '50';
+        document.getElementById('phosphorus-value').textContent = params.phosphorus || '50';
+        document.getElementById('potassium-value').textContent = params.potassium || '50';
+        document.getElementById('ph-value').textContent = params.ph || '6.5';
+        document.getElementById('temperature-value').textContent = params.temperature || '25';
+        document.getElementById('rainfall-value').textContent = params.rainfall || '100';
+        document.getElementById('humidity-value').textContent = params.humidity || '70';
+        
+        // Set the analysis date to today
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+        document.getElementById('analysis-date').textContent = formattedDate;
+        
+        // Generate recommendation based on parameters
+        generateRecommendation(
+          params.nitrogen || 50, 
+          params.phosphorus || 50,
+          params.potassium || 50,
+          params.ph || 6.5,
+          params.rainfall || 100,
+          params.temperature || 25,
+          params.humidity || 70
+        );
+      }
+
+      // Generate crop recommendation cards
+      function generateRecommendation(n, p, k, ph, rainfall, temp, humidity) {
+        let resultsHTML = '';
+        
+        // Simple logic for demonstration purposes - same logic as in the original page
+        if (n > 80 && p > 40 && k > 40 && temp > 25 && humidity > 60) {
+          resultsHTML += createCropCard('Rice', 'Ideal for your high nitrogen soil and humid conditions', '90-95%');
+        }
+        
+        if (n > 20 && n < 80 && p > 20 && k > 30 && ph > 5.5 && ph < 7.5 && temp > 20 && temp < 30) {
+          resultsHTML += createCropCard('Wheat', 'Suitable for your balanced soil nutrients and moderate temperature', '85-90%');
+        }
+        
+        if (n > 50 && p > 60 && k > 40 && temp > 15 && temp < 25 && humidity < 70) {
+          resultsHTML += createCropCard('Maize (Corn)', 'Great choice for your phosphorus-rich soil and temperature range', '80-85%');
+        }
+        
+        if (p > 60 && k > 80 && ph < 6.5 && rainfall < 150 && temp > 20) {
+          resultsHTML += createCropCard('Cotton', 'Perfect for your potassium-rich soil and drier conditions', '75-80%');
+        }
+        
+        if (n < 50 && p < 50 && k > 30 && ph > 6 && ph < 7.5 && rainfall < 100) {
+          resultsHTML += createCropCard('Groundnut', 'Well-suited for your moderate fertility soil with lower rainfall', '70-75%');
+        }
+        
+        if (n > 40 && p > 60 && k > 80 && ph > 6.5 && rainfall > 100 && temp > 25) {
+          resultsHTML += createCropCard('Sugarcane', 'Excellent match for your nutrient-rich soil and good water availability', '85-90%');
+        }
+        
+        // Fallback if no specific recommendation
+        if (!resultsHTML) {
+          resultsHTML = `
+            <div class="col-12">
+              <div class="alert alert-info" role="alert">
+                <h4 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Custom Consultation Recommended</h4>
+                <p>Based on the provided parameters, we recommend consulting with a local agricultural extension officer for personalized advice. Your specific soil composition and climate conditions may require specialized crop selection.</p>
+              </div>
+            </div>
+          `;
+        }
+        
+        document.getElementById('recommendationResults').innerHTML = resultsHTML;
+      }
+
+      // Helper function to create crop recommendation cards
+      function createCropCard(cropName, description, suitability) {
+        return `
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="crop-card">
+              <div class="card-header">
+                <i class="fas fa-check-circle me-2"></i> Recommended
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">${cropName}</h5>
+                <p class="card-text">${description}</p>
+                <div class="mt-3">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span>Suitability Rating:</span>
+                    <span class="fw-bold text-success">${suitability}</span>
+                  </div>
+                  <div class="progress" style="height: 10px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: ${suitability.split('-')[0]}%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // PDF Generation button (no functionality, just for UI)
+      document.getElementById('generatePdfBtn').addEventListener('click', function() {
+        alert('This button would generate a PDF report in a real application.');
+      });
+
+      // Initialize page on load
+      document.addEventListener('DOMContentLoaded', function() {
+        populateResults();
+      });
+    </script>
+  </body>
+</html>
