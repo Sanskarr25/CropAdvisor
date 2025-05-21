@@ -38,8 +38,12 @@ print("Accuracy: ",scores.mean())
 score = accuracy_score(y_test, y_pred)
 print("Voting Score % d" % score)
 
+# import pickle
+# pkl_filename = 'Crop_Recommendation.pkl'
+# Model_pkl = open(pkl_filename, 'wb')
+# pickle.dump(vot_soft, Model_pkl)
+# Model_pkl.close()
+
 import pickle
-pkl_filename = 'Crop_Recommendation.pkl'
-Model_pkl = open(pkl_filename, 'wb')
-pickle.dump(vot_soft, Model_pkl)
-Model_pkl.close()
+with open('Crop_Recommendation.pkl', 'wb') as f:
+    pickle.dump(vot_soft, f)
