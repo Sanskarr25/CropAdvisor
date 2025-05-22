@@ -1,7 +1,9 @@
-# Part 1 - Building the CNN
+# cnn_model.py
+
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, Input
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import matplotlib.pyplot as plt
 
 # Initializing the CNN
 classifier = Sequential()
@@ -65,14 +67,13 @@ model = classifier.fit(
     steps_per_epoch=100,
     epochs=100,
     validation_data=test_set,
-    validation_steps=6500
+    validation_steps=100  # changed from 6500 to 100 to match typical test set size
 )
 
-# Saving the model
+# Saving the model (capital M for consistency)
 classifier.save('Trained_Model.h5')
 
 # Plotting training history
-import matplotlib.pyplot as plt
 
 # summarize history for accuracy
 plt.plot(model.history['accuracy'])
