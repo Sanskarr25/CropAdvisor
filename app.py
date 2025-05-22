@@ -1,37 +1,36 @@
-# app.py
-
+from flask import Flask, render_template, url_for, request, session, redirect
+from markupsafe import Markup
+from flask_pymongo import pymongo, MongoClient
+import pandas as pd
+from utils.fertilizer import fertilizer_dict
 import os
 import numpy as np
-from flask import Flask, render_template, request, session, redirect, url_for
-from tensorflow.keras.models import load_model
-from tensorflow.keras.utils import load_img, img_to_array
-import joblib
-import logging
-from flask_pymongo import MongoClient
-import pandas as pd
-from markupsafe import Markup
-from utils.fertilizer import fertilizer_dict
-
-logging.basicConfig(level=logging.INFO)
+import joblib  # ✅ Replaced pickle with joblib
+import bcrypt
 
 app = Flask(__name__)
 app.secret_key = "testing"
-app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024  # 2 MB max upload size
 
-upload_folder = 'static/user uploaded'
-os.makedirs(upload_folder, exist_ok=True)
-
-# Load ML models
+# Load models safely with error handling
 try:
-    classifier = load_model('Trained_Model.h5')
-    crop_recommendation_model = joblib.load('Crop_Recommendation.pkl')
+    from keras.preprocessing import image
+    from keras.models import load_model
+    import tensorflow as tf
+
+    # Load the classifier model
+    classifier = load_model('Trained_model.h5')
+
+    # Load crop recommendation model using joblib
+    crop_recommendation_model_path = 'Crop_Recommendation.pkl'
+    crop_recommendation_model = joblib.load(crop_recommendation_model_path)
+
     models_loaded = True
-    logging.info("Models loaded successfully!")
+    print("Models loaded successfully!")
 except Exception as e:
     models_loaded = False
-    logging.error(f"Error loading models: {e}")
+    print(f"Error loading models: {e}")
 
-# MongoDB connection
+# Connection With MongoDB Database
 client = MongoClient("mongodb+srv://avsanskar025:Cg5OTT1UofjJftPD@cluster0.h2go2xx.mongodb.net/")
 db = client["CropAdvisorAdmin"]
 collection = db["AdminData"]
@@ -112,14 +111,14 @@ def pred_pest(pest):
     if not models_loaded:
         return 'model_error'
     try:
-        test_image = load_img(pest, target_size=(64, 64))
-        test_image = img_to_array(test_image)
+        test_image = image.load_img(pest, target_size=(64, 64))
+        test_image = image.img_to_array(test_image)
         test_image = np.expand_dims(test_image, axis=0)
         result = classifier.predict(test_image)
         predicted_class = np.argmax(result, axis=1)[0]
         return predicted_class
     except Exception as e:
-        logging.error(f"Error predicting pest: {e}")
+        print(f"Error predicting pest: {e}")
         return 'x'
 
 @app.route("/CropRecommendation.html")
@@ -140,7 +139,7 @@ def predict():
         file = request.files['image']
         filename = file.filename
 
-        file_path = os.path.join(upload_folder, filename)
+        file_path = os.path.join('static/user uploaded', filename)
         file.save(file_path)
 
         pred = pred_pest(pest=file_path)
@@ -188,4 +187,4 @@ def crop_prediction():
             return render_template('error.html', message=f"Error during prediction: {str(e)}")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    app.run()
