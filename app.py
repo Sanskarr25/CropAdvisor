@@ -5,7 +5,7 @@ import pandas as pd
 from utils.fertilizer import fertilizer_dict
 import os
 import numpy as np
-import pickle
+import joblib  # ✅ Replaced pickle with joblib
 import bcrypt
 
 app = Flask(__name__)
@@ -16,21 +16,21 @@ try:
     from keras.preprocessing import image
     from keras.models import load_model
     import tensorflow as tf
-    
+
     # Load the classifier model
     classifier = load_model('Trained_model.h5')
-    
-    # Load crop recommendation model
+
+    # Load crop recommendation model using joblib
     crop_recommendation_model_path = 'Crop_Recommendation.pkl'
-    crop_recommendation_model = pickle.load(open(crop_recommendation_model_path, 'rb'))
-    
+    crop_recommendation_model = joblib.load(crop_recommendation_model_path)
+
     models_loaded = True
     print("Models loaded successfully!")
 except Exception as e:
     models_loaded = False
     print(f"Error loading models: {e}")
 
-#Connection With MongoDB Database
+# Connection With MongoDB Database
 client = MongoClient("mongodb+srv://avsanskar025:Cg5OTT1UofjJftPD@cluster0.h2go2xx.mongodb.net/")
 db = client["CropAdvisorAdmin"]
 collection = db["AdminData"]
@@ -39,7 +39,7 @@ farmercollection = db["FarmerData"]
 @app.route("/")
 def index():
     if 'email' in session:
-        return redirect(url_for('farmerIndex')) 
+        return redirect(url_for('farmerIndex'))
     return render_template("login.html")
 
 @app.route('/index')
@@ -56,7 +56,7 @@ def login():
     if login_user:
         session['email'] = email
         return redirect(url_for('farmerIndex'))
-    
+
     return render_template("login.html", error_message="Invalid Email/Password")
 
 @app.route("/logout")
@@ -88,30 +88,13 @@ def fertilizer_recommend():
     P_desired = df[df['Crop'] == crop_name]['P'].iloc[0]
     K_desired = df[df['Crop'] == crop_name]['K'].iloc[0]
 
-    n = N_desired- N_filled
+    n = N_desired - N_filled
     p = P_desired - P_filled
     k = K_desired - K_filled
 
-    if n < 0:
-        key1 = "NHigh"
-    elif n > 0:
-        key1 = "Nlow"
-    else:
-        key1 = "NNo"
-
-    if p < 0:
-        key2 = "PHigh"
-    elif p > 0:
-        key2 = "Plow"
-    else:
-        key2 = "PNo"
-
-    if k < 0:
-        key3 = "KHigh"
-    elif k > 0:
-        key3 = "Klow"
-    else:
-        key3 = "KNo"
+    key1 = "NHigh" if n < 0 else "Nlow" if n > 0 else "NNo"
+    key2 = "PHigh" if p < 0 else "Plow" if p > 0 else "PNo"
+    key3 = "KHigh" if k < 0 else "Klow" if k > 0 else "KNo"
 
     abs_n = abs(n)
     abs_p = abs(p)
@@ -122,20 +105,16 @@ def fertilizer_recommend():
     response3 = Markup(str(fertilizer_dict[key3]))
     return render_template('Fertilizer-Result.html', recommendation1=response1,
                            recommendation2=response2, recommendation3=response3,
-                           diff_n = abs_n, diff_p = abs_p, diff_k = abs_k)
+                           diff_n=abs_n, diff_p=abs_p, diff_k=abs_k)
 
 def pred_pest(pest):
     if not models_loaded:
         return 'model_error'
-    
     try:
         test_image = image.load_img(pest, target_size=(64, 64))
         test_image = image.img_to_array(test_image)
         test_image = np.expand_dims(test_image, axis=0)
-        
-        # Use predict instead of predict_classes
         result = classifier.predict(test_image)
-        # Get the class with highest probability
         predicted_class = np.argmax(result, axis=1)[0]
         return predicted_class
     except Exception as e:
@@ -157,7 +136,7 @@ def pesticide():
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
-        file = request.files['image']  
+        file = request.files['image']
         filename = file.filename
 
         file_path = os.path.join('static/user uploaded', filename)
@@ -168,7 +147,7 @@ def predict():
             return render_template('unaptfile.html')
         if pred == 'model_error':
             return render_template('error.html', message="Model loading error. Please contact administrator.")
-        
+
         pest_mapping = {
             0: 'aphids',
             1: 'armyworm',
@@ -181,7 +160,7 @@ def predict():
             8: 'sawfly',
             9: 'stem borer'
         }
-        
+
         pest_identified = pest_mapping.get(pred, 'unknown')
         return render_template(pest_identified + ".html", pred=pest_identified)
 
@@ -189,7 +168,7 @@ def predict():
 def crop_prediction():
     if not models_loaded:
         return render_template('error.html', message="Model loading error. Please contact administrator.")
-    
+
     if request.method == 'POST':
         try:
             N = int(request.form['nitrogen'])
@@ -199,11 +178,11 @@ def crop_prediction():
             rainfall = float(request.form['rainfall'])
             temperature = float(request.form['temperature'])
             humidity = float(request.form['humidity'])
-            
+
             data = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
             my_prediction = crop_recommendation_model.predict(data)
             final_prediction = my_prediction[0]
-            return render_template('crop-result.html', prediction=final_prediction, pred='img/crop/'+final_prediction+'.jpg')
+            return render_template('crop-result.html', prediction=final_prediction, pred='img/crop/' + final_prediction + '.jpg')
         except Exception as e:
             return render_template('error.html', message=f"Error during prediction: {str(e)}")
 
