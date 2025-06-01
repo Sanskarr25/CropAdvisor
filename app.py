@@ -63,13 +63,13 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('index'))
-
+                                     
 @app.route('/farmer-index')
 def farmerIndex():
     if 'email' not in session:
         return redirect(url_for('index'))
     return render_template("farmerIndex.html")
-
+                                                    
 @app.route("/logout_alt")
 def logout_alt():
     session.clear()
@@ -106,7 +106,7 @@ def fertilizer_recommend():
     return render_template('Fertilizer-Result.html', recommendation1=response1,
                            recommendation2=response2, recommendation3=response3,
                            diff_n=abs_n, diff_p=abs_p, diff_k=abs_k)
-
+                                                
 def pred_pest(pest):
     if not models_loaded:
         return 'model_error'
@@ -172,7 +172,7 @@ def crop_prediction():
     if request.method == 'POST':
         try:
             N = int(request.form['nitrogen'])
-            P = int(request.form['phosphorous'])
+            P = int(request.form['phosphorus'])
             K = int(request.form['potassium'])
             ph = float(request.form['ph'])
             rainfall = float(request.form['rainfall'])
@@ -182,6 +182,7 @@ def crop_prediction():
             data = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
             my_prediction = crop_recommendation_model.predict(data)
             final_prediction = my_prediction[0]
+            final_prediction = final_prediction.capitalize()          
             return render_template('crop-result.html', prediction=final_prediction, pred='img/crop/' + final_prediction + '.jpg')
         except Exception as e:
             return render_template('error.html', message=f"Error during prediction: {str(e)}")
