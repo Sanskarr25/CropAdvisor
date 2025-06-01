@@ -1,45 +1,171 @@
-{% extends 'layout.html' %} {% block nav %}
-<li><a href="{{ url_for('farmerIndex') }}">Home</a></li>
-<li><a href="CropRecommendation.html" class="active">Crop</a></li>
-<li><a href="FertilizerRecommendation.html">Fertilizer</a></li>
-<li><a href="PesticideRecommendation.html">Pesticide</a></li>
-<li><a href="{{ url_for('logout_alt') }}">Logout</a></li>
-{% endblock %} {% block body %}
-<h1 class="text-center" style="margin-top: 5%">
-  <b
-    >You should grow <span class="gold-text"><i> {{ prediction }} </i></span>in
-    your farm</b
-  >
-  <br /><br />
-  <img
-    src="{{url_for('static',filename=pred)}}"
-    width="780px"
-    height="450px"
-    border-radius="10px"
-    alt="{{prediction}}"
-  />
-</h1>
+{% extends 'layout.html' %}
 
-<!--Footer Section-->
-<footer>
-  <div class="footer-content">
-    <h3 class="top-content">Crop<span>Advisors</span></h3>
-    <p class="paragraph">
-      CropAdvisors is a platform which recommends the best Crop to grow,
-      Fertilizers to use, as well as Pesticides based on you provided data.
-    </p>
+{% block extra_css %}
+<link rel="stylesheet"
+  href="{{ url_for('static', filename='css/crop-result.css') }}">
+{% endblock %}
 
-    <div>
-      <h2 class="below-p">Any Queries ?</h2>
+{% block nav %}
+<li class="nav-item">
+  <a class="nav-link active" href="{{ url_for('farmerIndex') }}">Home</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('crop') }}">Crop</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('fertilizer') }}">Fertilizer</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('pesticide') }}">Pesticide</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+</li>
+{% endblock %}
 
-      <button class="contact-us">Contact Us</button>
-    </div>
-    <br />
+{% block body %}
+<section class="results-section">
+  <div class="container">
+    <div class="row">
+      <!-- Parameter Summary -->
+      <div class="col-lg-4 mb-4">
+        <div class="info-card">
+          <h4><i class="fas fa-flask"></i>Your Parameters</h4>
+          <div class="parameter-summary" id="parameterSummary">
+            <!-- Parameters will be populated here -->
+          </div>
+          <div class="text-center mt-3">
+            <a href="{{ url_for('crop') }}" class="btn btn-outline-primary">
+              <i class="fas fa-edit me-1"></i>Modify Parameters
+            </a>
+          </div>
+        </div>
+      </div>
 
-    <div class="footer-bottom">
-      <p>Copyright &copy; 2023 CropAdvisors</p>
+      <!-- Recommendations -->
+      <div class="col-lg-8">
+        <div class="info-card">
+          <h4><i class="fas fa-seedling"></i>Recommended Crops</h4>
+          <div id="recommendationResults">
+
+            <div class="crop-card">
+              <h5><i class="fas fa-seedling"></i>{{ prediction }}</h5>
+              <!-- <p>Description of why this crop is recommended based on soil parameters.</p> -->
+            </div>
+
+            <!-- For loading state: -->
+            <!-- <div class="loading-state">
+              <i class="fas fa-spinner"></i>
+              <h5>Analyzing soil parameters...</h5>
+              <p>Please wait while we generate your crop recommendations.</p>
+            </div> -->
+
+            <!-- Default loading state -->
+            <!-- <div class="loading-state">
+              <i class="fas fa-spinner"></i>
+              <h5>Analyzing soil parameters...</h5>
+              <p>Please wait while we generate your crop
+                recommendations.</p>
+            </div> -->
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center mt-4">
+          <a href="{{ url_for('fertilizer') }}" class="btn btn-primary me-2">
+            <i class="fas fa-leaf me-1"></i>Get Fertilizer Recommendations
+          </a>
+          <a href="{{ url_for('crop') }}" class="btn btn-outline-primary">
+            <i class="fas fa-redo me-1"></i>New Analysis
+          </a>
+        </div>
+      </div>
     </div>
   </div>
-</footer>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!-- <script>
+      // Navbar scroll effect
+      window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('mainNav');
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+
+      // Get URL parameters
+      function getUrlParameters() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          nitrogen: parseFloat(params.get('nitrogen')) || 0,
+          phosphorus: parseFloat(params.get('phosphorus')) || 0,
+          potassium: parseFloat(params.get('potassium')) || 0,
+          ph: parseFloat(params.get('ph')) || 0,
+          rainfall: parseFloat(params.get('rainfall')) || 0,
+          temperature: parseFloat(params.get('temperature')) || 0,
+          humidity: parseFloat(params.get('humidity')) || 0
+        };
+      }
+
+      // Display parameter summary
+      function displayParameters(params) {
+        const parameterSummary = document.getElementById('parameterSummary');
+        parameterSummary.innerHTML = `
+          <div class="parameter-item">
+            <span class="parameter-label">Nitrogen (N)</span>
+            <span class="parameter-value">${params.nitrogen} kg/ha</span>
+          </div>
+          <div class="parameter-item">
+            <span class="parameter-label">Phosphorus (P)</span>
+            <span class="parameter-value">${params.phosphorus} kg/ha</span>
+          </div>
+          <div class="parameter-item">
+            <span class="parameter-label">Potassium (K)</span>
+            <span class="parameter-value">${params.potassium} kg/ha</span>
+          </div>
+          <div class="parameter-item">
+            <span class="parameter-label">pH Level</span>
+            <span class="parameter-value">${params.ph}</span>
+          </div>
+          <div class="parameter-item">
+            <span class="parameter-label">Temperature</span>
+            <span class="parameter-value">${params.temperature}°C</span>
+          </div>
+          <div class="parameter-item">
+            <span class="parameter-label">Rainfall</span>
+            <span class="parameter-value">${params.rainfall} mm</span>
+          </div>
+          <div class="parameter-item">
+            <span class="parameter-label">Humidity</span>
+            <span class="parameter-value">${params.humidity}%</span>
+          </div>
+        `;
+      }
+
+      // Initialize page - only display parameters
+      document.addEventListener('DOMContentLoaded', function() {
+        const params = getUrlParameters();
+        
+        // Check if we have valid parameters
+        if (params.nitrogen === 0 && params.phosphorus === 0 && params.potassium === 0) {
+          // Redirect back to the form if no parameters
+          window.location.href = "{{ url_for('crop') }}";
+          return;
+        }
+
+        displayParameters(params);
+        
+        // Note: recommendationResults div is ready for your model's output
+        // You can populate it by getting the element: document.getElementById('recommendationResults')
+        // and setting its innerHTML with your crop recommendation results
+      });
+    </script> -->
 
 {% endblock %}
