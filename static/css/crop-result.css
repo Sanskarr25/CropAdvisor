@@ -1,0 +1,194 @@
+
+           /* Results Section */
+      .results-section {
+        padding: 40px 0 60px;
+        background-color: #FAFAFA;
+      }
+
+      .info-card {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(27, 94, 32, 0.08);
+        padding: 30px;
+        margin-bottom: 30px;
+        position: relative;
+        z-index: 2;
+        border-left: 5px solid var(--secondary);
+      }
+
+      .info-card h4 {
+        color: var(--dark);
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+      }
+
+      .info-card h4 i {
+        margin-right: 10px;
+        color: var(--secondary);
+      }
+
+      .crop-card {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(27, 94, 32, 0.08);
+        padding: 25px;
+        margin-bottom: 20px;
+        border-left: 4px solid var(--primary);
+        transition: all 0.3s ease;
+      }
+
+      .crop-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(27, 94, 32, 0.12);
+      }
+
+      .crop-card h5 {
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+      }
+
+      .crop-card h5 i {
+        margin-right: 8px;
+        color: var(--secondary);
+      }
+
+      .crop-card p {
+        color: #546E7A;
+        margin-bottom: 15px;
+        line-height: 1.6;
+      }
+
+      .suitability-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .suitability-high {
+        background-color: #E8F5E8;
+        color: var(--primary);
+      }
+
+      .suitability-medium {
+        background-color: #FFF3E0;
+        color: #F57C00;
+      }
+
+      .suitability-low {
+        background-color: #FFEBEE;
+        color: #D32F2F;
+      }
+
+      .parameter-summary {
+        background-color: var(--light);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+
+      .parameter-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+      }
+
+      .parameter-item:last-child {
+        border-bottom: none;
+      }
+
+      .parameter-label {
+        font-weight: 500;
+        color: var(--dark);
+      }
+
+      .parameter-value {
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--dark);
+        border-color: var(--dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(46, 125, 50, 0.2);
+      }
+
+      .btn-outline-primary {
+        color: var(--primary);
+        border-color: var(--primary);
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-outline-primary:hover {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      .no-results {
+        text-align: center;
+        padding: 40px 20px;
+        color: #666;
+      }
+
+      .no-results i {
+        font-size: 3rem;
+        color: var(--secondary);
+        margin-bottom: 20px;
+      }
+
+      .loading-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--primary);
+      }
+
+      .loading-state i {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      /* Responsive Adjustments */
+      
+
+      @media (max-width: 767px) {
+        .page-header {
+          padding: 40px 0;
+        }
+        
+        .page-header h1 {
+          font-size: 2rem;
+        }
+        
+        .crop-card {
+          padding: 20px;
+        }
+      }

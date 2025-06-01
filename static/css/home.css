@@ -1,0 +1,121 @@
+/* CSS Variables */
+:root {
+  --primary: #2E7D32;      
+  --secondary: #558B2F;     
+  --accent: #FFC107;       
+  --light: #F1F8E9;        
+  --dark: #1B5E20;         
+  --text: #263238;          
+  --neutral: #ECEFF1;
+  --overlay: rgba(27, 94, 32, 0.2);
+  --overlay-darker: rgba(27, 94, 32, 0.7);
+}
+
+/* Base HTML & Body */
+html, body {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+  background-color: #FFFFFF;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1 0 auto;
+}
+
+/* Global Button Styles */
+.btn-outline-primary {
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  transition: all 0.3s ease;
+  font-weight: 600;
+  padding: 9px 24px;
+  border-radius: 50px;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.2);
+}
+
+/* Global Section Title */
+.section-title {
+  position: relative;
+  padding-bottom: 15px;
+  margin-bottom: 50px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.section-title:after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+/* Global Card Styles */
+.card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(27, 94, 32, 0.08);
+  transition: all 0.4s ease;
+  overflow: hidden;
+  height: 100%;
+  background-color: white;
+}
+
+.card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 15px 35px rgba(27, 94, 32, 0.15);
+}
+
+.card .card-body {
+  padding: 30px;
+}
+
+.card h4 {
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--dark);
+}
+
+.card p {
+  color: #546E7A;
+  margin-bottom: 25px;
+  line-height: 1.7;
+}
+
+/* Global Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Global Responsive Typography */
+@media (max-width: 576px) {
+  .section-title {
+    font-size: 1.75rem;
+  }
+}
