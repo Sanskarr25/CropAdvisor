@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Crop Recommendation - CropAdvisor</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
       rel="stylesheet">
@@ -12,13 +12,13 @@
       rel="stylesheet">
     <style>
       :root {
-        --primary: #2E7D32;       /* Forest Green - primary brand color */
-        --secondary: #558B2F;     /* Olive Green - complementary color */
-        --accent: #FFC107;        /* Amber - for calls to action */
-        --light: #F1F8E9;         /* Light Green tint - background color */
-        --dark: #1B5E20;          /* Dark Green - for contrasting elements */
-        --text: #263238;          /* Dark Blue Grey - for text */
-        --neutral: #ECEFF1;       /* Light Grey - for neutral backgrounds */
+        --primary: #2E7D32;      
+        --secondary: #558B2F;     
+        --accent: #FFC107;       
+        --light: #F1F8E9;        
+        --dark: #1B5E20;         
+        --text: #263238;          
+        --neutral: #ECEFF1;
         --overlay: rgba(27, 94, 32, 0.2);
         --overlay-darker: rgba(27, 94, 32, 0.7);
       }
@@ -43,7 +43,7 @@
 
       /* Enhanced Navbar */
       .navbar {
-        background-color: white;
+        background-color: var(--light);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         padding: 12px 0;
         transition: all 0.3s ease;
@@ -144,116 +144,70 @@
           font-size: 1.7rem;
         }
       }
-                   
-      /* Hero Section */
-      .hero {
-        background: linear-gradient(rgba(27, 94, 32, 0.85), rgba(27, 94, 32, 0.9)), url('/api/placeholder/1200/600') no-repeat center center;
+
+      /* Page Header */
+      .page-header {
+        background: linear-gradient(rgba(27, 94, 32, 0.85), rgba(27, 94, 32, 0.9)), url('/api/placeholder/1200/400') no-repeat center center;
         background-size: cover;
         color: white;
-        padding: 160px 0 140px;
+        padding: 120px 0 80px;
         text-align: center;
         position: relative;
         overflow: hidden;
       }
 
-      /* .hero-pattern {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: 
-          linear-gradient(30deg, var(--overlay) 12%, transparent 12.5%, transparent 87%, var(--overlay) 87.5%, var(--overlay)),
-          linear-gradient(150deg, var(--overlay) 12%, transparent 12.5%, transparent 87%, var(--overlay) 87.5%, var(--overlay)),
-          linear-gradient(30deg, var(--overlay) 12%, transparent 12.5%, transparent 87%, var(--overlay) 87.5%, var(--overlay)),
-          linear-gradient(150deg, var(--overlay) 12%, transparent 12.5%, transparent 87%, var(--overlay) 87.5%, var(--overlay));
-        background-size: 40px 70px;
-        opacity: 0.2;
-      } */
-
-      .hero h1 {
-        animation: fadeInUp 1s ease;
+      .page-header h1 {
         font-weight: 800;
-        font-size: 3.5rem;
-        margin-bottom: 1.5rem;
+        font-size: 3rem;
+        margin-bottom: 1rem;
         text-shadow: 0 2px 10px rgba(0,0,0,0.2);
       }
 
-      .hero p {
-        animation: fadeInUp 1s ease 0.3s forwards;
-        opacity: 0;
-        font-size: 1.25rem;
-        max-width: 700px;
-        margin: 0 auto 2.5rem;
+      .page-header p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
         text-shadow: 0 1px 8px rgba(0,0,0,0.3);
       }
 
-      .hero .btn {
-        animation: fadeInUp 1s ease 0.6s forwards;
-        opacity: 0;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        padding: 12px 30px;
-        font-weight: 600;
-        font-size: 1.1rem;
-      }
-
-      .hero .btn-light {
-        background-color: var(--accent);
-        color: var(--dark);
-        border: 2px solid var(--accent);
-      }
-
-      .hero .btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-        background-color: #FFD54F;
-        border-color: #FFD54F;
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* Services Section */
-      .services-section {
-        padding: 100px 0 80px;
-        background-color: var(--light);
+      /* Form Section */
+      .form-section {
+        padding: 60px 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, var(--light) 100%);
         position: relative;
+        min-height: 70vh;
       }
 
-      .services-pattern {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: radial-gradient(var(--overlay) 10%, transparent 11%);
-        background-size: 20px 20px;
-        opacity: 0.3;
+      .form-container {
+        position: relative;
+        z-index: 2;
+      }
+
+      .form-card {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(27, 94, 32, 0.08);
+        padding: 50px;
+        border: 1px solid rgba(46, 125, 50, 0.08);
+        max-width: 900px;
+        margin: 0 auto;
       }
 
       .section-title {
         position: relative;
-        padding-bottom: 15px;
+        padding-bottom: 20px;
         margin-bottom: 50px;
         text-align: center;
         font-weight: 700;
         color: var(--dark);
+        font-size: 2.2rem;
       }
 
       .section-title:after {
         content: '';
         position: absolute;
-        width: 80px;
-        height: 4px;
+        width: 60px;
+        height: 3px;
         background: linear-gradient(to right, var(--primary), var(--secondary));
         bottom: 0;
         left: 50%;
@@ -261,74 +215,273 @@
         border-radius: 2px;
       }
 
-      .card {
-        border: none;
-        border-radius: 16px;
-        box-shadow: 0 8px 30px rgba(27, 94, 32, 0.08);
-        transition: all 0.4s ease;
-        overflow: hidden;
-        height: 100%;
-        background-color: white;
+      .form-group {
+        margin-bottom: 30px;
       }
 
-      .card:hover {
-        transform: translateY(-12px);
-        box-shadow: 0 15px 35px rgba(27, 94, 32, 0.15);
+      .form-label {
+        font-weight: 600;
+        color: var(--dark);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        font-size: 0.95rem;
       }
 
-      .card .card-body {
-        padding: 30px;
-      }
-
-      .feature-icon {
-        width: 85px;
-        height: 85px;
-        background-color: rgba(46, 125, 50, 0.1);
+      .form-label i {
+        margin-right: 10px;
         color: var(--primary);
+        width: 20px;
+        text-align: center;
+        font-size: 1.1rem;
+      }
+
+      .form-control {
+        border: 1px solid #e1e5e9;
+        border-radius: 12px;
+        padding: 16px 20px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #fdfdfd;
+        height: 56px;
+        width: 100%;
+      }
+
+      .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        background-color: white;
+        outline: none;
+      }
+
+      .form-control::placeholder {
+        color: #9ca3af;
+        font-size: 0.9rem;
+      }
+
+      /* Grid Layout for Form */
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+      }
+
+      /* pH Slider Styles */
+     .ph-slider-group {
+  grid-column: span 2; /* Span 2 columns instead of full width */
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 25px;
+  border: 2px solid rgba(46, 125, 50, 0.1);
+  margin: 10px 0;
+}
+
+
+      .ph-slider-container {
+        position: relative;
+        margin: 20px 0;
+      }
+
+     .ph-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: #4CAF50; /* Single green color instead of gradient */
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+      .ph-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--primary);
+        cursor: pointer;
+        border: 3px solid white;
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        transition: all 0.2s ease;
+      }
+
+      .ph-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+        box-shadow: 0 6px 16px rgba(46, 125, 50, 0.4);
+      }
+
+      .ph-slider::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--primary);
+        cursor: pointer;
+        border: 3px solid white;
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        transition: all 0.2s ease;
+      }
+
+      .ph-value-display {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 15px;
+      }
+
+      .ph-current-value {
+        background: var(--primary);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        min-width: 80px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+      }
+
+      .ph-scale-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        font-size: 0.85rem;
+        color: #666;
+        font-weight: 500;
+      }
+
+      .ph-description {
+        text-align: center;
+        margin-top: 12px;
+        font-size: 0.9rem;
+        color: var(--secondary);
+        font-weight: 600;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border: none;
+        padding: 18px 50px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(46, 125, 50, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        min-width: 220px;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(46, 125, 50, 0.3);
+        background: linear-gradient(135deg, #388E3C, #689F38);
+      }
+
+      .btn-primary:active {
+        transform: translateY(-1px);
+      }
+
+      .submit-section {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #f0f0f0;
+        margin-top: 20px;
+      }
+
+      /* Results Section */
+      .results-section {
+        padding: 60px 0;
+        background-color: white;
+        display: none;
+      }
+
+      .results-card {
+        background: linear-gradient(135deg, var(--light), white);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 15px 35px rgba(27, 94, 32, 0.1);
+        text-align: center;
+        border: 2px solid rgba(46, 125, 50, 0.1);
+      }
+
+      .result-icon {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: white;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 32px;
-        margin-bottom: 25px;
-        margin-left: auto;
-        margin-right: auto;
-        transition: all 0.5s ease;
-        box-shadow: 0 4px 15px rgba(46, 125, 50, 0.1);
+        font-size: 40px;
+        margin: 0 auto 30px;
+        box-shadow: 0 10px 30px rgba(46, 125, 50, 0.2);
       }
 
-      .card:hover .feature-icon {
-        background: linear-gradient(45deg, var(--primary), var(--secondary));
-        color: white;
-        transform: rotateY(180deg);
-      }
-
-      .card h4 {
-        font-weight: 700;
-        margin-bottom: 16px;
-        color: var(--dark);
-      }
-
-      .card p {
-        color: #546E7A;
-        margin-bottom: 25px;
-        line-height: 1.7;
-      }
-
-      .btn-outline-primary {
+      .recommended-crop {
+        font-size: 2.5rem;
+        font-weight: 800;
         color: var(--primary);
-        border: 2px solid var(--primary);
-        transition: all 0.3s ease;
-        font-weight: 600;
-        padding: 9px 24px;
-        border-radius: 50px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
 
-      .btn-outline-primary:hover {
-        background-color: var(--primary);
+      .confidence-score {
+        font-size: 1.2rem;
+        color: var(--secondary);
+        margin-bottom: 25px;
+        font-weight: 600;
+      }
+
+      .crop-details {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-top: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #F0F0F0;
+      }
+
+      .detail-item:last-child {
+        border-bottom: none;
+      }
+
+      .detail-label {
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .detail-value {
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .btn-secondary {
+        background-color: var(--neutral);
+        color: var(--text);
+        border: 2px solid var(--neutral);
+        padding: 12px 30px;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+      }
+
+      .btn-secondary:hover {
+        background-color: var(--text);
         color: white;
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(46, 125, 50, 0.2);
+        border-color: var(--text);
+        transform: translateY(-2px);
       }
 
       /* Footer */
@@ -358,16 +511,6 @@
         min-height: 60px;
       }
 
-      .logo-area {
-        font-size: 1.5rem;
-        margin-bottom: 10px;
-      }
-
-      .logo-area i {
-        color: var(--secondary);
-        font-size: 1.8rem;
-      }
-
       footer p {
         margin: 0;
         opacity: 0.9;
@@ -376,26 +519,51 @@
 
       /* Responsive Adjustments */
       @media (max-width: 991px) {
-        .hero {
-          padding: 130px 0 110px;
+        .form-card {
+          padding: 35px;
         }
         
-        .hero h1 {
-          font-size: 2.8rem;
+        .form-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
         }
       }
 
       @media (max-width: 767px) {
-        .hero {
-          padding: 100px 0 90px;
+        .page-header {
+          padding: 80px 0 60px;
         }
         
-        .hero h1 {
+        .page-header h1 {
           font-size: 2.3rem;
         }
         
-        .services-section {
-          padding: 70px 0 50px;
+        .form-section {
+          padding: 40px 15px;
+        }
+        
+        .form-card {
+          padding: 25px;
+          border-radius: 20px;
+          margin: 0 10px;
+        }
+        
+        .section-title {
+          font-size: 1.8rem;
+        }
+        
+        .form-grid {
+          gap: 18px;
+        }
+        
+        .btn-primary {
+          padding: 16px 40px;
+          font-size: 1rem;
+          min-width: 180px;
+        }
+        
+        .recommended-crop {
+          font-size: 2rem;
         }
         
         .navbar-collapse {
@@ -405,23 +573,99 @@
           box-shadow: 0 10px 30px rgba(27, 94, 32, 0.1);
           margin-top: 15px;
         }
+
+        .ph-slider-group {
+          padding: 20px;
+        }
+
+        .ph-slider-group {
+    grid-column: 1 / -1; /* Full width on mobile */
+  }
       }
 
       @media (max-width: 576px) {
-        .hero h1 {
+        .page-header h1 {
           font-size: 2rem;
         }
         
-        .hero p {
-          font-size: 1.1rem;
-        }
-        
-        .footer-content {
-          text-align: center;
+        .form-card {
+          padding: 20px;
+          margin: 0 5px;
         }
         
         .section-title {
-          font-size: 1.75rem;
+          font-size: 1.6rem;
+        }
+        
+        .form-grid {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+        
+        .form-control {
+          padding: 14px 16px;
+          height: 52px;
+        }
+        
+        .btn-primary {
+          padding: 14px 30px;
+          min-width: 160px;
+          font-size: 0.95rem;
+        }
+        
+        .recommended-crop {
+          font-size: 1.8rem;
+        }
+        
+        .result-icon {
+          width: 80px;
+          height: 80px;
+          font-size: 32px;
+        }
+
+        .ph-slider-group {
+          padding: 15px;
+        }
+
+        .ph-scale-labels {
+          font-size: 0.75rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .form-section {
+          padding: 30px 10px;
+        }
+        
+        .form-card {
+          padding: 18px;
+          margin: 0;
+        }
+        
+        .section-title {
+          font-size: 1.5rem;
+          margin-bottom: 35px;
+        }
+        
+        .form-control {
+          padding: 12px 14px;
+          height: 48px;
+          font-size: 0.95rem;
+        }
+        
+        .form-label {
+          font-size: 0.9rem;
+          margin-bottom: 8px;
+        }
+        
+        .btn-primary {
+          padding: 12px 25px;
+          min-width: 140px;
+          font-size: 0.9rem;
+        }
+
+        .ph-slider-group {
+          padding: 12px;
         }
       }
     </style>
@@ -431,7 +675,7 @@
       <div class="container">
         <!-- Logo -->
         <a class="navbar-brand" href="index.html">
-          <i class="fas fa-seedling"></i> AgriSmart
+          <i class="fas fa-seedling"></i> CropAdvisor
         </a>
 
         <!-- Mobile Toggle Button -->
@@ -445,20 +689,23 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="index.html">Home</a>
+              <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="crop_recommendation.html">Crop
-                Recommendation</a>
+              <a class="nav-link active"
+                href="crop_recommendation.html">Crop</a>
             </li>
             <li class="nav-item">
               <a class="nav-link"
-                href="fertilizer_recommendation.html">Fertilizer
-                Recommendation</a>
+                href="fertilizer_recommendation.html">Fertilizer</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="pesticide_recommendation.html">Pesticide
-                Recommendation</a>
+              <a class="nav-link"
+                href="pesticide_recommendation.html">Pesticide</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"
+                href="pesticide_recommendation.html">Logout</a>
             </li>
           </ul>
         </div>
@@ -466,66 +713,162 @@
     </nav>
 
     <div class="main-content">
-      <section class="hero" id="home">
-        <div class="hero-pattern"></div>
-        <div class="container text-center">
-          <h1>Smart Farming Solutions for Better Yields</h1>
-          <p>Get personalized crop, fertilizer, and pesticide recommendations
-            based on your soil conditions and local climate</p>
-          <a href="crop_recommendation.html"
-            class="btn btn-light btn-lg rounded-pill">Get Started <i
-              class="fas fa-arrow-right ms-2"></i></a>
+      <!-- Form Section -->
+      <section class="form-section" id="cropForm">
+        <div class="container form-container">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <div class="form-card">
+                <h2 class="section-title">Enter Your Field Conditions</h2>
+                <form id="recommendationForm">
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="nitrogen" class="form-label">
+                        <i class="fas fa-leaf"></i> Nitrogen (N)
+                      </label>
+                      <input type="number" class="form-control" id="nitrogen"
+                        name="nitrogen"
+                        placeholder="Enter nitrogen level (kg/ha)" required
+                        min="0" step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="phosphorus" class="form-label">
+                        <i class="fas fa-flask"></i> Phosphorus (P)
+                      </label>
+                      <input type="number" class="form-control" id="phosphorus"
+                        name="phosphorus"
+                        placeholder="Enter phosphorus level (kg/ha)" required
+                        min="0" step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="potassium" class="form-label">
+                        <i class="fas fa-atom"></i> Potassium (K)
+                      </label>
+                      <input type="number" class="form-control" id="potassium"
+                        name="potassium"
+                        placeholder="Enter potassium level (kg/ha)" required
+                        min="0" step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="temperature" class="form-label">
+                        <i class="fas fa-thermometer-half"></i> Temperature
+                      </label>
+                      <input type="number" class="form-control" id="temperature"
+                        name="temperature"
+                        placeholder="Enter temperature (°C)" required min="-20"
+                        max="60" step="0.1">
+                    </div>
+
+                    <!-- pH Slider Section moved here -->
+                    <div class="ph-slider-group">
+                      <label for="ph" class="form-label">
+                        <i class="fas fa-vial"></i> pH Value
+                      </label>
+                      <div class="ph-slider-container">
+                        <input type="range" class="ph-slider" id="ph" name="ph"
+                          min="0" max="14" step="0.1" value="7" required>
+                        <div class="ph-value-display">
+                          <div class="ph-current-value" id="phValue">7.0</div>
+
+                        </div>
+                        <div class="ph-scale-labels">
+                          <span>Acidic (0)</span>
+                          <span>Neutral (7)</span>
+                          <span>Alkaline (14)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="rainfall" class="form-label">
+                        <i class="fas fa-cloud-rain"></i> Rainfall
+                      </label>
+                      <input type="number" class="form-control" id="rainfall"
+                        name="rainfall"
+                        placeholder="Enter rainfall (mm)" required min="0"
+                        step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="humidity" class="form-label">
+                        <i class="fas fa-tint"></i> Humidity
+                      </label>
+                      <input type="number" class="form-control" id="humidity"
+                        name="humidity"
+                        placeholder="Enter humidity (%)" required min="0"
+                        max="100" step="0.1">
+                    </div>
+                  </div>
+
+                  <div class="submit-section">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fas fa-search me-2"></i>Get Recommendation
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="services-section" id="services">
-        <div class="services-pattern"></div>
+      <!-- Results Section -->
+      <section class="results-section" id="resultsSection">
         <div class="container">
-          <h2 class="section-title">Our Smart Agricultural Services</h2>
-          <div class="row g-4">
-            <div class="col-md-4">
-              <div class="card h-100">
-                <div class="card-body text-center">
-                  <div class="feature-icon">
-                    <i class="fas fa-seedling"></i>
-                  </div>
-                  <h4>Crop Recommendations</h4>
-                  <p>Get data-driven crop suggestions based on your soil
-                    composition, climate conditions, and historical yield data
-                    for maximum productivity.</p>
-                  <a href="crop_recommendation.html"
-                    class="btn btn-outline-primary">Learn More</a>
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="results-card">
+                <div class="result-icon">
+                  <i class="fas fa-seedling"></i>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card h-100">
-                <div class="card-body text-center">
-                  <div class="feature-icon">
-                    <i class="fas fa-flask"></i>
+                <h3>Recommended Crop</h3>
+                <div class="recommended-crop" id="recommendedCrop">RICE</div>
+                <div class="confidence-score" id="confidenceScore">Confidence
+                  Score: 95%</div>
+                <p class="mb-4">Based on your soil and climate conditions, this
+                  crop is most suitable for your field.</p>
+
+                <div class="crop-details">
+                  <h5 class="mb-3 text-center"
+                    style="color: var(--primary); font-weight: 700;">Condition
+                    Summary</h5>
+                  <div class="detail-item">
+                    <span class="detail-label">Nitrogen Level</span>
+                    <span class="detail-value" id="displayNitrogen">--</span>
                   </div>
-                  <h4>Fertilizer Analysis</h4>
-                  <p>Receive precise fertilizer recommendations tailored to your
-                    specific crop needs and soil nutrient levels for optimal
-                    growth.</p>
-                  <a href="fertilizer_recommendation.html"
-                    class="btn btn-outline-primary">Learn More</a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card h-100">
-                <div class="card-body text-center">
-                  <div class="feature-icon">
-                    <i class="fas fa-bug"></i>
+                  <div class="detail-item">
+                    <span class="detail-label">Phosphorus Level</span>
+                    <span class="detail-value" id="displayPhosphorus">--</span>
                   </div>
-                  <h4>Pesticide Guidance</h4>
-                  <p>Find eco-friendly and effective pesticide options to
-                    protect your crops from pests and diseases while maintaining
-                    environmental balance.</p>
-                  <a href="pesticide_recommendation.html"
-                    class="btn btn-outline-primary">Learn More</a>
+                  <div class="detail-item">
+                    <span class="detail-label">Potassium Level</span>
+                    <span class="detail-value" id="displayPotassium">--</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Temperature</span>
+                    <span class="detail-value" id="displayTemperature">--</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">pH Value</span>
+                    <span class="detail-value" id="displayPH">--</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Rainfall</span>
+                    <span class="detail-value" id="displayRainfall">--</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Humidity</span>
+                    <span class="detail-value" id="displayHumidity">--</span>
+                  </div>
                 </div>
+
+                <button type="button" class="btn btn-secondary"
+                  onclick="resetForm()">
+                  <i class="fas fa-redo me-2"></i>Try Another Recommendation
+                </button>
               </div>
             </div>
           </div>
@@ -536,10 +879,7 @@
     <footer>
       <div class="container">
         <div class="footer-content">
-          <!-- <div class="logo-area mb-2">
-            <i class="fas fa-seedling"></i> AgriSmart
-          </div> -->
-          <p>&copy; 2024 AgriSmart. All Rights Reserved.</p>
+          <p>&copy; 2024 CropAdvisor. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
@@ -547,6 +887,34 @@
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
+      // pH slider functionality
+      const phSlider = document.getElementById('ph');
+      const phValue = document.getElementById('phValue');
+      const phDescription = document.getElementById('phDescription');
+
+      function updatePhDisplay(value) {
+        phValue.textContent = parseFloat(value).toFixed(1);
+        
+        if (value < 3) {
+          phDescription.textContent = 'Highly Acidic';
+        } else if (value < 6) {
+          phDescription.textContent = 'Acidic';
+        } else if (value < 7.5) {
+          phDescription.textContent = 'Neutral';
+        } else if (value < 9) {
+          phDescription.textContent = 'Alkaline';
+        } else {
+          phDescription.textContent = 'Highly Alkaline';
+        }
+      }
+
+      phSlider.addEventListener('input', function(e) {
+        updatePhDisplay(e.target.value);
+      });
+
+      // Initialize pH display
+      updatePhDisplay(phSlider.value);
+
       // Navbar scroll effect
       window.addEventListener('scroll', function() {
         const navbar = document.getElementById('mainNav');
@@ -556,6 +924,51 @@
           navbar.classList.remove('scrolled');
         }
       });
+
+      // Form submission handler
+      document.getElementById('recommendationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const formData = new FormData(this);
+        const data = {};
+        for (let [key, value] of formData.entries()) {
+          data[key] = parseFloat(value); // Convert values to numbers
+        }
+        
+        // Display input values in results
+        document.getElementById('displayNitrogen').textContent = `${data.nitrogen} kg/ha`;
+        document.getElementById('displayPhosphorus').textContent = `${data.phosphorus} kg/ha`;
+        document.getElementById('displayPotassium').textContent = `${data.potassium} kg/ha`;
+        document.getElementById('displayTemperature').textContent = `${data.temperature} °C`;
+        document.getElementById('displayPH').textContent = data.ph.toFixed(1);
+        document.getElementById('displayRainfall').textContent = `${data.rainfall} mm`;
+        document.getElementById('displayHumidity').textContent = `${data.humidity} %`;
+        
+        // Show results section and hide form section
+        document.getElementById('cropForm').style.display = 'none';
+        const resultsSection = document.getElementById('resultsSection');
+        resultsSection.style.display = 'block';
+        
+        // Scroll to results with a slight delay to ensure display change is complete
+        setTimeout(() => {
+          resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }); 
+
+      // Reset form function
+      function resetForm() {
+        document.getElementById('recommendationForm').reset();
+        document.getElementById('cropForm').style.display = 'block';
+        document.getElementById('resultsSection').style.display = 'none';
+        
+        // Reset pH slider display
+        updatePhDisplay(7);
+        document.getElementById('ph').value = 7;
+        
+        // Scroll back to form
+        document.getElementById('cropForm').scrollIntoView({ behavior: 'smooth' });
+      }
     </script>
   </body>
 </html>
