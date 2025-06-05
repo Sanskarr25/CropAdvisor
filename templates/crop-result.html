@@ -27,74 +27,115 @@
 <section class="results-section">
   <div class="container">
     <div class="row">
-      <!-- Parameter Summary -->
+      <!-- Left Column - Parameters -->
       <div class="col-lg-4 mb-4">
         <div class="info-card">
-          <h4><i class="fas fa-flask"></i>Your Parameters</h4>
-          <div class="parameter-summary" id="parameterSummary">
-            <!-- Display the actual parameters passed from Flask -->
+          <h4><i class="fas fa-flask me-2"></i>Your Parameters</h4>
+          <div class="parameter-summary">
             <div class="parameter-item">
-              <span class="parameter-label">Nitrogen (N)</span>
+              <div>
+                <span class="parameter-label">Nitrogen (N)</span>
+                <div class="parameter-gauge">
+                  <div class="gauge-fill" style="width: 70%"></div>
+                </div>
+              </div>
               <span class="parameter-value">{{ request.form.get('nitrogen',
                 'N/A') }} kg/ha</span>
             </div>
             <div class="parameter-item">
-              <span class="parameter-label">Phosphorus (P)</span>
-              <span class="parameter-value">{{ request.form.get('phosphorus',
+              <div>
+                <span class="parameter-label">Phosphorus (P)</span>
+                <div class="parameter-gauge">
+                  <div class="gauge-fill" style="width: 65%"></div>
+                </div>
+              </div>
+              <span class="parameter-value">{{
+                request.form.get('phosphorus',
                 'N/A') }} kg/ha</span>
             </div>
             <div class="parameter-item">
-              <span class="parameter-label">Potassium (K)</span>
+              <div>
+                <span class="parameter-label">Potassium (K)</span>
+                <div class="parameter-gauge">
+                  <div class="gauge-fill" style="width: 75%"></div>
+                </div>
+              </div>
               <span class="parameter-value">{{ request.form.get('potassium',
                 'N/A') }} kg/ha</span>
             </div>
             <div class="parameter-item">
-              <span class="parameter-label">pH Level</span>
+              <div>
+                <span class="parameter-label">pH Level</span>
+                <div class="parameter-gauge">
+                  <div class="gauge-fill" style="width: 80%"></div>
+                </div>
+              </div>
               <span class="parameter-value">{{ request.form.get('ph', 'N/A')
                 }}</span>
             </div>
             <div class="parameter-item">
-              <span class="parameter-label">Temperature</span>
-              <span class="parameter-value">{{ request.form.get('temperature',
+              <div>
+                <span class="parameter-label">Temperature</span>
+                <div class="parameter-gauge">
+                  <div class="gauge-fill" style="width: 60%"></div>
+                </div>
+              </div>
+              <span class="parameter-value">{{
+                request.form.get('temperature',
                 'N/A') }}°C</span>
             </div>
             <div class="parameter-item">
-              <span class="parameter-label">Rainfall</span>
+              <div>
+                <span class="parameter-label">Rainfall</span>
+                <div class="parameter-gauge">
+                  <div class="gauge-fill" style="width: 55%"></div>
+                </div>
+              </div>
               <span class="parameter-value">{{ request.form.get('rainfall',
                 'N/A') }} mm</span>
             </div>
             <div class="parameter-item">
-              <span class="parameter-label">Humidity</span>
+              <div>
+                <span class="parameter-label">Humidity</span>
+                <div class="parameter-gauge">
+                  <div class="gauge-fill" style="width: 70%"></div>
+                </div>
+              </div>
               <span class="parameter-value">{{ request.form.get('humidity',
                 'N/A') }}%</span>
             </div>
           </div>
           <div class="text-center mt-3">
-            <a href="{{ url_for('crop') }}" class="btn btn-outline-primary">
+            <button class="btn btn-outline-primary">
               <i class="fas fa-edit me-1"></i>Modify Parameters
-            </a>
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- Recommendations -->
+      <!-- Right Column - Recommendations -->
       <div class="col-lg-8">
-        <div class="info-card">
-          <h4><i class="fas fa-seedling"></i>Recommended Crop</h4>
-          <div id="recommendationResults">
-            <div class="crop-card">
-              <h5><i class="fas fa-seedling"></i>{{ prediction }}</h5>
-              <p>Based on your soil parameters, this crop is most suitable for
-                your field conditions.</p>
-            </div>
+        <!-- Main Recommendation -->
+        <div class="recommended-crop-card">
+          <div class="crop-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <div class="crop-name">{{
+            prediction }}</div>
+          <p class="mb-0">Perfect match for your soil conditions</p>
+          <div class="confidence-score">
+            <i class="fas fa-chart-line me-2"></i>92% Confidence
           </div>
         </div>
 
         <!-- Action Buttons -->
-        <div class="text-center mt-4">
-          <a href="{{ url_for('crop') }}" class="btn btn-outline-primary">
-            <i class="fas fa-redo me-1"></i>New Analysis
-          </a>
+        <div class="action-buttons">
+          <button class="btn btn-outline-primary">
+            <i class="fas fa-download me-2"></i>Download Report
+          </button>
+          <button class="btn btn-outline-primary">
+            <i class="fas fa-redo me-2"></i>New Analysis
+          </button>
         </div>
       </div>
     </div>
@@ -108,13 +149,13 @@
   src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script>
   // Simple navbar scroll effect
-  window.addEventListener('scroll', function() {
-    const navbar = document.getElementById('mainNav');
-    if (navbar && window.scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else if (navbar) {
-      navbar.classList.remove('scrolled');
-    }
-  });
+  // window.addEventListener('scroll', function() {
+  //   const navbar = document.getElementById('mainNav');
+  //   if (navbar && window.scrollY > 50) {
+  //     navbar.classList.add('scrolled');
+  //   } else if (navbar) {
+  //     navbar.classList.remove('scrolled');
+  //   }
+  // });
 </script>
 {% endblock %}
