@@ -25,66 +25,69 @@
 
 {% block body %}
 <section class="form-section">
-        <div class="form-pattern"></div>
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-8">
-              <div class="form-card">
-                <h3>Soil and Environmental Parameters</h3>
-                <form id="cropRecommendationForm" method="POST" action="{{ url_for('crop_prediction') }}">
-                  <div class="row g-4">
+  <div class="form-pattern"></div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="form-card">
+          <h3>Soil and Environmental Parameters</h3>
+          <form id="cropRecommendationForm" method="POST"
+            action="{{ url_for('crop_prediction') }}">
+            <div class="row g-4">
 
+              <!-- Nitrogen (N) -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="nitrogen" class="form-label">Nitrogen (N)
+                    Content <span
+                      class="text-muted">(kg/ha)</span></label>
+                  <input type="number" class="form-control" id="nitrogen"
+                    name="nitrogen" value="50" min="0" max="140">
+                  <div class="form-text">Typical range: 10-100 kg/ha</div>
+                </div>
+              </div>
 
-                    <!-- Nitrogen (N) -->
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="nitrogen" class="form-label">Nitrogen (N)
-                          Content <span
-                            class="text-muted">(kg/ha)</span></label>
-                        <input type="number" class="form-control" id="nitrogen"
-                          name="nitrogen" value="50" min="0" max="140">
-                        <div class="form-text">Typical range: 10-100 kg/ha</div>
-                      </div>
-                    </div>
+              <!-- Phosphorus (P) -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="phosphorus" class="form-label">Phosphorus
+                    (P) Content <span
+                      class="text-muted">(kg/ha)</span></label>
+                  <input type="number" class="form-control"
+                    id="phosphorus" name="phosphorus" value="50" min="0"
+                    max="140">
+                  <div class="form-text">Typical range: 10-100 kg/ha</div>
+                </div>
+              </div>
 
-                    <!-- Phosphorus (P) -->
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="phosphorus" class="form-label">Phosphorus
-                          (P) Content <span
-                            class="text-muted">(kg/ha)</span></label>
-                        <input type="number" class="form-control"
-                          id="phosphorus" name="phosphorus" value="50" min="0" max="140">
-                        <div class="form-text">Typical range: 10-100 kg/ha</div>
-                      </div>
-                    </div>
+              <!-- Potassium (K) -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="potassium" class="form-label">Potassium (K)
+                    Content <span
+                      class="text-muted">(kg/ha)</span></label>
+                  <input type="number" class="form-control" id="potassium"
+                    name="potassium"
+                    value="50" min="0" max="200">
+                  <div class="form-text">Typical range: 10-100 kg/ha</div>
+                </div>
+              </div>
 
-                    <!-- Potassium (K) -->
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="potassium" class="form-label">Potassium (K)
-                          Content <span
-                            class="text-muted">(kg/ha)</span></label>
-                        <input type="number" class="form-control" id="potassium" name="potassium"
-                          value="50" min="0" max="200">
-                        <div class="form-text">Typical range: 10-100 kg/ha</div>
-                      </div>
-                    </div>
+              <!-- Temperature -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="temperature" class="form-label">Temperature
+                    <span class="text-muted">(°C)</span></label>
+                  <input type="number" class="form-control"
+                    id="temperature" name="temperature" value="25" min="0"
+                    max="40"
+                    step="0.1">
+                  <div class="form-text">Average temperature</div>
+                </div>
+              </div>
 
-                    <!-- Temperature -->
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="temperature" class="form-label">Temperature
-                          <span class="text-muted">(°C)</span></label>
-                        <input type="number" class="form-control"
-                          id="temperature" name="temperature" value="25" min="0" max="40"
-                          step="0.1">
-                        <div class="form-text">Average temperature</div>
-                      </div>
-                    </div>
-
-                    <!-- pH Level - In its own row -->
-                     <div class="col-md-6">
+              <!-- pH Level - In its own row -->
+              <!-- <div class="col-md-6">
                       <div class="mb-3">
                         <label for="ph" class="form-label">pH
                           </label>
@@ -93,77 +96,80 @@
                           step="0.1">
                         <div class="form-text">ph Value</div>
                       </div>
-                    </div>
-                    <!-- <div class="col-12">
-                      <div class="mb-3">
-                        <label for="ph" class="form-label">pH Level</label>
-                        <input type="range" class="form-range" name="ph" min="0" max="14"
-                          step="0.1" id="ph" value="6.5"
-                          oninput="updateRangeValue('ph')">
-                        <div class="d-flex justify-content-between">
-                          <small class="text-muted">Acidic (0)</small>
-                          <small class="text-muted">Neutral (7)</small>
-                          <small class="text-muted">Alkaline (14)</small>
-                        </div>
-                        <div class="text-center mt-2">
-                          <span class="range-value" id="ph-value">6.5</span>
-                        </div>
-                      </div>
                     </div> -->
-
-                    <!-- Rainfall -->
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="rainfall" class="form-label">Rainfall <span
-                            class="text-muted">(mm)</span></label>
-                        <input type="number" class="form-control" id="rainfall" name="rainfall"
-                          value="100" min="0" max="300">
-                        <div class="form-text">Average monthly rainfall</div>
-                      </div>
-                    </div>
-
-                    <!-- Humidity -->
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="humidity" class="form-label">Humidity <span
-                            class="text-muted">(%)</span></label>
-                        <input type="number" class="form-control" id="humidity" name="humidity"
-                          value="70" min="0" max="100">
-                        <div class="form-text">Average humidity percentage</div>
-                      </div>
-                    </div>
+              <div class="col-12">
+                <div class="mb-3">
+                  <label for="ph" class="form-label">pH Level</label>
+                  <input type="range" class="form-range" name="ph" min="0"
+                    max="14"
+                    step="0.1" id="ph" value="6.5"
+                    oninput="updateRangeValue('ph')">
+                  <div class="d-flex justify-content-between">
+                    <small class="text-muted">Acidic (0)</small>
+                    <small class="text-muted">Neutral (7)</small>
+                    <small class="text-muted">Alkaline (14)</small>
                   </div>
-
-                  <div class="text-center mt-4">
-                    <button type="button" class="btn btn-secondary me-2"
-                      onclick="resetForm()">Reset</button>
-                    <button type="submit" class="btn btn-primary">Get Recommendation</button>
+                  <div class="text-center mt-2">
+                    <span class="range-value" id="ph-value">6.5</span>
                   </div>
-                </form>
+                </div>
+              </div>
+
+              <!-- Rainfall -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="rainfall" class="form-label">Rainfall <span
+                      class="text-muted">(mm)</span></label>
+                  <input type="number" class="form-control" id="rainfall"
+                    name="rainfall"
+                    value="100" min="0" max="300">
+                  <div class="form-text">Average monthly rainfall</div>
+                </div>
+              </div>
+
+              <!-- Humidity -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="humidity" class="form-label">Humidity <span
+                      class="text-muted">(%)</span></label>
+                  <input type="number" class="form-control" id="humidity"
+                    name="humidity"
+                    value="70" min="0" max="100">
+                  <div class="form-text">Average humidity percentage</div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Results Section (initially hidden) -->
+            <div class="text-center mt-4">
+              <button type="button" class="btn btn-secondary me-2"
+                onclick="resetForm()">Reset</button>
+              <button type="submit" class="btn btn-primary">Get
+                Recommendation</button>
+            </div>
+          </form>
         </div>
-      </section>
-    </div>
-                                        
-    <!-- Loading Spinner -->
-    <!-- <div class="spinner-overlay" id="loadingSpinner">
-      <div class="spinner-content">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-text">Analyzing your data...</div>
       </div>
-    </div> -->
+    </div>
+
+    <!-- Results Section (initially hidden) -->
+  </div>
+</section>
+
+<!-- Loading Spinner -->
+<div class="spinner-overlay" id="loadingSpinner">
+  <div class="spinner-content">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-text">Analyzing your data...</div>
+  </div>
+</div>
 
 {% endblock %}
 
-
 {% block extra_js %}
 <!-- External Bootstrap JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 {% endblock %}
