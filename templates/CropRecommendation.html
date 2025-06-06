@@ -32,7 +32,8 @@
         <div class="form-card">
           <h3>Soil and Environmental Parameters</h3>
           <form id="cropRecommendationForm" method="POST"
-            action="{{ url_for('crop_prediction') }}">
+            action="{{ url_for('crop_prediction') }}"
+            onsubmit="return validateForm()">
             <div class="row g-4">
 
               <!-- Nitrogen (N) -->
@@ -42,7 +43,8 @@
                     Content <span
                       class="text-muted">(kg/ha)</span></label>
                   <input type="number" class="form-control" id="nitrogen"
-                    name="nitrogen" value="50" min="0" max="140">
+                    name="nitrogen" placeholder="Enter Value" min="0" max="140"
+                    required>
                   <div class="form-text">Typical range: 10-100 kg/ha</div>
                 </div>
               </div>
@@ -54,8 +56,9 @@
                     (P) Content <span
                       class="text-muted">(kg/ha)</span></label>
                   <input type="number" class="form-control"
-                    id="phosphorus" name="phosphorus" value="50" min="0"
-                    max="140">
+                    id="phosphorus" name="phosphorus" placeholder="Enter Value"
+                    min="0"
+                    max="140" required>
                   <div class="form-text">Typical range: 10-100 kg/ha</div>
                 </div>
               </div>
@@ -68,7 +71,7 @@
                       class="text-muted">(kg/ha)</span></label>
                   <input type="number" class="form-control" id="potassium"
                     name="potassium"
-                    value="50" min="0" max="200">
+                    placeholder="Enter Value" min="0" max="200" required>
                   <div class="form-text">Typical range: 10-100 kg/ha</div>
                 </div>
               </div>
@@ -79,30 +82,20 @@
                   <label for="temperature" class="form-label">Temperature
                     <span class="text-muted">(°C)</span></label>
                   <input type="number" class="form-control"
-                    id="temperature" name="temperature" value="25" min="0"
+                    id="temperature" name="temperature"
+                    placeholder="Enter Value" min="0"
                     max="40"
-                    step="0.1">
+                    step="0.1" required>
                   <div class="form-text">Average temperature</div>
                 </div>
               </div>
 
-              <!-- pH Level - In its own row -->
-              <!-- <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="ph" class="form-label">pH
-                          </label>
-                        <input type="number" class="form-control"
-                          id="ph" name="ph" value="7" min="0" max="14"
-                          step="0.1">
-                        <div class="form-text">ph Value</div>
-                      </div>
-                    </div> -->
               <div class="col-12">
                 <div class="mb-3">
                   <label for="ph" class="form-label">pH Level</label>
                   <input type="range" class="form-range" name="ph" min="0"
                     max="14"
-                    step="0.1" id="ph" value="6.5"
+                    step="0.1" id="ph" value="7"
                     oninput="updateRangeValue('ph')">
                   <div class="d-flex justify-content-between">
                     <small class="text-muted">Acidic (0)</small>
@@ -110,7 +103,7 @@
                     <small class="text-muted">Alkaline (14)</small>
                   </div>
                   <div class="text-center mt-2">
-                    <span class="range-value" id="ph-value">6.5</span>
+                    <span class="range-value" id="ph-value">7.0</span>
                   </div>
                 </div>
               </div>
@@ -122,7 +115,7 @@
                       class="text-muted">(mm)</span></label>
                   <input type="number" class="form-control" id="rainfall"
                     name="rainfall"
-                    value="100" min="0" max="300">
+                    placeholder="Enter Value" min="0" max="300" required>
                   <div class="form-text">Average monthly rainfall</div>
                 </div>
               </div>
@@ -134,7 +127,7 @@
                       class="text-muted">(%)</span></label>
                   <input type="number" class="form-control" id="humidity"
                     name="humidity"
-                    value="70" min="0" max="100">
+                    placeholder="Enter Value" min="0" max="100" required>
                   <div class="form-text">Average humidity percentage</div>
                 </div>
               </div>
@@ -171,5 +164,60 @@
 <!-- External Bootstrap JS -->
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Function to update range slider value display
+function updateRangeValue(inputId) {
+  const input = document.getElementById(inputId);
+  const valueDisplay = document.getElementById(inputId + '-value');
+  valueDisplay.textContent = parseFloat(input.value).toFixed(1);
+}
+
+// Function to validate form before submission
+function validateForm() {
+  const requiredFields = ['nitrogen', 'phosphorus', 'potassium', 'temperature', 'rainfall', 'humidity'];
+  let isValid = true;
+  let emptyFields = [];
+
+  // Check all required fields
+  for (let fieldId of requiredFields) {
+    const field = document.getElementById(fieldId);
+    if (!field.value || field.value.trim() === '') {
+      isValid = false;
+      emptyFields.push(field.previousElementSibling.textContent.replace(/\s*\([^)]*\)\s*/g, '').trim());
+      field.classList.add('is-invalid');
+    } else {
+      field.classList.remove('is-invalid');
+    }
+  }
+
+  // Show error message if validation fails
+  if (!isValid) {
+    alert('Please fill in all required fields: ' + emptyFields.join(', '));
+    return false;
+  }
+
+  // Show loading spinner
+  document.getElementById('loadingSpinner').style.display = 'flex';
+  return true;
+}
+
+// Function to reset form
+function resetForm() {
+  document.getElementById('cropRecommendationForm').reset();
+  // Reset pH value display
+  document.getElementById('ph-value').textContent = '7.0';
+  // Remove any validation classes
+  const inputs = document.querySelectorAll('.form-control');
+  inputs.forEach(input => {
+    input.classList.remove('is-invalid');
+  });
+}
+
+// Initialize pH value display on page load
+document.addEventListener('DOMContentLoaded', function() {
+  updateRangeValue('ph');
+});
+</script>
 
 {% endblock %}
