@@ -62,7 +62,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
                                      
 @app.route('/farmer-index')
 def farmerIndex():
