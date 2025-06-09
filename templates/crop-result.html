@@ -7,10 +7,10 @@
 
 {% block nav %}
 <li class="nav-item">
-  <a class="nav-link active" href="{{ url_for('farmerIndex') }}">Home</a>
+  <a class="nav-link" href="{{ url_for('farmerIndex') }}">Home</a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="{{ url_for('crop') }}">Crop</a>
+  <a class="nav-link active" href="{{ url_for('crop') }}">Crop</a>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="{{ url_for('fertilizer') }}">Fertilizer</a>
@@ -130,10 +130,12 @@
 
         <!-- Action Buttons -->
         <div class="action-buttons">
-          <button class="btn btn-outline-primary">
+          <a href="{{ url_for('download_crop_report') }}"
+            class="btn btn-outline-primary" id="downloadBtn">
             <i class="fas fa-download me-2"></i>Download Report
-          </button>
-          <button class="btn btn-outline-primary">
+          </a>
+          <button class="btn btn-outline-primary"
+            href='{{ url_for('crop') }}'">
             <i class="fas fa-redo me-2"></i>New Analysis
           </button>
         </div>
@@ -149,13 +151,29 @@
   src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script>
   // Simple navbar scroll effect
-  // window.addEventListener('scroll', function() {
-  //   const navbar = document.getElementById('mainNav');
-  //   if (navbar && window.scrollY > 50) {
-  //     navbar.classList.add('scrolled');
-  //   } else if (navbar) {
-  //     navbar.classList.remove('scrolled');
-  //   }
-  // });
+  window.addEventListener('scroll', function() {
+     const navbar = document.getElementById('mainNav');
+    if (navbar && window.scrollY > 50) {
+       navbar.classList.add('scrolled');
+     } else if (navbar) {
+       navbar.classList.remove('scrolled');
+     }
+   });
+
+  // Download report functionality with loading state
+  document.getElementById('downloadBtn').addEventListener('click', function(e) {
+    const btn = this;
+    const originalText = btn.innerHTML;
+    
+    // Show loading state
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Generating PDF...';
+    btn.disabled = true;
+    
+    // Reset button after a delay (PDF generation time)
+    setTimeout(function() {
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }, 3000);
+  });
 </script>
 {% endblock %}
