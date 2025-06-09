@@ -1,147 +1,236 @@
-{% extends "layout.html" %} {% block nav %}
-<li><a href="{{ url_for('farmerIndex') }}">Home</a></li>
-<li><a href="CropRecommendation.html">Crop</a></li>
-<li><a href="FertilizerRecommendation.html" class="active">Fertilizer</a></li>
-<li><a href="PesticideRecommendation.html">Pesticide</a></li>
-<li><a href="{{ url_for('logout_alt') }}">Logout</a></li>
-{% endblock %} {% block body %}
-<br /><br />
-<h2 style="text-align: center; margin: 0px; color: black">
-  <b>Get informed advice on fertilizer based on soil</b>
-</h2>
-<br />
+{% extends "layout.html" %}
 
-<div
-  style="
-    width: 350px;
-    height: 60rem;
-    margin: 0px auto;
-    color: black;
-    border-radius: 25px;
-    padding: 10px 10px;
-  ">
-  <form method="POST" action="{{url_for('fertilizer_recommend')}}">
-    <div class="form-group">
-      <label for="Nitrogen" style="font-size: 17px"><b>Nitrogen
-          (ratio)</b></label>
-      <input
-        type="number"
-        class="form-control"
-        id="Nitrogen"
-        name="nitrogen"
-        max="100"
-        min="0"
-        placeholder="Enter the value (example:50)"
-        style="font-weight: bold"
-        required />
-    </div>
-    <div class="form-group">
-      <label for="Phosphorous" style="font-size: 17px"><b>Phosphorous
-          (ratio)</b></label>
-      <input
-        type="number"
-        class="form-control"
-        id="Phosphorous"
-        name="phosphorous"
-        max="100"
-        min="0"
-        placeholder="Enter the value (example:50)"
-        style="font-weight: bold"
-        required />
-    </div>
+{% block extra_css %}
+<link rel="stylesheet"
+  href="{{ url_for('static', filename='css/fertilizer.css') }}">
+{% endblock %}
 
-    <div class="form-group">
-      <label for="Potassium" style="font-size: 17px"><b>Potassium
-          (ratio)</b></label>
-      <input
-        type="number"
-        class="form-control"
-        id="Potassium"
-        name="potassium"
-        max="100"
-        min="0"
-        placeholder="Enter the value (example:50)"
-        style="font-weight: bold"
-        required />
-    </div>
+{% block nav %}
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('farmerIndex') }}">Home</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('crop') }}">Crop</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link active" href="{{ url_for('fertilizer') }}">Fertilizer</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('pesticide') }}">Pesticide</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+</li>
+{% endblock %}
 
-    <div class="form-group">
-      <label for="crop" class="form-label">Select Crop</label>
-      <select class="form-control" id="crop" name="cropname" required>
-        <option selected>apple</option>
-        <option>banana</option>
-        <option>blackgram</option>
-        <option>chickpea</option>
-        <option>coconut</option>
-        <option>coffee</option>
-        <option>cotton</option>
-        <option>grapes</option>
-        <option>groundnut</option>
-        <option>jute</option>
-        <option>kidneybeans</option>
-        <option>lentil</option>
-        <option>maize</option>
-        <option>mango</option>
-        <option>mothbeans</option>
-        <option>mungbean</option>
-        <option>muskmelon</option>
-        <option>mustard</option>
-        <option>orange</option>
-        <option>paddy</option>
-        <option>papaya</option>
-        <option>pearlmillet</option>
-        <option>pigeonpea</option>
-        <option>pomegranate</option>
-        <option>rapeseed</option>
-        <option>rice</option>
-        <option>sorghum</option>
-        <option>sugarcane</option>
-        <option>watermelon</option>
-        <option>wheat</option>
-      </select>
-      <small class="input-help">Choose the crop you're interested in
-        growing</small>
-    </div>
+{% block body %}
+<section class="form-section">
+  <div class="form-pattern"></div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="form-card">
+          <div class="text-center mb-4">
 
-    <div class="d-flex justify-content-center">
-      &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-      <button
-        type="submit"
-        style="
-          color: #82c760;
-          font-weight: bold;
-          background-color: black;
-          width: 130px;
-          height: 50px;
-          border-radius: 12px;
-          font-size: 21px;
-        ">
-        Predict
-      </button>
-    </div>
-  </form>
-</div>
+            <h3>Soil Nutrient Analysis & Fertilizer Recommendation</h3>
 
-<!--Footer Section-->
-<footer>
-  <div class="footer-content">
-    <h3 class="top-content">Crop<span>Advisors</span></h3>
-    <p class="paragraph">
-      CropAdvisors is a platform which recommends the best Crop to grow,
-      Fertilizers to use, as well as Pesticides based on you provided data.
-    </p>
+          </div>
 
-    <div>
-      <h2 class="below-p">Any Queries ?</h2>
+          <!-- <form id="fertilizerRecommendationForm" method="POST"
+            action="{{ url_for('fertilizer_recommend') }}"
+            onsubmit="return validateForm()"> -->
+          <form method="POST" action="{{url_for('fertilizer_recommend')}}">
 
-      <button class="contact-us">Contact Us</button>
-    </div>
-    <br />
+            <div class="row g-4">
 
-    <div class="footer-bottom">
-      <p>Copyright &copy; 2023 CropAdvisors</p>
+              <!-- Nitrogen -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="nitrogen" class="form-label">
+                    <i class="fas fa-leaf me-2"></i>Nitrogen (N) Content <span
+                      class="text-muted">(ratio)</span>
+                  </label>
+                  <input type="number"
+                    class="form-control"
+                    id="nitrogen"
+                    name="nitrogen"
+                    max="100"
+                    min="0"
+                    placeholder="Enter the value (example: 50)"
+                    required>
+                  <div class="form-text">Typical range: 0-100 ratio</div>
+                </div>
+              </div>
+
+              <!-- Phosphorous -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="phosphorous" class="form-label">
+                    <i class="fas fa-seedling me-2"></i>Phosphorous (P) Content
+                    <span class="text-muted">(ratio)</span>
+                  </label>
+                  <input type="number"
+                    class="form-control"
+                    id="phosphorous"
+                    name="phosphorous"
+                    max="100"
+                    min="0"
+                    placeholder="Enter the value (example: 50)"
+                    required>
+                  <div class="form-text">Typical range: 0-100 ratio</div>
+                </div>
+              </div>
+
+              <!-- Potassium -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="potassium" class="form-label">
+                    <i class="fas fa-spa me-2"></i>Potassium (K) Content <span
+                      class="text-muted">(ratio)</span>
+                  </label>
+                  <input type="number"
+                    class="form-control"
+                    id="potassium"
+                    name="potassium"
+                    max="100"
+                    min="0"
+                    placeholder="Enter the value (example: 50)"
+                    required>
+                  <div class="form-text">Typical range: 0-100 ratio</div>
+                </div>
+              </div>
+
+              <!-- Crop Selection -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="crop" class="form-label">
+                    <i class="fas fa-wheat me-2"></i>Select Crop
+                  </label>
+                  <select class="form-select" id="crop" name="cropname"
+                    required>
+                    <option value>Choose your crop...</option>
+                    <option value="apple">Apple</option>
+                    <option value="banana">Banana</option>
+                    <option value="blackgram">Black Gram</option>
+                    <option value="chickpea">Chickpea</option>
+                    <option value="coconut">Coconut</option>
+                    <option value="coffee">Coffee</option>
+                    <option value="cotton">Cotton</option>
+                    <option value="grapes">Grapes</option>
+                    <option value="groundnut">Groundnut</option>
+                    <option value="jute">Jute</option>
+                    <option value="kidneybeans">Kidney Beans</option>
+                    <option value="lentil">Lentil</option>
+                    <option value="maize">Maize</option>
+                    <option value="mango">Mango</option>
+                    <option value="mothbeans">Moth Beans</option>
+                    <option value="mungbean">Mung Bean</option>
+                    <option value="muskmelon">Muskmelon</option>
+                    <option value="mustard">Mustard</option>
+                    <option value="orange">Orange</option>
+                    <option value="paddy">Paddy</option>
+                    <option value="papaya">Papaya</option>
+                    <option value="pearlmillet">Pearl Millet</option>
+                    <option value="pigeonpea">Pigeon Pea</option>
+                    <option value="pomegranate">Pomegranate</option>
+                    <option value="rapeseed">Rapeseed</option>
+                    <option value="rice">Rice</option>
+                    <option value="sorghum">Sorghum</option>
+                    <option value="sugarcane">Sugarcane</option>
+                    <option value="watermelon">Watermelon</option>
+                    <option value="wheat">Wheat</option>
+                  </select>
+                  <div class="form-text">Choose the crop you're interested in
+                    growing</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center mt-4">
+              <button type="button" class="btn btn-secondary me-2"
+                onclick="resetForm()">Reset</button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search me-2"></i>Get Recommendation
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-</footer>
+</section>
+
+<!-- Loading Spinner -->
+<div class="spinner-overlay" id="loadingSpinner">
+  <div class="spinner-content">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-text">Analyzing your soil data...</div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- External Bootstrap JS -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Function to validate form before submission
+function validateForm() {
+  const requiredFields = ['nitrogen', 'phosphorous', 'potassium', 'crop'];
+  let isValid = true;
+  let emptyFields = [];
+
+  // Check all required fields
+  for (let fieldId of requiredFields) {
+    const field = document.getElementById(fieldId);
+    if (!field.value || field.value.trim() === '') {
+      isValid = false;
+      const labelText = field.previousElementSibling.textContent.replace(/\s*\([^)]*\)\s*/g, '').trim();
+      emptyFields.push(labelText.replace(/[^\w\s]/gi, '').trim());
+      field.classList.add('is-invalid');
+    } else {
+      field.classList.remove('is-invalid');
+    }
+  }
+
+  // Show error message if validation fails
+  if (!isValid) {
+    alert('Please fill in all required fields: ' + emptyFields.join(', '));
+    return false;
+  }
+
+  // Show loading spinner
+  document.getElementById('loadingSpinner').style.display = 'flex';
+  return true;
+}
+
+// Function to reset form
+function resetForm() {
+  document.getElementById('fertilizerRecommendationForm').reset();
+  // Remove any validation classes
+  const inputs = document.querySelectorAll('.form-control, .form-select');
+  inputs.forEach(input => {
+    input.classList.remove('is-invalid');
+  });
+}
+
+// Add some basic form enhancements
+document.addEventListener('DOMContentLoaded', function() {
+  // Add focus effects
+  const inputs = document.querySelectorAll('.form-control, .form-select');
+  inputs.forEach(input => {
+    input.addEventListener('focus', function() {
+      this.parentElement.classList.add('focused');
+    });
+    
+    input.addEventListener('blur', function() {
+      this.parentElement.classList.remove('focused');
+    });
+  });
+});
+</script>
 
 {% endblock %}
