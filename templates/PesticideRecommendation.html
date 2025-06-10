@@ -1,76 +1,118 @@
-{% extends "layout.html" %} {% block nav %}
-<li><a href="{{ url_for('farmerIndex') }}">Home</a></li>
-<li><a href="CropRecommendation.html">Crop</a></li>
-<li><a href="FertilizerRecommendation.html">Fertilizer</a></li>
-<li><a href="PesticideRecommendation.html" class="active">Pesticide</a></li>
-<li><a href="{{ url_for('logout_alt') }}">Logout</a></li>
-{% endblock %} {% block body %}
-<br /><br />
-<h2 style="text-align: center; margin: 0px; color: black">
-  <b>Recommended pesticide based on pest</b>
-</h2>
-<h3 align="center">
-  Please upload the picture which clearly shows the pest,<br />
-  so that we can recommend you, the pesticide accordingly!
-</h3>
-<br />
+{% extends "layout.html" %}
 
-<div
-  style="
-    width: 350px;
-    height: 60rem;
-    margin: 0px auto;
-    color: black;
-    border-radius: 25px;
-    padding: 10px 10px;
-  "
->
-  <section>
-    <form
-      action="/predict"
-      method="post"
-      enctype="multipart/form-data"
-      onsubmit="showloading()"
-    >
-      <input type="file" name="image" class="upload" style="font-size: 15px" />
-      <br />
-      <input
-        type="submit"
-        value="Predict"
-        style="
-          color: #c79c60;
-          font-weight: bold;
-          background-color: black;
-          width: 130px;
-          height: 50px;
-          border-radius: 12px;
-          font-size: 21px;
-        "
-      />
-    </form>
-  </section>
-</div>
+{% block extra_css %}
+<link rel="stylesheet"
+  href="{{ url_for('static', filename='css/pesticide.css') }}">
+{% endblock %}
 
-<!--Footer Section-->
-<footer>
-  <div class="footer-content">
-    <h3 class="top-content">Crop<span>Advisors</span></h3>
-    <p class="paragraph">
-      CropAdvisors is a platform which recommends the best Crop to grow,
-      Fertilizers to use, as well as Pesticides based on you provided data.
-    </p>
+{% block nav %}
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('farmerIndex') }}">Home</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('crop') }}">Crop</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('fertilizer') }}">Fertilizer</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link active" href="{{ url_for('pesticide') }}">Pesticide</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+</li>
+{% endblock %}
 
-    <div>
-      <h2 class="below-p">Any Queries ?</h2>
+{% block body %}
+<section class="form-section">
+  <div class="form-pattern"></div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="form-card">
+          <form action="/predict" method="post" enctype="multipart/form-data"
+            onsubmit="showloading()">
+            <h3>Upload Pest Image</h3>
 
-      <button class="contact-us">Contact Us</button>
+            <div class="upload-area" id="uploadArea">
+              <i class="fas fa-bug upload-icon"></i>
+              <p class="upload-text">Please upload a clear image of the pest
+                for accurate identification</p>
+
+              <label class="custom-file-upload">
+                <i class="fas fa-upload"></i> Choose file
+                <input type="file" name="image" id="pestImage" accept="image/*"
+                  style="display: none;">
+              </label>
+              <span id="fileStatus">No file chosen</span>
+
+              <p class="upload-hint mt-3">For best results, upload a
+                well-lit image showing the pest clearly</p>
+            </div>
+
+            <!-- Image Preview -->
+            <div class="text-center">
+              <img id="imagePreview" class="image-preview"
+                alt="Pest Image Preview">
+            </div>
+
+            <div class="text-center mt-4">
+              <button type="button" class="btn btn-secondary me-2"
+                onclick="resetForm()">Reset</button>
+              <input type="submit" value="Predict" class="btn btn-predict">
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <br />
 
-    <div class="footer-bottom">
-      <p>Copyright &copy; 2023 CropAdvisors</p>
-    </div>
   </div>
-</footer>
+</section>
+{% endblock %}
 
+{% block extra_js %}
+<script>
+      // File input handling
+      document.getElementById('pestImage').addEventListener('change', function(e) {
+        const fileInput = e.target;
+        const fileStatus = document.getElementById('fileStatus');
+        const imagePreview = document.getElementById('imagePreview');
+        const uploadArea = document.getElementById('uploadArea');
+        
+        if (fileInput.files && fileInput.files[0]) {
+          const fileName = fileInput.files[0].name;
+          fileStatus.textContent = fileName;
+          
+          // Show image preview
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
+            uploadArea.classList.add('active');
+          }
+          reader.readAsDataURL(fileInput.files[0]);
+        } else {
+          resetForm();
+        }
+      });
+
+      // Reset form function
+      function resetForm() {
+        const fileInput = document.getElementById('pestImage');
+        const fileStatus = document.getElementById('fileStatus');
+        const imagePreview = document.getElementById('imagePreview');
+        const uploadArea = document.getElementById('uploadArea');
+        
+        fileInput.value = '';
+        fileStatus.textContent = 'No file chosen';
+        imagePreview.style.display = 'none';
+        uploadArea.classList.remove('active');
+      }
+
+      // Loading function for form submission
+      function showloading() {
+        // Add any loading functionality here if needed
+        console.log('Form submitted');
+      }
+</script>
 {% endblock %}

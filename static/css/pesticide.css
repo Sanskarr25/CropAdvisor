@@ -1,0 +1,338 @@
+:root {
+        --primary: #2E7D32;       /* Forest Green - primary brand color */
+        --secondary: #558B2F;     /* Olive Green - complementary color */
+        --accent: #FFC107;        /* Amber - for calls to action */
+        --light: #F1F8E9;         /* Light Green tint - background color */
+        --dark: #1B5E20;          /* Dark Green - for contrasting elements */
+        --text: #263238;          /* Dark Blue Grey - for text */
+        --neutral: #ECEFF1;       /* Light Grey - for neutral backgrounds */
+        --overlay: rgba(27, 94, 32, 0.2);
+        --overlay-darker: rgba(27, 94, 32, 0.7);
+      }
+
+
+      body {
+        display: flex;
+        flex-direction: column;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text);
+        background-color: #FFFFFF;
+        min-height: 100vh;
+      }
+
+
+      .text-center {
+        display: flex;
+        justify-content: center;
+      }
+      
+      /* Form Styling */
+      .form-section {
+        background-color: var(--light);
+        padding: 50px 0 70px;
+        position: relative;
+      }
+
+      .form-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(var(--overlay) 10%, transparent 11%);
+        background-size: 20px 20px;
+        opacity: 0.3;
+      }
+
+      .form-card {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(27, 94, 32, 0.08);
+        padding: 40px;
+        margin-bottom: 30px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .form-card h3 {
+        color: var(--dark);
+        font-weight: 600;
+        margin-bottom: 25px;
+        text-align: center;
+        position: relative;
+        padding-bottom: 12px;
+      }
+
+      .form-card h3:after {
+        content: '';
+        position: absolute;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      /* Custom File Input */
+      .custom-file-upload {
+        display: inline-block;
+        background-color: #3a3a3a;
+        color: #9eeea1;
+        border: 1px solid #9eeea1;
+        border-radius: 25px;
+        padding: 10px 25px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin-right: 10px;
+      }
+
+      .custom-file-upload:hover {
+        background-color: #2a2a2a;
+      }
+
+      .custom-file-upload i {
+        margin-right: 8px;
+      }
+
+      .file-status {
+        display: inline-block;
+        margin-left: 10px;
+        color: #666;
+      }
+
+      /* Upload Area */
+      .upload-area {
+        border: 2px dashed #c1e4c3;
+        border-radius: 16px;
+        padding: 40px 20px;
+        text-align: center;
+        background-color: rgba(241, 248, 233, 0.5);
+        transition: all 0.3s ease;
+        margin-bottom: 30px;
+      }
+
+      .upload-area.active {
+        border-color: var(--primary);
+        background-color: rgba(46, 125, 50, 0.05);
+      }
+
+      .upload-icon {
+        font-size: 48px;
+        color: var(--secondary);
+        margin-bottom: 20px;
+      }
+
+      .upload-text {
+        color: #546E7A;
+        margin-bottom: 20px;
+      }
+
+      .upload-hint {
+        color: #90A4AE;
+        font-size: 0.9rem;
+      }
+
+      /* Image Preview */
+      .image-preview {
+        max-width: 100%;
+        border-radius: 8px;
+        margin: 20px 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        display: none;
+      }
+
+      /* Button Styling */
+      .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--dark);
+        border-color: var(--dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(46, 125, 50, 0.2);
+      }
+
+      .btn-predict {
+        background-color: #3a3a3a;
+        color: #f1c40f;
+        border-color: #f1c40f;
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .btn-predict:hover {
+        background-color: #2a2a2a;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-secondary {
+        background-color: #90A4AE;
+        border-color: #90A4AE;
+        padding: 12px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(144, 164, 174, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .btn-secondary:hover {
+        background-color: #78909C;
+        border-color: #78909C;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(144, 164, 174, 0.2);
+      }
+
+      /* Results Section */
+      .result-section {
+        padding: 20px 0 50px;
+      }
+
+      .info-card {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(27, 94, 32, 0.08);
+        padding: 30px;
+        margin-bottom: 30px;
+        position: relative;
+        z-index: 2;
+        border-left: 5px solid var(--secondary);
+      }
+
+      .info-card h4 {
+        color: var(--dark);
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .info-card p {
+        color: #546E7A;
+        margin-bottom: 1rem;
+        line-height: 1.7;
+      }
+
+      /* Pest Information */
+      .pest-info {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #E0E0E0;
+      }
+
+      .pest-info:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .pest-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-right: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .pest-details h5 {
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .pest-details p {
+        margin-bottom: 8px;
+      }
+
+     
+
+      .logo-area {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .logo-area i {
+        color: var(--secondary);
+        font-size: 1.8rem;
+      }
+
+     
+      /* Loading Spinner */
+      .spinner-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .spinner-content {
+        text-align: center;
+      }
+
+      .spinner-content .spinner-border {
+        width: 3rem;
+        height: 3rem;
+        color: var(--primary);
+      }
+
+      .spinner-text {
+        margin-top: 15px;
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+
+      @media (max-width: 767px) {
+        .page-header {
+          padding: 50px 0;
+        }
+        
+        .page-header h1 {
+          font-size: 2rem;
+        }
+        
+        .form-card {
+          padding: 30px 20px;
+        }
+        
+        .pest-info {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+        
+        .pest-image {
+          margin-right: 0;
+          margin-bottom: 15px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        
+        .upload-area {
+          padding: 20px 15px;
+        }
+        
+        .upload-icon {
+          font-size: 36px;
+        }
+      }

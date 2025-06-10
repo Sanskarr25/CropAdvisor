@@ -1,93 +1,622 @@
 {% extends "layout.html" %}
 
+{% block extra_css %}
+<!-- <link rel="stylesheet"
+  href="{{ url_for('static', filename='css/pest-results.css') }}"> -->
+<style>
+    /* pest-results.css */
+
+:root {
+  --primary: #1b5e20;
+  --primary-light: #4caf50;
+  --primary-dark: #0d4f14;
+  --secondary: #c79c60;
+  --accent: #ff6b35;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --danger: #f44336;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --shadow: 0 4px 12px rgba(27, 94, 32, 0.1);
+  --shadow-hover: 0 8px 25px rgba(27, 94, 32, 0.15);
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  padding: 80px 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  background-size: 100px 100px;
+  animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.pest-identification {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.pest-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pest-title {
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.pest-name {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--secondary);
+  font-style: italic;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.pest-description {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 2px;
+}
+
+.section-title i {
+  margin-right: 1rem;
+  color: var(--secondary);
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 0;
+}
+
+/* Products Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 2rem;
+}
+
+.product-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-hover);
+}
+
+.product-image-container {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.1);
+}
+
+.product-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(27, 94, 32, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-overlay {
+  opacity: 1;
+}
+
+.product-overlay i {
+  font-size: 2rem;
+  color: white;
+}
+
+.product-info {
+  padding: 25px;
+}
+
+.product-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 15px;
+}
+
+.dosage-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.dosage-label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.dosage-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  background: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-features {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.feature-tag {
+  background: var(--primary-light);
+  color: white;
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-weight: 500;
+}
+
+.product-btn {
+  width: 100%;
+  padding: 12px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.product-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Guidelines Section */
+.guidelines-section {
+  padding: 60px 0;
+  background: white;
+}
+
+.guidelines-card {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 15px;
+  height: 100%;
+  border-left: 5px solid var(--primary);
+}
+
+.guidelines-card h4 {
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.guidelines-card h4 i {
+  margin-right: 10px;
+  color: var(--secondary);
+}
+
+.guidelines-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.guidelines-card li {
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative;
+  padding-left: 25px;
+}
+
+.guidelines-card li:last-child {
+  border-bottom: none;
+}
+
+.guidelines-card li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: bold;
+}
+
+/* Action Section */
+.action-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.action-buttons .btn {
+  padding: 15px 30px;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.action-buttons .btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.action-buttons .btn-secondary {
+  background: white;
+  color: var(--primary);
+  border: 2px solid white;
+}
+
+.action-buttons .btn-secondary:hover {
+  background: transparent;
+  color: white;
+}
+
+.action-buttons .btn-primary {
+  background: var(--secondary);
+  border: 2px solid var(--secondary);
+  color: white;
+}
+
+.action-buttons .btn-primary:hover {
+  background: white;
+  color: var(--secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .pest-title {
+    font-size: 2rem;
+  }
+  
+  .pest-name {
+    font-size: 2.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .action-buttons .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .hero-section {
+    padding: 60px 0 40px;
+  }
+  
+  .recommendations-section {
+    padding: 60px 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .pest-icon {
+    font-size: 3rem;
+  }
+  
+  .pest-title {
+    font-size: 1.5rem;
+  }
+  
+  .pest-name {
+    font-size: 2rem;
+  }
+  
+  .pest-description {
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .product-info {
+    padding: 20px;
+  }
+  
+  .guidelines-card {
+    padding: 20px;
+  }
+}
+  </style>
+{% endblock %}
+
 {% block nav %}
-<li><a href="{{ url_for('farmerIndex') }}" class="active">Home</a></li>
-<li><a href="CropRecommendation.html">Crop</a></li>
-<li><a href="FertilizerRecommendation.html">Fertilizer</a></li>
-<li><a href="PesticideRecommendation.html" class="active">Pesticide</a></li>
-<li><a href="{{ url_for('logout_alt') }}">Logout</a></li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('farmerIndex') }}">Home</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link active" href="{{ url_for('crop') }}">Crop</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('fertilizer') }}">Fertilizer</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('pesticide') }}">Pesticide</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+</li>
 {% endblock %}
 
 {% block body %}
-<br /><br />
-<h2 style="text-align: center; margin: 0px; color: black">
-  <b>Identified Pest: <i>mites</i></b>
-</h2>
-
-<section>
-
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-pattern"></div>
   <div class="container">
-    <h3
-      style="padding: 15px; background-color: rgb(0, 0, 0); color: #c79c60; font-weight: bold;"
-      class="text-center my-3 content-h3">
-      Recommended Products</h3>
+    <div class="hero-content text-center">
+      <div class="pest-identification">
+        <i class="fas fa-bug pest-icon"></i>
+        <h1 class="pest-title">Pest Identified</h1>
+        <h2 class="pest-name">Mites</h2>
+        <p class="pest-description">
+          Small arachnids that feed on plant cells, causing stippling,
+          yellowing, and potential crop damage.
+        </p>
+      </div>
+    </div>
   </div>
+</section>
 
+<!-- Recommendations Section -->
+<section class="recommendations-section">
   <div class="container">
-    <div class="card-columns">
-      <div class="card" style="display:inline-block;">
-        <div class="card-body text-center card-style">
-          <img
-            style="border-radius: 5%; margin-left:5%; height:300px; width:300px;"
-            class="img-fluid" src="static/img/pesticide/mites/bioclaim.jpg"
-            alt="bioclaim">
-          <h3 class="card-text">Dose: 220 gm/Ha</h3>
-        </div>
-      </div>
-      <div class="card" style="display:inline-block;">
-        <div class="card-body text-center card-style">
-          <img
-            style="border-radius: 5%; margin-left:5%; height:300px; width:300px;"
-            class="img-fluid"
-            src="static/img/pesticide/mites/biostadt-malathion-57-ec.jpg"
-            alt="malathion">
-          <h3 class="card-text">Dose: 570 gm/L</h3>
-        </div>
-      </div>
-      <div class="card" style="display:inline-block;">
-        <div class="card-body text-center card-style">
-          <img
-            style="border-radius: 5%;margin-left:5%; height:300px; width:300px;"
-            class="img-fluid" src="static/img/pesticide/mites/inclaim.jpg"
-            alt="inclaim">
-          <h3 class="card-text">Dose:200 gm/Ha</h3>
-        </div>
-      </div>
-      <div class="card" style="display:inline-block;">
-        <div class="card-body text-center card-style">
-          <img
-            style="border-radius: 5%; margin-left:5%; height:300px; width:300px;"
-            class="img-fluid" src="static/img/pesticide/mites/ingage.jpg"
-            alt="ingage">
-          <h3 class="card-text">Dose: 600 gm/Ha</h3>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!--Footer Section-->
-  <footer>
-    <div class="footer-content">
-
-      <h3 class="top-content">
-        Crop<span>Advisors</span>
+    <div class="section-header">
+      <h3 class="section-title">
+        <i class="fas fa-spray-can"></i>
+        Recommended Pesticides
       </h3>
-      <p class="paragraph">
-        CropAdvisors is a platform which recommends the best Crop to grow,
-        Fertilizers to use, as well as Pesticides based on you provided data.
+      <p class="section-subtitle">
+        Professional-grade solutions for effective mite control
       </p>
+    </div>
 
-      <div>
-        <h2 class="below-p">Any Queries ?</h2>
-
-        <button class="contact-us">Contact Us</button>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="static/img/pesticide/mites/bioclaim.jpg"
+            alt="Bioclaim Pesticide"
+            class="product-image">
+          <div class="product-overlay">
+            <i class="fas fa-eye"></i>
+          </div>
+        </div>
+        <div class="product-info">
+          <h4 class="product-name">Bioclaim</h4>
+          <div class="dosage-info">
+            <span class="dosage-label">Recommended Dose</span>
+            <span class="dosage-value">220 gm/Ha</span>
+          </div>
+          <div class="product-features">
+            <span class="feature-tag">Systemic Action</span>
+            <span class="feature-tag">Long Lasting</span>
+          </div>
+          <button class="btn btn-primary product-btn">
+            <i class="fas fa-info-circle"></i> View Details
+          </button>
+        </div>
       </div>
-      <br>
 
-      <div class="footer-bottom">
-        <p>Copyright &copy; 2023 CropAdvisors</p>
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="static/img/pesticide/mites/biostadt-malathion-57-ec.jpg"
+            alt="Malathion 57 EC"
+            class="product-image">
+          <div class="product-overlay">
+            <i class="fas fa-eye"></i>
+          </div>
+        </div>
+        <div class="product-info">
+          <h4 class="product-name">Malathion 57 EC</h4>
+          <div class="dosage-info">
+            <span class="dosage-label">Recommended Dose</span>
+            <span class="dosage-value">570 gm/L</span>
+          </div>
+          <div class="product-features">
+            <span class="feature-tag">Broad Spectrum</span>
+            <span class="feature-tag">Quick Action</span>
+          </div>
+          <button class="btn btn-primary product-btn">
+            <i class="fas fa-info-circle"></i> View Details
+          </button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="static/img/pesticide/mites/inclaim.jpg"
+            alt="Inclaim Pesticide"
+            class="product-image">
+          <div class="product-overlay">
+            <i class="fas fa-eye"></i>
+          </div>
+        </div>
+        <div class="product-info">
+          <h4 class="product-name">Inclaim</h4>
+          <div class="dosage-info">
+            <span class="dosage-label">Recommended Dose</span>
+            <span class="dosage-value">200 gm/Ha</span>
+          </div>
+          <div class="product-features">
+            <span class="feature-tag">Eco-Friendly</span>
+            <span class="feature-tag">Selective</span>
+          </div>
+          <button class="btn btn-primary product-btn">
+            <i class="fas fa-info-circle"></i> View Details
+          </button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="static/img/pesticide/mites/ingage.jpg"
+            alt="Ingage Pesticide"
+            class="product-image">
+          <div class="product-overlay">
+            <i class="fas fa-eye"></i>
+          </div>
+        </div>
+        <div class="product-info">
+          <h4 class="product-name">Ingage</h4>
+          <div class="dosage-info">
+            <span class="dosage-label">Recommended Dose</span>
+            <span class="dosage-value">600 gm/Ha</span>
+          </div>
+          <div class="product-features">
+            <span class="feature-tag">Contact Action</span>
+            <span class="feature-tag">Rain-Fast</span>
+          </div>
+          <button class="btn btn-primary product-btn">
+            <i class="fas fa-info-circle"></i> View Details
+          </button>
+        </div>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  {% endblock %}
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Add smooth scrolling to buttons
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // Add hover effects to product cards
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-10px)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0)';
+    });
+  });
+</script>
+{% endblock %}
