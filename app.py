@@ -295,6 +295,200 @@ def fertilizer():
 def pesticide():
     return render_template("PesticideRecommendation.html")
 
+#Added get_pest_details Function
+
+# Add this function to store pest information
+def get_pest_details(pest_name):
+    """Get detailed information about the identified pest"""
+    pest_database = {
+        'mosquito': {
+            'display_name': 'Mosquito',
+            'scientific_name': 'Culicidae',
+            'description': 'Small flying insects that can transmit diseases',
+            'products': [
+                {
+                    'name': 'Evident',
+                    'image': 'static/img/pesticide/mosquito/evident.jpg',
+                    'dose': '400-500 gm/Ha',
+                    'description': 'Effective mosquito control pesticide'
+                },
+                {
+                    'name': 'Thiomax',
+                    'image': 'static/img/pesticide/mosquito/thiomax.jpg',
+                    'dose': '100 gm/Ha',
+                    'description': 'Fast-acting mosquito treatment'
+                }
+            ]
+        },
+        'aphids': {
+            'display_name': 'Aphids',
+            'scientific_name': 'Aphidoidea',
+            'description': 'Small soft-bodied insects that feed on plant sap',
+            'products': [
+                {
+                    'name': 'Banzo',
+                    'image': 'static/img/pesticide/aphids/banzo.jpg',
+                    'dose': '2 litres/Ha',
+                    'description': 'Systemic insecticide for aphid control'
+                },
+                {
+                    'name': 'derby',
+                    'image': 'static/img/pesticide/aphids/derby.jpg',
+                    'dose': '5-10 ml/L',
+                    'description': 'Organic aphid treatment'
+                },
+                {
+                    'name': 'Fulstop-d',
+                    'image': 'static/img/pesticide/aphids/fulstop-d.jpg',
+                    'dose': '200-300 ml/Ha',
+                    'description': 'Systemic insecticide for aphid control'
+                },{
+                    'name': 'Intice',
+                    'image': 'static/img/pesticide/aphids/intice.jpg',
+                    'dose': '200-300 ml/Ha',
+                    'description': 'Systemic insecticide for aphid control'
+                },
+                {
+                    'name': 'Imidacloprid',
+                    'image': 'static/img/pesticide/aphids/ultimo-200-sl.jpg',
+                    'dose': '200-300 ml/Ha',
+                    'description': 'Systemic insecticide for aphid control'
+                },
+                {
+                    'name': 'Ultimo-Super',
+                    'image': 'static/img/pesticide/aphids/ultimo-super.jpg',
+                    'dose': '60-75 ml/Ha',
+                    'description': 'Systemic insecticide for aphid control'
+                },
+            ]
+        },
+        'armyworm': {
+            'display_name': 'Armyworm',
+            'scientific_name': 'Spodoptera',
+            'description': 'Caterpillars that feed on crops in large groups',
+            'products': [
+                {
+                    'name': 'Perfek-315-ec',
+                    'image': 'static/img/pesticide/armyworm/perfek-315-ec.jpg',
+                    'dose': '2-3 L/Ha',
+                    'description': 'Broad-spectrum insecticide'
+                },
+                {
+                    'name': 'Prudent-50-ec',
+                    'image': 'static/img/pesticide/armyworm/prudent-50-ec.jpg',
+                    'dose': '200-400 ml/Ha',
+                    'description': 'Fast knockdown effect'
+                }
+            ]
+        },
+        'beetle': {
+            'display_name': 'Beetle',
+            'scientific_name': 'Coleoptera',
+            'description': 'Hard-bodied insects that can damage crops',
+            'products': [
+                {
+                    'name': 'Smash',
+                    'image': 'static/img/pesticide/beetle/smash.jpg',
+                    'dose': '2-3 kg/Ha',
+                    'description': 'Effective against various beetles'
+                }
+            ]
+        },
+        'bollworm': {
+            'display_name': 'Bollworm',
+            'scientific_name': 'Helicoverpa armigera',
+            'description': 'Major pest of cotton and other crops',
+            'products': [
+                {
+                    'name': 'Emamectin Benzoate',
+                    'image': 'static/img/pesticide/bollworm/emamectin.jpg',
+                    'dose': '200-250 gm/Ha',
+                    'description': 'Specific for bollworm control'
+                }
+            ]
+        },
+        'earthworm': {
+            'display_name': 'Earthworm',
+            'scientific_name': 'Oligochaeta',
+            'description': 'Generally beneficial for soil, treatment rarely needed',
+            'products': [
+                {
+                    'name': 'No Treatment Recommended',
+                    'image': 'static/img/pesticide/earthworm/beneficial.jpg',
+                    'dose': 'N/A',
+                    'description': 'Earthworms are beneficial for soil health'
+                }
+            ]
+        },
+        'grasshopper': {
+            'display_name': 'Grasshopper',
+            'scientific_name': 'Orthoptera',
+            'description': 'Jumping insects that can damage crops',
+            'products': [
+                {
+                    'name': 'Malathion',
+                    'image': 'static/img/pesticide/grasshopper/malathion.jpg',
+                    'dose': '1-2 L/Ha',
+                    'description': 'Effective grasshopper control'
+                }
+            ]
+        },
+        'mites': {
+            'display_name': 'Mites',
+            'scientific_name': 'Acari',
+            'description': 'Tiny arachnids that feed on plant cells',
+            'products': [
+                {
+                    'name': 'Abamectin',
+                    'image': 'static/img/pesticide/mites/abamectin.jpg',
+                    'dose': '500-750 ml/Ha',
+                    'description': 'Specialized miticide'
+                }
+            ]
+        },
+        'sawfly': {
+            'display_name': 'Sawfly',
+            'scientific_name': 'Tenthredinidae',
+            'description': 'Wasp-like insects whose larvae damage plants',
+            'products': [
+                {
+                    'name': 'Spinosad',
+                    'image': 'static/img/pesticide/sawfly/spinosad.jpg',
+                    'dose': '300-400 ml/Ha',
+                    'description': 'Organic-approved insecticide'
+                }
+            ]
+        },
+        'stem_borer': {
+            'display_name': 'Stem Borer',
+            'scientific_name': 'Chilo suppressalis',
+            'description': 'Larvae that bore into plant stems',
+            'products': [
+                {
+                    'name': 'Fipronil',
+                    'image': 'static/img/pesticide/stem_borer/fipronil.jpg',
+                    'dose': '1-1.5 kg/Ha',
+                    'description': 'Systemic stem borer control'
+                }
+            ]
+        }
+    }
+    
+    return pest_database.get(pest_name, {
+        'display_name': pest_name.replace('_', ' ').title(),
+        'scientific_name': 'Unknown',
+        'description': 'Pest identification completed',
+        'products': [
+            {
+                'name': 'Consult Local Expert',
+                'image': 'static/img/pesticide/default/expert.jpg',
+                'dose': 'As recommended',
+                'description': 'Please consult with local agricultural expert'
+            }
+        ]
+    })
+
+# Update your predict route
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
@@ -320,11 +514,15 @@ def predict():
             6: 'mites',
             7: 'mosquito',
             8: 'sawfly',
-            9: 'stem borer'
+            9: 'stem_borer'
         }
 
         pest_identified = pest_mapping.get(pred, 'unknown')
-        return render_template(pest_identified + ".html", pred=pest_identified)
+        pest_details = get_pest_details(pest_identified)
+        
+        return render_template('pest_result.html', 
+                             pest_name=pest_identified,
+                             pest_details=pest_details)
 
 @app.route('/crop_prediction', methods=['POST'])
 def crop_prediction():

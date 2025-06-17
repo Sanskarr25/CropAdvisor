@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+  href="{{ url_for('static', filename='css/pest_result.css') }}">
+{% endblock %}
+
+{% block nav %}
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('farmerIndex') }}">Home</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('crop') }}">Crop</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('fertilizer') }}">Fertilizer</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link active" href="{{ url_for('pesticide') }}">Pesticide</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+</li>
+{% endblock %}
+
+{% block body %}
+<section class="results-section">
+  <div class="container">
+    <!-- First Row - Pest Information and Main Identification -->
+    <div class="row mb-3">
+      <!-- Left Column - Pest Information -->
+      <div class="col-lg-4 mb-3">
+        <div class="info-card h-100">
+          <h4><i class="fas fa-bug me-2"></i>Pest Information</h4>
+          <div class="pest-summary">
+            <div class="pest-item">
+              <span class="pest-label">Common Name</span>
+              <span class="pest-value">{{ pest_details.display_name }}</span>
+            </div>
+            <div class="pest-item">
+              <span class="pest-label">Scientific Name</span>
+              <span class="pest-value">{{ pest_details.scientific_name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Main Identification -->
+      <div class="col-lg-8 mb-3">
+        <div class="identified-pest-card h-100">
+          <div class="pest-icon">
+            <i class="fas fa-bug"></i>
+          </div>
+          <div class="pest-name">{{ pest_details.display_name }}</div>
+          <p class="mb-0">Successfully identified from your image</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second Row - Recommended Products (Full Width) -->
+    <div class="row">
+      <div class="col-12">
+        <div class="products-section">
+          <h3><i class="fas fa-shield-alt me-2"></i>Recommended Products</h3>
+          <div class="products-grid">
+            {% for product in pest_details.products %}
+            <div class="product-card">
+              <div class="product-image-container">
+                <img
+                  class="product-image"
+                  src="{{ product.image }}"
+                  alt="{{ product.name }}"
+                  onerror="this.src='static/img/pesticide/default/placeholder.jpg';">
+              </div>
+              <div class="product-info">
+                <h5 class="product-title">{{ product.name }}</h5>
+                <div class="product-dose">
+                  <i class="fas fa-tint me-1"></i>{{ product.dose }}
+                </div>
+                <p class="product-description">{{ product.description }}</p>
+
+                <!-- Usage Guidelines Toggle -->
+                <button class="btn btn-sm btn-outline-success usage-btn"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#usage-{{ loop.index }}"
+                  aria-expanded="false">
+                  <i class="fas fa-info me-1"></i>Usage Guidelines
+                </button>
+
+                <div class="collapse mt-3" id="usage-{{ loop.index }}">
+                  <div class="usage-guidelines">
+                    <div class="guideline-item">
+                      <i class="fas fa-clock text-success me-2"></i>
+                      Apply during early morning or evening hours
+                    </div>
+                    <div class="guideline-item">
+                      <i class="fas fa-spray-can text-success me-2"></i>
+                      Ensure proper coverage of affected areas
+                    </div>
+                    <div class="guideline-item">
+                      <i class="fas fa-shield-alt text-success me-2"></i>
+                      Follow safety precautions and wear protective equipment
+                    </div>
+                    <div class="guideline-item">
+                      <i class="fas fa-user-tie text-success me-2"></i>
+                      Consult local agricultural expert for specific conditions
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Third Row - Action Buttons -->
+    <div class="row">
+      <div class="col-12">
+        <div class="action-buttons">
+          <a href="{{ url_for('pesticide') }}" class="btn btn-primary-custom">
+            <i class="fas fa-search me-2"></i>Analyze Another Image
+          </a>
+          <a href="{{ url_for('farmerIndex') }}"
+            class="btn btn-outline-primary">
+            <i class="fas fa-home me-2"></i>Back to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Simple navbar scroll effect
+  window.addEventListener('scroll', function() {
+    const navbar = document.getElementById('mainNav');
+    if (navbar && window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else if (navbar) {
+      navbar.classList.remove('scrolled');
+    }
+  });
+
+  // Usage guidelines toggle effect
+  document.querySelectorAll('.usage-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const icon = this.querySelector('i');
+      setTimeout(() => {
+        if (this.getAttribute('aria-expanded') === 'true') {
+          icon.classList.remove('fa-info');
+          icon.classList.add('fa-times');
+        } else {
+          icon.classList.remove('fa-times');
+          icon.classList.add('fa-info');
+        }
+      }, 150);
+    });
+  });
+</script>
+{% endblock %}
