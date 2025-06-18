@@ -1,0 +1,422 @@
+/* fertilizer-result.css - Scoped to avoid navbar/footer conflicts */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Scoped wrapper to avoid conflicts with navbar/footer */
+.fertilizer-results-page {
+  font-family: 'Inter', 'Recursive', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: calc(100vh - 120px); /* Adjust based on your navbar/footer height */
+  color: #333;
+  padding: 1rem 0;
+}
+
+/* Container - Scoped */
+.fertilizer-results-page .results-container-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Header Section */
+.fertilizer-results-page .header-section {
+  text-align: center;
+  margin-bottom: 3rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.fertilizer-results-page .title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.fertilizer-results-page .title-icon {
+  font-size: 2.5rem;
+  color: #4CAF50;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.fertilizer-results-page .page-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4CAF50, #8BC34A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.fertilizer-results-page .subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* Results Container */
+.fertilizer-results-page .results-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Nutrient Cards */
+.fertilizer-results-page .nutrient-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.fertilizer-results-page .nutrient-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  transition: all 0.3s ease;
+}
+
+.fertilizer-results-page .nitrogen-card::before {
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+}
+
+.fertilizer-results-page .phosphorus-card::before {
+  background: linear-gradient(90deg, #FF9800, #FFC107);
+}
+
+.fertilizer-results-page .potassium-card::before {
+  background: linear-gradient(90deg, #9C27B0, #E91E63);
+}
+
+.fertilizer-results-page .nutrient-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Nutrient Header */
+.fertilizer-results-page .nutrient-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.fertilizer-results-page .nutrient-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.fertilizer-results-page .nitrogen-card .nutrient-icon {
+  background: linear-gradient(135deg, #4CAF50, #8BC34A);
+}
+
+.fertilizer-results-page .phosphorus-card .nutrient-icon {
+  background: linear-gradient(135deg, #FF9800, #FFC107);
+}
+
+.fertilizer-results-page .potassium-card .nutrient-icon {
+  background: linear-gradient(135deg, #9C27B0, #E91E63);
+}
+
+.fertilizer-results-page .nutrient-title h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.fertilizer-results-page .nutrient-badge {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.fertilizer-results-page .phosphorus-card .nutrient-badge {
+  background: rgba(255, 152, 0, 0.1);
+  color: #FF9800;
+}
+
+.fertilizer-results-page .potassium-card .nutrient-badge {
+  background: rgba(156, 39, 176, 0.1);
+  color: #9C27B0;
+}
+
+/* Difference Display */
+.fertilizer-results-page .difference-display {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fertilizer-results-page .difference-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.fertilizer-results-page .difference-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #c79c60;
+  background: rgba(199, 156, 96, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+/* Recommendation Box */
+.fertilizer-results-page .recommendation-box {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border-left: 4px solid #4CAF50;
+}
+
+.fertilizer-results-page .phosphorus-card .recommendation-box {
+  border-left-color: #FF9800;
+}
+
+.fertilizer-results-page .potassium-card .recommendation-box {
+  border-left-color: #9C27B0;
+}
+
+.fertilizer-results-page .recommendation-box h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.fertilizer-results-page .recommendation-box h4 i {
+  color: #FFC107;
+}
+
+.fertilizer-results-page .recommendation-box p {
+  color: #555;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Action Buttons */
+.fertilizer-results-page .action-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.fertilizer-results-page .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  min-width: 200px;
+  justify-content: center;
+}
+
+.fertilizer-results-page .btn-download {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.fertilizer-results-page .btn-download:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+}
+
+.fertilizer-results-page .btn-predict {
+  background: linear-gradient(135deg, #4CAF50, #8BC34A);
+  color: white;
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+}
+
+.fertilizer-results-page .btn-predict:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(76, 175, 80, 0.4);
+  text-decoration: none;
+  color: white;
+}
+
+/* Summary Card */
+.fertilizer-results-page .summary-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.fertilizer-results-page .summary-card h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.fertilizer-results-page .summary-card h4 i {
+  color: #667eea;
+}
+
+.fertilizer-results-page .summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.fertilizer-results-page .summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid transparent;
+}
+
+.fertilizer-results-page .summary-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.fertilizer-results-page .summary-value {
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.fertilizer-results-page .summary-value.low {
+  background: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+}
+
+.fertilizer-results-page .summary-value.optimal {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+}
+
+.fertilizer-results-page .summary-value.high {
+  background: rgba(255, 152, 0, 0.1);
+  color: #FF9800;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .fertilizer-results-page .results-container-main {
+    padding: 1rem;
+  }
+  
+  .fertilizer-results-page .page-title {
+    font-size: 2rem;
+  }
+  
+  .fertilizer-results-page .title-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .fertilizer-results-page .results-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .fertilizer-results-page .nutrient-card {
+    padding: 1.5rem;
+  }
+  
+  .fertilizer-results-page .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .fertilizer-results-page .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .fertilizer-results-page .summary-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .fertilizer-results-page .difference-display {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .fertilizer-results-page .header-section {
+    padding: 1.5rem 1rem;
+  }
+  
+  .fertilizer-results-page .page-title {
+    font-size: 1.8rem;
+  }
+  
+  .fertilizer-results-page .subtitle {
+    font-size: 1rem;
+  }
+  
+  .fertilizer-results-page .nutrient-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .fertilizer-results-page .nutrient-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+}

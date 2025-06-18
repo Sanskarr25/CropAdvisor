@@ -1,85 +1,189 @@
-{% extends "layout.html" %} {% block nav %}
-<li><a href="{{ url_for('farmerIndex') }}">Home</a></li>
-<li><a href="CropRecommendation.html">Crop</a></li>
-<li><a href="FertilizerRecommendation.html" class="active">Fertilizer</a></li>
-<li><a href="PesticideRecommendation.html">Pesticide</a></li>
-<li><a href="{{ url_for('logout_alt') }}">Logout</a></li>
-{% endblock %} {% block body %}
-<div
-  style="
-    padding-top: 5%;
-    padding-bottom: 5%;
-    padding-left: 15%;
-    padding-right: 15%;
-  "
->
-  <p
-    style="
-      color: #c79c60;
-      font-size: 20px;
-      font-family: 'Recursive', sans-serif;
-    "
-  >
-    Difference between desired value of N and your farm's N value is {{ diff_n
-    }}
-  </p>
-  <p
-    style="color: black; font-size: 20px; font-family: 'Recursive', sans-serif"
-  >
-    {{ recommendation1 }}
-  </p>
-  <p
-    style="
-      color: #c79c60;
-      font-size: 20px;
-      font-family: 'Recursive', sans-serif;
-    "
-  >
-    Difference between desired value of P and your farm's P value is {{ diff_p
-    }}
-  </p>
-  <p
-    style="color: black; font-size: 20px; font-family: 'Recursive', sans-serif"
-  >
-    {{ recommendation2 }}
-  </p>
-  <p
-    style="
-      color: #c79c60;
-      font-size: 20px;
-      font-family: 'Recursive', sans-serif;
-    "
-  >
-    Difference between desired value of K and your farm's K value is {{ diff_k
-    }}
-  </p>
-  <p
-    style="color: black; font-size: 20px; font-family: 'Recursive', sans-serif"
-  >
-    {{ recommendation3 }}
-  </p>
-</div>
+{% extends "layout.html" %}
 
-<!--Footer Section-->
-<footer>
-  <div class="footer-content">
-    <h3 class="top-content">Crop<span>Advisors</span></h3>
-    <p class="paragraph">
-      CropAdvisors is a platform which recommends the best Crop to grow,
-      Fertilizers to use, as well as Pesticides based on you provided data.
-    </p>
+{% block extra_css %}
+<link rel="stylesheet"
+  href="{{ url_for('static', filename='css/fertilizer_result.css') }}">
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  rel="stylesheet">
+{% endblock %}
 
-    <div>
-      <h2 class="below-p">Any Queries ?</h2>
+{% block nav %}
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('farmerIndex') }}">Home</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('crop') }}">Crop</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link active" href="{{ url_for('fertilizer') }}">Fertilizer</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('pesticide') }}">Pesticide</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+</li>
+{% endblock %}
 
-      <button class="contact-us">Contact Us</button>
+{% block body %}
+<div class="fertilizer-results-page">
+  <div class="results-container-main">
+    <div class="header-section">
+      <div class="title-container">
+        <i class="fas fa-seedling title-icon"></i>
+        <h1 class="page-title">Fertilizer Analysis Report</h1>
+      </div>
+      <p class="subtitle">Personalized soil nutrient recommendations for your
+        farm</p>
     </div>
-    <br />
 
-    <div class="footer-bottom">
-      <p>Copyright &copy; 2023 CropAdvisors</p>
+    <div class="results-container">
+      <!-- Nitrogen Section -->
+      <div class="nutrient-card nitrogen-card">
+        <div class="nutrient-header">
+          <div class="nutrient-icon">
+            <i class="fas fa-leaf"></i>
+          </div>
+          <div class="nutrient-title">
+            <h3>Nitrogen (N)</h3>
+            <span class="nutrient-badge">Essential for Growth</span>
+          </div>
+        </div>
+        <div class="nutrient-content">
+          <div class="difference-display">
+            <span class="difference-label">Difference from Optimal:</span>
+            <span class="difference-value">{{ diff_n }}</span>
+          </div>
+          <div class="recommendation-box">
+            <h4><i class="fas fa-lightbulb"></i> Recommendation</h4>
+            <p>{{ recommendation1 }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phosphorus Section -->
+      <div class="nutrient-card phosphorus-card">
+        <div class="nutrient-header">
+          <div class="nutrient-icon">
+            <i class="fas fa-root"></i>
+          </div>
+          <div class="nutrient-title">
+            <h3>Phosphorus (P)</h3>
+            <span class="nutrient-badge">Root Development</span>
+          </div>
+        </div>
+        <div class="nutrient-content">
+          <div class="difference-display">
+            <span class="difference-label">Difference from Optimal:</span>
+            <span class="difference-value">{{ diff_p }}</span>
+          </div>
+          <div class="recommendation-box">
+            <h4><i class="fas fa-lightbulb"></i> Recommendation</h4>
+            <p>{{ recommendation2 }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Potassium Section -->
+      <div class="nutrient-card potassium-card">
+        <div class="nutrient-header">
+          <div class="nutrient-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div class="nutrient-title">
+            <h3>Potassium (K)</h3>
+            <span class="nutrient-badge">Disease Resistance</span>
+          </div>
+        </div>
+        <div class="nutrient-content">
+          <div class="difference-display">
+            <span class="difference-label">Difference from Optimal:</span>
+            <span class="difference-value">{{ diff_k }}</span>
+          </div>
+          <div class="recommendation-box">
+            <h4><i class="fas fa-lightbulb"></i> Recommendation</h4>
+            <p>{{ recommendation3 }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-download" onclick="downloadReport()">
+        <i class="fas fa-download"></i>
+        Download Report
+      </button>
+      <a href="{{ url_for('fertilizer') }}" class="btn btn-predict">
+        <i class="fas fa-flask"></i>
+        New Fertilizer Prediction
+      </a>
+    </div>
+
+    <!-- Summary Card -->
+    <div class="summary-card">
+      <h4><i class="fas fa-chart-line"></i> Quick Summary</h4>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="summary-label">Nitrogen Status:</span>
+          <span
+            class="summary-value {{ 'low' if diff_n > 0 else 'optimal' if diff_n == 0 else 'high' }}">
+            {{ 'Low' if diff_n > 0 else 'Optimal' if diff_n == 0 else 'High' }}
+          </span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Phosphorus Status:</span>
+          <span
+            class="summary-value {{ 'low' if diff_p > 0 else 'optimal' if diff_p == 0 else 'high' }}">
+            {{ 'Low' if diff_p > 0 else 'Optimal' if diff_p == 0 else 'High' }}
+          </span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Potassium Status:</span>
+          <span
+            class="summary-value {{ 'low' if diff_k > 0 else 'optimal' if diff_k == 0 else 'high' }}">
+            {{ 'Low' if diff_k > 0 else 'Optimal' if diff_k == 0 else 'High' }}
+          </span>
+        </div>
+      </div>
     </div>
   </div>
-</footer>
 
-{% endblock %}
+  <script>
+function downloadReport() {
+  // Create a printable version of the report
+  const reportContent = `
+    FERTILIZER ANALYSIS REPORT
+    ========================
+    
+    NITROGEN (N) ANALYSIS
+    ---------------------
+    Difference from Optimal: {{ diff_n }}
+    Recommendation: {{ recommendation1 }}
+    
+    PHOSPHORUS (P) ANALYSIS
+    ----------------------
+    Difference from Optimal: {{ diff_p }}
+    Recommendation: {{ recommendation2 }}
+    
+    POTASSIUM (K) ANALYSIS
+    ---------------------
+    Difference from Optimal: {{ diff_k }}
+    Recommendation: {{ recommendation3 }}
+    
+    Generated on: ${new Date().toLocaleDateString()}
+  `;
+  
+  const blob = new Blob([reportContent], { type: 'text/plain' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'fertilizer-analysis-report.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+}
+</script>
+  {% endblock %}

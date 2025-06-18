@@ -824,4 +824,4 @@ def download_crop_report():
     return response
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
