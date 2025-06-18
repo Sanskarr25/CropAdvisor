@@ -299,7 +299,7 @@ def pesticide():
 
 # Add this function to store pest information
 def get_pest_details(pest_name):
-    """Get detailed information about the identified pest"""
+    
     pest_database = {
         'mosquito': {
             'display_name': 'Mosquito',
@@ -400,11 +400,29 @@ def get_pest_details(pest_name):
             'description': 'Major pest of cotton and other crops',
             'products': [
                 {
-                    'name': 'Emamectin Benzoate',
-                    'image': 'static/img/pesticide/bollworm/emamectin.jpg',
+                    'name': 'Auzar-25-ec',
+                    'image': 'static/img/pesticide/bollworm/auzar-25-ec.jpg',
                     'dose': '200-250 gm/Ha',
                     'description': 'Specific for bollworm control'
-                }
+                },
+                {
+                    'name': 'Bioclaim',
+                    'image': 'static/img/pesticide/bollworm/bioclaim.jpg',
+                    'dose': '200-250 gm/Ha',
+                    'description': 'Specific for bollworm control'
+                },
+                {
+                    'name': 'Fulstop-d',
+                    'image': 'static/img/pesticide/bollworm/fulstop-d.jpg',
+                    'dose': '200-250 gm/Ha',
+                    'description': 'Specific for bollworm control'
+                },
+                {
+                    'name': 'Kozuka',
+                    'image': 'static/img/pesticide/bollworm/kozuka.jpg',
+                    'dose': '200-250 gm/Ha',
+                    'description': 'Specific for bollworm control'
+                }             
             ]
         },
         'earthworm': {
@@ -413,8 +431,14 @@ def get_pest_details(pest_name):
             'description': 'Generally beneficial for soil, treatment rarely needed',
             'products': [
                 {
-                    'name': 'No Treatment Recommended',
-                    'image': 'static/img/pesticide/earthworm/beneficial.jpg',
+                    'name': 'Biostadt-Malathion-57-ec',
+                    'image': 'static/img/pesticide/earthworm/biostadt-malathion-57-ec.jpg',
+                    'dose': 'N/A',
+                    'description': 'Earthworms are beneficial for soil health'
+                },
+                {
+                    'name': 'Smash',
+                    'image': 'static/img/pesticide/earthworm/smash.jpg',
                     'dose': 'N/A',
                     'description': 'Earthworms are beneficial for soil health'
                 }
@@ -426,8 +450,14 @@ def get_pest_details(pest_name):
             'description': 'Jumping insects that can damage crops',
             'products': [
                 {
-                    'name': 'Malathion',
-                    'image': 'static/img/pesticide/grasshopper/malathion.jpg',
+                    'name': 'Biostadt-Malathion-57-ec',
+                    'image': 'static/img/pesticide/grasshopper/biostadt-malathion-57-ec.jpg',
+                    'dose': '1-2 L/Ha',
+                    'description': 'Effective grasshopper control'
+                },
+                {
+                    'name': 'Perfek-315-ec',
+                    'image': 'static/img/pesticide/grasshopper/perfek-315-ec.jpg',
                     'dose': '1-2 L/Ha',
                     'description': 'Effective grasshopper control'
                 }
@@ -439,11 +469,29 @@ def get_pest_details(pest_name):
             'description': 'Tiny arachnids that feed on plant cells',
             'products': [
                 {
-                    'name': 'Abamectin',
-                    'image': 'static/img/pesticide/mites/abamectin.jpg',
+                    'name': 'Bioclaim',
+                    'image': 'static/img/pesticide/mites/bioclaim.jpg',
                     'dose': '500-750 ml/Ha',
                     'description': 'Specialized miticide'
-                }
+                },
+                {
+                    'name': 'Biostadt-Malathion-57-ec',
+                    'image': 'static/img/pesticide/mites/biostadt-malathion-57-ec.jpg',
+                    'dose': '500-750 ml/Ha',
+                    'description': 'Specialized miticide'
+                },
+                {
+                    'name': 'Inclaim',
+                    'image': 'static/img/pesticide/mites/inclaim.jpg',
+                    'dose': '500-750 ml/Ha',
+                    'description': 'Specialized miticide'
+                },
+                 {
+                    'name': 'Ingage',
+                    'image': 'static/img/pesticide/mites/ingage.jpg',
+                    'dose': '500-750 ml/Ha',
+                    'description': 'Specialized miticide'
+                },
             ]
         },
         'sawfly': {
@@ -452,8 +500,8 @@ def get_pest_details(pest_name):
             'description': 'Wasp-like insects whose larvae damage plants',
             'products': [
                 {
-                    'name': 'Spinosad',
-                    'image': 'static/img/pesticide/sawfly/spinosad.jpg',
+                    'name': 'Krush',
+                    'image': 'static/img/pesticide/sawfly/krush.jpg',
                     'dose': '300-400 ml/Ha',
                     'description': 'Organic-approved insecticide'
                 }
@@ -465,8 +513,14 @@ def get_pest_details(pest_name):
             'description': 'Larvae that bore into plant stems',
             'products': [
                 {
-                    'name': 'Fipronil',
-                    'image': 'static/img/pesticide/stem_borer/fipronil.jpg',
+                    'name': 'Cartop',
+                    'image': 'static/img/pesticide/stem_borer/cartop.jpg',
+                    'dose': '1-1.5 kg/Ha',
+                    'description': 'Systemic stem borer control'
+                },
+                {
+                    'name': 'Voter',
+                    'image': 'static/img/pesticide/stem_borer/voter.jpg',
                     'dose': '1-1.5 kg/Ha',
                     'description': 'Systemic stem borer control'
                 }
@@ -770,4 +824,4 @@ def download_crop_report():
     return response
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
