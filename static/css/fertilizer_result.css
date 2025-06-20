@@ -1,12 +1,9 @@
-/* fertilizer-result.css - Scoped to avoid navbar/footer conflicts */
-
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Scoped wrapper to avoid conflicts with navbar/footer */
 .fertilizer-results-page {
   font-family: 'Inter', 'Recursive', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: var(--light);
   min-height: calc(100vh - 120px); /* Adjust based on your navbar/footer height */
   color: #333;
   padding: 1rem 0;
@@ -67,15 +64,16 @@
   opacity: 0.8;
 }
 
-/* Results Container */
+/* Results Container - Single Column Layout */
 .fertilizer-results-page .results-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
   margin-bottom: 3rem;
+  width: 100%;
 }
 
-/* Nutrient Cards */
+/* Nutrient Cards - Same Width as Header Section */
 .fertilizer-results-page .nutrient-card {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
@@ -86,6 +84,7 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 .fertilizer-results-page .nutrient-card::before {
@@ -283,7 +282,7 @@
   color: white;
 }
 
-/* Summary Card */
+/* Summary Card - Same Width as Header Section */
 .fertilizer-results-page .summary-card {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
@@ -291,6 +290,7 @@
   padding: 2rem;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
 }
 
 .fertilizer-results-page .summary-card h4 {
@@ -353,7 +353,21 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .fertilizer-results-page .results-container-main {
-    padding: 1rem;
+    padding: 1rem 0.5rem;
+  }
+  
+  .fertilizer-results-page .header-section {
+    margin: 0 0.5rem 2rem 0.5rem;
+    padding: 2rem 1.5rem;
+  }
+  
+  .fertilizer-results-page .results-container {
+    margin: 0 0.5rem 2rem 0.5rem;
+    gap: 1.5rem;
+  }
+  
+  .fertilizer-results-page .summary-card {
+    margin: 0 0.5rem;
   }
   
   .fertilizer-results-page .page-title {
@@ -365,11 +379,6 @@
     gap: 0.5rem;
   }
   
-  .fertilizer-results-page .results-container {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
   .fertilizer-results-page .nutrient-card {
     padding: 1.5rem;
   }
@@ -377,6 +386,7 @@
   .fertilizer-results-page .action-buttons {
     flex-direction: column;
     align-items: center;
+    margin: 2rem 0.5rem;
   }
   
   .fertilizer-results-page .btn {
@@ -396,8 +406,24 @@
 }
 
 @media (max-width: 480px) {
+  .fertilizer-results-page .results-container-main {
+    max-width: 100%;
+    padding: 0.5rem 0.25rem;
+  }
+  
   .fertilizer-results-page .header-section {
     padding: 1.5rem 1rem;
+    margin: 0 0.25rem 1.5rem 0.25rem;
+  }
+  
+  .fertilizer-results-page .results-container {
+    margin: 0 0.25rem 1.5rem 0.25rem;
+    gap: 1rem;
+  }
+  
+  .fertilizer-results-page .summary-card {
+    margin: 0 0.25rem;
+    padding: 1.5rem;
   }
   
   .fertilizer-results-page .page-title {
@@ -418,5 +444,36 @@
     width: 50px;
     height: 50px;
     font-size: 1.25rem;
+  }
+  
+  .fertilizer-results-page .nutrient-card {
+    padding: 1rem;
+  }
+  
+  .fertilizer-results-page .action-buttons {
+    margin: 1.5rem 0.25rem;
+  }
+}
+
+/* Large Screen Optimization */
+@media (min-width: 1200px) {
+  .fertilizer-results-page .results-container-main {
+    max-width: 1200px;
+  }
+  
+  .fertilizer-results-page .header-section {
+    padding: 3rem 2.5rem;
+  }
+  
+  .fertilizer-results-page .results-container {
+    gap: 2.5rem;
+  }
+  
+  .fertilizer-results-page .nutrient-card {
+    padding: 2.5rem;
+  }
+  
+  .fertilizer-results-page .summary-card {
+    padding: 2.5rem;
   }
 }
