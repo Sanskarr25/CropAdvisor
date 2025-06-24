@@ -542,25 +542,11 @@ def get_pest_details(pest_name):
         ]
     })
 
-import psutil
-
-def check_memory_availability():
-    """Check if sufficient memory is available for model operations"""
-    try:
-        memory = psutil.virtual_memory()
-        # If available memory is less than 500MB, show error page
-        if memory.available < 624288000:  # 500MB in bytes
-            return False
-        return True
-    except:
-        return True  # If we can't check, assume it's okay
 
 # Update your predict route
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
-        if not check_memory_availability():
-            return render_template('service_error.html')
         file = request.files['image']
         filename = file.filename
 
@@ -593,6 +579,11 @@ def predict():
                              pest_name=pest_identified,
                              pest_details=pest_details)
 
+@app.errorhandler(502)
+def bad_gateway(error):
+    return render_template('service_error.html', 
+                         error_type="server_error",
+                         error_message="Service temporarily unavailable due to server resource limitations."), 502
 
 @app.route('/crop_prediction', methods=['POST'])
 def crop_prediction():
