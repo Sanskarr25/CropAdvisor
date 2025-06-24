@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+  href="{{ url_for('static', filename='css/error_page.css') }}">
+{% endblock %}
+
+{% block nav %}
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('farmerIndex') }}">Home</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('crop') }}">Crop</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('fertilizer') }}">Fertilizer</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('pesticide') }}">Pesticide</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+</li>
+{% endblock %}
+
+{% block body %}
+<section class="error-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="error-card">
+          <!-- Error Icon -->
+          <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+
+          <!-- Error Title -->
+          <h1 class="error-title">Service Temporarily Unavailable</h1>
+
+          <!-- Error Message -->
+          <div class="error-message">
+            <p class="main-message">
+              We're currently experiencing high server load and our prediction
+              services are temporarily unavailable.
+            </p>
+            <div class="details-box">
+              <h4><i class="fas fa-info-circle me-2"></i>What's happening?</h4>
+              <ul>
+                <li>Our AI models require significant computing resources</li>
+                <li>Current server capacity has been exceeded</li>
+                <li>This is a temporary limitation of our hosting plan</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Alternative Solutions -->
+          <div class="solutions-section">
+            <h4><i class="fas fa-lightbulb me-2"></i>What you can do:</h4>
+            <div class="solutions-grid">
+              <div class="solution-card">
+                <i class="fas fa-clock"></i>
+                <h5>Try Again Later</h5>
+                <p>Please try again during off-peak hours (early morning or late
+                  evening)</p>
+              </div>
+              <div class="solution-card">
+                <i class="fas fa-user-tie"></i>
+                <h5>Consult Experts</h5>
+                <p>Contact your local agricultural extension officer for
+                  immediate assistance</p>
+              </div>
+              <div class="solution-card">
+                <i class="fas fa-book"></i>
+                <h5>Browse Resources</h5>
+                <p>Check our knowledge base and farming guides while you
+                  wait</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Information -->
+          <div class="contact-section">
+            <h4><i class="fas fa-envelope me-2"></i>Need Immediate Help?</h4>
+            <p>
+              For urgent agricultural queries, please contact:
+              <br>
+              <strong>Agricultural Helpline:</strong> 1800-180-1551
+              <br>
+              <strong>Email:</strong> support@cropadvisor.com
+            </p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <a href="{{ url_for('farmerIndex') }}"
+              class="btn btn-primary-custom">
+              <i class="fas fa-home me-2"></i>Back to Dashboard
+            </a>
+            <button onclick="window.location.reload()"
+              class="btn btn-outline-primary">
+              <i class="fas fa-refresh me-2"></i>Try Again
+            </button>
+            <a href="{{ url_for('crop') }}" class="btn btn-success">
+              <i class="fas fa-leaf me-2"></i>Crop Recommendations
+            </a>
+          </div>
+
+          <!-- Status Updates -->
+          <div class="status-section">
+            <small class="text-muted">
+              <i class="fas fa-clock me-1"></i>
+              Status updated: <span id="current-time"></span>
+              <br>
+              We're working to resolve this issue and appreciate your patience.
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Display current time
+  function updateTime() {
+    const now = new Date();
+    const timeString = now.toLocaleString();
+    document.getElementById('current-time').textContent = timeString;
+  }
+  
+  // Update time immediately and then every minute
+  updateTime();
+  setInterval(updateTime, 60000);
+  
+  // Auto-refresh after 5 minutes (optional)
+  setTimeout(() => {
+    if (confirm('Would you like to try accessing the service again?')) {
+      window.location.href = "{{ url_for('pesticide') }}";
+    }
+  }, 300000); // 5 minutes
+  
+  // Simple animation for error icon
+  document.addEventListener('DOMContentLoaded', function() {
+    const errorIcon = document.querySelector('.error-icon i');
+    if (errorIcon) {
+      errorIcon.classList.add('animate-pulse');
+    }
+  });
+</script>
+{% endblock %}
