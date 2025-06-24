@@ -15,6 +15,10 @@ from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 import io
 from datetime import datetime
+import signal
+import time
+import gc
+import psutil
 
 app = Flask(__name__)
 app.secret_key = "testing"
@@ -268,20 +272,77 @@ def fertilizer_recommend():
     return render_template('Fertilizer-Result.html', recommendation1=response1,
                            recommendation2=response2, recommendation3=response3,
                            diff_n=abs_n, diff_p=abs_p, diff_k=abs_k)
-                                                
+
+# Timeout handler for prediction
+class TimeoutException(Exception):
+    pass
+
+def timeout_handler(signum, frame):
+    raise TimeoutException("Prediction timed out")
+
+def check_memory_usage():
+    """Check if memory usage is too high"""
+    try:
+        memory_percent = psutil.virtual_memory().percent
+        return memory_percent > 85  # Return True if memory usage > 85%
+    except:
+        return False
+
 def pred_pest(pest):
     if not models_loaded:
         return 'model_error'
+    
+    # Check memory before starting prediction
+    if check_memory_usage():
+        return 'memory_error'
+    
     try:
+        # Set a timeout for the prediction process
+        signal.signal(signal.SIGALRM, timeout_handler)
+        signal.alarm(30)  # 30 second timeout
+        
+        # Force garbage collection before prediction
+        gc.collect()
+        
+        # Load and process image
         test_image = image.load_img(pest, target_size=(64, 64))
         test_image = image.img_to_array(test_image)
         test_image = np.expand_dims(test_image, axis=0)
+        
+        # Check memory again before prediction
+        if check_memory_usage():
+            signal.alarm(0)  # Cancel alarm
+            return 'memory_error'
+        
+        # Make prediction
         result = classifier.predict(test_image)
         predicted_class = np.argmax(result, axis=1)[0]
+        
+        # Clear alarm
+        signal.alarm(0)
+        
+        # Force cleanup
+        del test_image, result
+        gc.collect()
+        
         return predicted_class
+        
+    except TimeoutException:
+        print("Prediction timed out")
+        return 'timeout_error'
+    except MemoryError:
+        print("Memory error during prediction")
+        return 'memory_error'
     except Exception as e:
         print(f"Error predicting pest: {e}")
-        return 'x'
+        signal.alarm(0)  # Make sure to clear alarm
+        return 'prediction_error'
+    finally:
+        # Ensure alarm is cleared
+        try:
+            signal.alarm(0)
+        except:
+            pass
 
 @app.route("/CropRecommendation.html")
 def crop():
@@ -542,48 +603,72 @@ def get_pest_details(pest_name):
         ]
     })
 
-
 # Update your predict route
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
-        file = request.files['image']
-        filename = file.filename
+        try:
+            file = request.files['image']
+            filename = file.filename
 
-        file_path = os.path.join('static/user uploaded', filename)
-        file.save(file_path)
+            file_path = os.path.join('static/user uploaded', filename)
+            file.save(file_path)
 
-        pred = pred_pest(pest=file_path)
-        if pred == 'x':
-            return render_template('unaptfile.html')
-        if pred == 'model_error':
-            return render_template('error.html', message="Model loading error. Please contact administrator.")
+            pred = pred_pest(pest=file_path)
+            
+            # Handle different error types
+            if pred == 'x':
+                return render_template('unaptfile.html')
+            elif pred == 'model_error':
+                return render_template('service_error.html', 
+                                     error_type="model_error",
+                                     error_message="Model loading error. Please try again later.")
+            elif pred == 'memory_error':
+                return render_template('service_error.html', 
+                                     error_type="memory_error",
+                                     error_message="Service temporarily unavailable due to high server load. Please try again in a few minutes.")
+            elif pred == 'timeout_error':
+                return render_template('service_error.html', 
+                                     error_type="timeout_error",
+                                     error_message="Request timed out due to server resource limitations. Please try again.")
+            elif pred == 'prediction_error':
+                return render_template('service_error.html', 
+                                     error_type="prediction_error",
+                                     error_message="Unable to process the image. Please try with a different image.")
 
-        pest_mapping = {
-            0: 'aphids',
-            1: 'armyworm',
-            2: 'beetle',
-            3: 'bollworm',
-            4: 'earthworm',
-            5: 'grasshopper',
-            6: 'mites',
-            7: 'mosquito',
-            8: 'sawfly',
-            9: 'stem_borer'
-        }
+            pest_mapping = {
+                0: 'aphids',
+                1: 'armyworm',
+                2: 'beetle',
+                3: 'bollworm',
+                4: 'earthworm',
+                5: 'grasshopper',
+                6: 'mites',
+                7: 'mosquito',
+                8: 'sawfly',
+                9: 'stem_borer'
+            }
 
-        pest_identified = pest_mapping.get(pred, 'unknown')
-        pest_details = get_pest_details(pest_identified)
-        
-        return render_template('pest_result.html', 
-                             pest_name=pest_identified,
-                             pest_details=pest_details)
+            pest_identified = pest_mapping.get(pred, 'unknown')
+            pest_details = get_pest_details(pest_identified)
+            
+            return render_template('pest_result.html', 
+                                 pest_name=pest_identified,
+                                 pest_details=pest_details)
+                                 
+        except Exception as e:
+            print(f"Error in predict route: {e}")
+            return render_template('service_error.html', 
+                                 error_type="server_error",
+                                 error_message="An unexpected error occurred. Please try again.")
 
 @app.errorhandler(502)
 def bad_gateway(error):
     return render_template('service_error.html', 
                          error_type="server_error",
                          error_message="Service temporarily unavailable due to server resource limitations."), 502
+
+
 
 @app.route('/crop_prediction', methods=['POST'])
 def crop_prediction():
