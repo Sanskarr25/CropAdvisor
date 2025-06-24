@@ -542,57 +542,57 @@ def get_pest_details(pest_name):
         ]
     })
 
-@app.route('/service_error')
-def service_error():
-    """Display service error page when resources are insufficient"""
-    return render_template('service_error.html')
+import psutil
+
+def check_memory_availability():
+    """Check if sufficient memory is available for model operations"""
+    try:
+        memory = psutil.virtual_memory()
+        # If available memory is less than 500MB, show error page
+        if memory.available < 624288000:  # 500MB in bytes
+            return False
+        return True
+    except:
+        return True  # If we can't check, assume it's okay
 
 # Update your predict route
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
-        try:
-            # Check if we're in a resource-constrained environment (like Render free tier)
-            # You can set this as an environment variable
-            if os.environ.get('RESOURCE_LIMITED', 'false').lower() == 'true':
-                return render_template('service_error.html')
-            
-            file = request.files['image']
-            filename = file.filename
-
-            file_path = os.path.join('static/user uploaded', filename)
-            file.save(file_path)
-
-            pred = pred_pest(pest=file_path)
-            if pred == 'x':
-                return render_template('unaptfile.html')
-            if pred == 'model_error':
-                return render_template('service_error.html')
-
-            pest_mapping = {
-                0: 'aphids',
-                1: 'armyworm',
-                2: 'beetle',
-                3: 'bollworm',
-                4: 'earthworm',
-                5: 'grasshopper',
-                6: 'mites',
-                7: 'mosquito',
-                8: 'sawfly',
-                9: 'stem_borer'
-            }
-
-            pest_identified = pest_mapping.get(pred, 'unknown')
-            pest_details = get_pest_details(pest_identified)
-            
-            return render_template('pest_result.html', 
-                                 pest_name=pest_identified,
-                                 pest_details=pest_details)
-        except MemoryError:
+        if not check_memory_availability():
             return render_template('service_error.html')
-        except Exception as e:
-            print(f"Error in prediction: {e}")
-            return render_template('service_error.html')
+        file = request.files['image']
+        filename = file.filename
+
+        file_path = os.path.join('static/user uploaded', filename)
+        file.save(file_path)
+
+        pred = pred_pest(pest=file_path)
+        if pred == 'x':
+            return render_template('unaptfile.html')
+        if pred == 'model_error':
+            return render_template('error.html', message="Model loading error. Please contact administrator.")
+
+        pest_mapping = {
+            0: 'aphids',
+            1: 'armyworm',
+            2: 'beetle',
+            3: 'bollworm',
+            4: 'earthworm',
+            5: 'grasshopper',
+            6: 'mites',
+            7: 'mosquito',
+            8: 'sawfly',
+            9: 'stem_borer'
+        }
+
+        pest_identified = pest_mapping.get(pred, 'unknown')
+        pest_details = get_pest_details(pest_identified)
+        
+        return render_template('pest_result.html', 
+                             pest_name=pest_identified,
+                             pest_details=pest_details)
+
 
 @app.route('/crop_prediction', methods=['POST'])
 def crop_prediction():
