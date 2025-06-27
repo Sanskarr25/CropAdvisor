@@ -3,6 +3,9 @@
 {% block extra_css %}
 <link rel="stylesheet"
   href="{{ url_for('static', filename='css/crop.css') }}">
+<!-- Font Awesome for icons -->
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block nav %}
@@ -30,7 +33,8 @@
     <div class="row justify-content-center">
       <div class="col-lg-8">
         <div class="form-card">
-          <h3>Soil and Environmental Parameters</h3>
+          <h3><i class="fas fa-seedling"></i> Soil and Environmental
+            Parameters</h3>
           <form id="cropRecommendationForm" method="POST"
             action="{{ url_for('crop_prediction') }}"
             onsubmit="return validateForm()">
@@ -39,9 +43,10 @@
               <!-- Nitrogen (N) -->
               <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="nitrogen" class="form-label">Nitrogen (N)
-                    Content <span
-                      class="text-muted">(kg/ha)</span></label>
+                  <label for="nitrogen" class="form-label">
+                    <i class="fas fa-leaf"></i>Nitrogen (N) Content
+                    <span class="text-muted">(kg/ha)</span>
+                  </label>
                   <input type="number" class="form-control" id="nitrogen"
                     name="nitrogen" placeholder="Enter Value" min="0" max="140"
                     required>
@@ -52,9 +57,10 @@
               <!-- Phosphorus (P) -->
               <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="phosphorus" class="form-label">Phosphorus
-                    (P) Content <span
-                      class="text-muted">(kg/ha)</span></label>
+                  <label for="phosphorus" class="form-label">
+                    <i class="fas fa-mountain"></i>Phosphorus (P) Content
+                    <span class="text-muted">(kg/ha)</span>
+                  </label>
                   <input type="number" class="form-control"
                     id="phosphorus" name="phosphorus" placeholder="Enter Value"
                     min="0"
@@ -66,9 +72,10 @@
               <!-- Potassium (K) -->
               <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="potassium" class="form-label">Potassium (K)
-                    Content <span
-                      class="text-muted">(kg/ha)</span></label>
+                  <label for="potassium" class="form-label">
+                    <i class="fas fa-mountain"></i>Potassium (K) Content
+                    <span class="text-muted">(kg/ha)</span>
+                  </label>
                   <input type="number" class="form-control" id="potassium"
                     name="potassium"
                     placeholder="Enter Value" min="0" max="200" required>
@@ -79,8 +86,10 @@
               <!-- Temperature -->
               <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="temperature" class="form-label">Temperature
-                    <span class="text-muted">(°C)</span></label>
+                  <label for="temperature" class="form-label">
+                    <i class="fas fa-thermometer-half"></i>Temperature
+                    <span class="text-muted">(°C)</span>
+                  </label>
                   <input type="number" class="form-control"
                     id="temperature" name="temperature"
                     placeholder="Enter Value" min="0"
@@ -92,7 +101,9 @@
 
               <div class="col-12">
                 <div class="mb-3">
-                  <label for="ph" class="form-label">pH Level</label>
+                  <label for="ph" class="form-label">
+                    <i class="fas fa-flask"></i>pH Level
+                  </label>
                   <input type="range" class="form-range" name="ph" min="0"
                     max="14"
                     step="0.1" id="ph" value="7"
@@ -111,8 +122,10 @@
               <!-- Rainfall -->
               <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="rainfall" class="form-label">Rainfall <span
-                      class="text-muted">(mm)</span></label>
+                  <label for="rainfall" class="form-label">
+                    <i class="fas fa-cloud-rain"></i>Rainfall
+                    <span class="text-muted">(mm)</span>
+                  </label>
                   <input type="number" class="form-control" id="rainfall"
                     name="rainfall"
                     placeholder="Enter Value" min="0" max="300" required>
@@ -123,8 +136,10 @@
               <!-- Humidity -->
               <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="humidity" class="form-label">Humidity <span
-                      class="text-muted">(%)</span></label>
+                  <label for="humidity" class="form-label">
+                    <i class="fas fa-tint"></i>Humidity
+                    <span class="text-muted">(%)</span>
+                  </label>
                   <input type="number" class="form-control" id="humidity"
                     name="humidity"
                     placeholder="Enter Value" min="0" max="100" required>
@@ -135,9 +150,12 @@
 
             <div class="text-center mt-4">
               <button type="button" class="btn btn-secondary me-2"
-                onclick="resetForm()">Reset</button>
-              <button type="submit" class="btn btn-primary">Get
-                Recommendation</button>
+                onclick="resetForm()">
+                <i class="fas fa-undo"></i> Reset
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Get Recommendation
+              </button>
             </div>
           </form>
         </div>
@@ -154,7 +172,9 @@
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-    <div class="spinner-text">Analyzing your data...</div>
+    <div class="spinner-text">
+      <i class="fas fa-cog fa-spin"></i> Analyzing your data...
+    </div>
   </div>
 </div>
 

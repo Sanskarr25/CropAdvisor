@@ -59,6 +59,11 @@
         margin-bottom: 8px;
       }
 
+.form-label i {
+  margin-right: 8px;
+  color: #28a745;
+}
+
       .form-control {
         padding: 12px 16px;
         border: 1px solid #E0E0E0;
